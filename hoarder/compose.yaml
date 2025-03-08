@@ -23,7 +23,7 @@ services:
       traefik.http.routers.hoarder.tls.certresolver: cloudflare
       traefik.http.services.hoarder.loadbalancer.server.port: 3000
       # glance
-      glance.name: hoarder
+      glance.name: Hoarder
       glance.icon: sh:hoarder
       glance.url: https://hoarder.ryanmalonzo.com/
 
