@@ -11,11 +11,14 @@ services:
       - proxy
     restart: unless-stopped
     labels:
+      # traefik
       traefik.enable: true
       traefik.http.routers.myges.rule: Host(`myges.ryanmalonzo.com`)
       traefik.http.routers.myges.entrypoints: websecure
       traefik.http.routers.myges.tls.certresolver: cloudflare
       traefik.http.services.myges.loadbalancer.server.port: 8080
+      # glance
+      glance.hide: true
 
 
 networks:
