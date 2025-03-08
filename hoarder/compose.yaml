@@ -23,6 +23,7 @@ services:
       traefik.http.routers.hoarder.tls.certresolver: cloudflare
       traefik.http.services.hoarder.loadbalancer.server.port: 3000
       # glance
+      glance.id: hoarder
       glance.name: Hoarder
       glance.icon: sh:hoarder
       glance.url: https://hoarder.ryanmalonzo.com/
@@ -39,6 +40,9 @@ services:
     networks:
       - hoarder
     restart: unless-stopped
+    labels:
+      glance.parent: hoarder
+      glance.name: Chrome
 
   meilisearch:
     image: getmeili/meilisearch:v1.11.1
@@ -51,6 +55,9 @@ services:
     networks:
       - hoarder
     restart: unless-stopped
+    labels:
+      glance.parent: hoarder
+      glance.name: Meilisearch
 
 volumes:
   meilisearch:
