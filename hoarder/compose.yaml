@@ -1,6 +1,7 @@
 services:
   web:
     image: ghcr.io/hoarder-app/hoarder:0.22.0
+    container_name: hoarder
     volumes:
       - ${VOLUMES_DIR}/hoarder/data:/data
     environment:
