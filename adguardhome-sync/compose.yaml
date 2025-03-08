@@ -1,0 +1,14 @@
+services:
+  adguardhome-sync:
+    image: lscr.io/linuxserver/adguardhome-sync:0.7.1
+    container_name: adguardhome-sync
+    volumes:
+      - ${VOLUMES_DIR}/adguardhome-sync/config:/config
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TZ}
+      CONFIGFILE: /config/adguardhome-sync.yaml
+    restart: unless-stopped
+    labels:
+      glance.hide: true
