@@ -5,10 +5,20 @@ services:
     volumes:
       - ${VOLUMES_DIR}/hoarder/data:/data
     environment:
-      MEILI_ADDR: http://meilisearch:7700
       BROWSER_WEB_URL: http://chrome:9222
       DATA_DIR: /data
+      MEILI_ADDR: http://meilisearch:7700
+      NEXTAUTH_URL: https://hoarder.ryanmalonzo.com
       OPENAI_API_KEY: ${OPENAI_API_KEY}
+      # optional
+      DISABLE_NEW_RELEASE_CHECK: true
+      DISABLE_PASSWORD_AUTH: true
+      DISABLE_SIGNUPS: true
+      OAUTH_ALLOW_DANGEROUS_EMAIL_ACCOUNT_LINKING: true
+      OAUTH_CLIENT_ID: ${OAUTH_CLIENT_ID}
+      OAUTH_CLIENT_SECRET: ${OAUTH_CLIENT_SECRET}
+      OAUTH_PROVIDER_NAME: Zitadel
+      OAUTH_WELLKNOWN_URL: ${OAUTH_WELLKNOWN_URL}
     env_file:
       - .env
     networks:
@@ -47,6 +57,7 @@ services:
   meilisearch:
     image: getmeili/meilisearch:v1.11.1
     environment:
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
       MEILI_NO_ANALYTICS: true
     env_file:
       - .env
