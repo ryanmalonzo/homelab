@@ -67,3 +67,6 @@ networks:
     external: true
   jellystat:
     name: jellystat
+
+volumes:
+  tailscale:
