@@ -44,7 +44,7 @@ services:
     labels:
       glance.id: jellystat
       glance.name: Jellystat
-      glance.icon: sh:jellystat
+      glance.icon: sh:jellystat.png
       glance.url: https://jellystat.owl-augmented.ts.net/
 
   db:
