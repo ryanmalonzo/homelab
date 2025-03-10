@@ -1,0 +1,69 @@
+services:
+  tailscale-jellystat:
+    image: tailscale/tailscale:v1.80
+    container_name: tailscale-jellystat
+    hostname: jellystat
+    environment:
+      TS_AUTHKEY: ${TS_AUTHKEY}?ephemeral=false
+      TS_EXTRA_ARGS: --advertise-tags=tag:container
+      TS_STATE_DIR: /var/lib/tailscale
+      TS_SERVE_CONFIG: /config/jellystat.json
+    volumes:
+      - ${VOLUMES_DIR}/jellystat/tailscale:/config
+      - tailscale:/var/lib/tailscale
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - net_admin
+      - sys_module
+    networks:
+      - jellyfin
+      - jellystat
+    restart: unless-stopped
+    labels:
+      glance.parent: jellystat
+      glance.name: Tailscale
+
+  jellystat:
+    image: cyfershepard/jellystat:latest
+    container_name: jellystat
+    volumes:
+      - "${VOLUMES_DIR}/jellystat/backup-data:/app/backend/backup-data"
+    environment:
+      POSTGRES_IP: db
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_PORT: 5432
+      JWT_SECRET: ${JWT_SECRET}
+      TZ: ${TZ}
+    network_mode: service:tailscale-jellystat
+    depends_on:
+      - db
+    restart: unless-stopped
+    labels:
+      glance.id: jellystat
+      glance.name: Jellystat
+      glance.icon: sh:jellystat
+      glance.url: https://jellystat.owl-augmented.ts.net/
+
+  db:
+    image: postgres:15.2
+    container_name: jellystat-db
+    shm_size: 1gb
+    volumes:
+      - "${VOLUMES_DIR}/jellystat/data:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      - jellystat
+    restart: unless-stopped
+    labels:
+      glance.parent: jellystat
+      glance.name: Database
+
+networks:
+  jellyfin:
+    external: true
+  jellystat:
+    name: jellystat
