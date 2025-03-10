@@ -36,9 +36,10 @@ services:
       POSTGRES_PORT: 5432
       JWT_SECRET: ${JWT_SECRET}
       TZ: ${TZ}
-    network_mode: service:tailscale-jellystat
     depends_on:
       - db
+      - tailscale-jellystat
+    network_mode: service:tailscale-jellystat
     restart: unless-stopped
     labels:
       glance.id: jellystat
