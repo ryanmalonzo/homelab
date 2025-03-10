@@ -14,7 +14,7 @@ services:
       PROXY_TLS: false
       # oidc
       OCIS_OIDC_ISSUER: https://id.ryanmalonzo.com
-      OCIS_OIDC_CLIENT_ID: 309184241151836163
+      OCIS_OIDC_CLIENT_ID: ${OCIS_OIDC_CLIENT_ID}
       PROXY_OIDC_REWRITE_WELLKNOWN: true
       PROXY_OIDC_ACCESS_TOKEN_VERIFY_METHOD: none
       PROXY_ROLE_ASSIGNMENT_OIDC_CLAIM: custom:roles
