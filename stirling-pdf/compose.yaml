@@ -1,6 +1,6 @@
 services:
   stirling-pdf:
-    image: docker.stirlingpdf.com/stirlingtools/stirling-pdf:0.44.1
+    image: docker.stirlingpdf.com/stirlingtools/stirling-pdf:0.44.2
     container_name: stirling-pdf
     volumes:
       - ${VOLUMES_DIR}/stirling-pdf/tessdata:/usr/share/tessdata
