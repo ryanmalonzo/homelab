@@ -5,9 +5,10 @@ services:
     volumes:
       - ${VOLUMES_DIR}/open-webui/data:/app/backend/data
     environment:
-      ENABLE_LOGIN_FORM: false
       DEFAULT_USER_ROLE: user
       JWT_EXPIRES_IN: 1d
+      ENABLE_LOGIN_FORM: false
+      ENABLE_OAUTH_SIGNUP: true
       OAUTH_CLIENT_ID: ${OAUTH_CLIENT_ID}
       OAUTH_CLIENT_SECRET: ${OAUTH_CLIENT_SECRET}
       OAUTH_ROLES_CLAIM: ${OAUTH_ROLES_CLAIM}
