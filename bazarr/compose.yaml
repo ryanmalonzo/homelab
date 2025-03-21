@@ -41,7 +41,7 @@ services:
     labels:
       glance.id: bazarr
       glance.name: Bazarr
-      glance.icon: sh:bazarr
+      glance.icon: sh:bazarr.png
       glance.url: https://bazarr.owl-augmented.ts.net/
 
 volumes:
