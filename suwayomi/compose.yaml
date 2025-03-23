@@ -1,0 +1,28 @@
+services:
+  suwayomi:
+    image: ghcr.io/suwayomi/tachidesk:v1.1.1
+    container_name: suwayomi
+    volumes:
+      - ${VOLUMES_DIR}/suwayomi/downloads:/home/suwayomi/.local/share/Tachidesk/downloads
+      - ${VOLUMES_DIR}/suwayomi/config:/home/suwayomi/.local/share/Tachidesk
+    environment:
+      TZ: ${TZ}
+      WEB_UI_CHANNEL: bundled
+    networks:
+      - proxy
+    restart: unless-stopped
+    labels:
+      # traefik
+      traefik.enable: true
+      traefik.http.routers.suwayomi.rule: Host(`suwayomi.ryanmalonzo.com`)
+      traefik.http.routers.suwayomi.entrypoints: websecure
+      traefik.http.routers.suwayomi.tls.certresolver: cloudflare
+      traefik.http.services.suwayomi.loadbalancer.server.port: 4567
+      # glance
+      glance.name: Suwayomi
+      glance.icon: sh:suwayomi.png
+      glance.url: https://suwayomi.ryanmalonzo.com/
+
+networks:
+  proxy:
+    external: true
