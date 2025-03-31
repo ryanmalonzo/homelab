@@ -1,0 +1,63 @@
+services:
+  tailscale-beszel:
+    image: tailscale/tailscale:v1.80
+    container_name: tailscale-beszel
+    hostname: beszel
+    environment:
+      TS_AUTHKEY: ${TS_AUTHKEY}?ephemeral=false
+      TS_EXTRA_ARGS: --advertise-tags=tag:container
+      TS_STATE_DIR: /var/lib/tailscale
+      TS_SERVE_CONFIG: /config/beszel.json
+    volumes:
+      - ${VOLUMES_DIR}/beszel/tailscale:/config
+      - tailscale:/var/lib/tailscale
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - net_admin
+      - sys_module
+    networks:
+      - beszel
+    restart: unless-stopped
+    labels:
+      glance.parent: beszel
+      glance.name: Tailscale
+
+
+  beszel:
+    image: ghcr.io/henrygd/beszel/beszel:0.10.2
+    container_name: beszel
+    ports:
+      - 8090:8090
+    volumes:
+      - ${VOLUMES_DIR}/beszel/beszel_data:/beszel_data
+      - ${VOLUMES_DIR}/beszel/beszel_socket:/beszel_socket
+    restart: unless-stopped
+    labels:
+      glance.id: beszel
+      glance.name: Beszel
+      glance.icon: sh:beszel
+      glance.url: https://beszel.owl-augmented.ts.net
+
+  beszel-agent:
+    image: ghcr.io/henrygd/beszel/beszel-agent:0.10.2
+    container_name: beszel-agent
+    volumes:
+      - ${VOLUMES_DIR}/beszel/beszel_socket:/beszel_socket
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      LISTEN: /beszel_socket/beszel.sock
+      KEY: ${BESZEL_AGENT_KEY}
+    network_mode: host
+    networks:
+      - beszel
+    restart: unless-stopped
+    labels:
+      glance.parent: beszel
+      glance.name: Agent
+
+volumes:
+  tailscale:
+
+networks:
+  beszel:
