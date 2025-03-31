@@ -25,8 +25,6 @@ services:
   beszel:
     image: ghcr.io/henrygd/beszel/beszel:0.10.2
     container_name: beszel
-    ports:
-      - 8090:8090
     volumes:
       - ${VOLUMES_DIR}/beszel/beszel_data:/beszel_data
       - ${VOLUMES_DIR}/beszel/beszel_socket:/beszel_socket
