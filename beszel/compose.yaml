@@ -30,6 +30,9 @@ services:
     volumes:
       - ${VOLUMES_DIR}/beszel/beszel_data:/beszel_data
       - ${VOLUMES_DIR}/beszel/beszel_socket:/beszel_socket
+    depends_on:
+      - tailscale-beszel
+    network_mode: service:tailscale-beszel
     restart: unless-stopped
     labels:
       glance.id: beszel
