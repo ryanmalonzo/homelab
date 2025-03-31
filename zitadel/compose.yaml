@@ -1,6 +1,6 @@
 services:
   zitadel:
-    image: ghcr.io/zitadel/zitadel:v2.71.4
+    image: ghcr.io/zitadel/zitadel:v2.71.6
     container_name: zitadel
     command: "start-from-init --masterkeyFromEnv --tlsMode external"
     environment:
