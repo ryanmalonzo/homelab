@@ -7,6 +7,7 @@ services:
       PGID: ${PGID}
       TZ: ${TZ}
       JELLYFIN_PublishedServerUrl: https://jellyfin.ryanmalonzo.com
+      MALLOC_TRIM_THRESHOLD_: 131072
     volumes:
       - ${VOLUMES_DIR}/jellyfin/config:/config
       - /mnt/hdd1/tvshows:/data/tvshows
