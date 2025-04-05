@@ -1,6 +1,6 @@
 services:
   openwebui:
-    image: ghcr.io/open-webui/open-webui:v0.6.0
+    image: ghcr.io/open-webui/open-webui:0.6.1
     container_name: open-webui
     volumes:
       - ${VOLUMES_DIR}/open-webui/data:/app/backend/data
