@@ -1,6 +1,6 @@
 services:
   tailscale-gluetun-qbittorrent:
-    image: tailscale/tailscale:v1.80
+    image: tailscale/tailscale:v1.82
     container_name: tailscale-gluetun-qbittorrent
     hostname: qbittorrent
     environment:
