@@ -11,6 +11,7 @@
 		"tag:docker":    ["autogroup:admin"],
 		"tag:proxmox":   ["autogroup:admin"],
 		"tag:vpn":   ["autogroup:admin"],
+		"tag:ssh": ["autogroup:admin"]
 	},
 
 	"acls": [
@@ -24,7 +25,7 @@
 		{
 			"action":      "check",
 			"src":         ["ryanmalonzo@github"],
-			"dst":         ["tag:docker"],
+			"dst":         ["tag:docker", "tag:ssh"],
 			"users":       ["ryanmalonzo"],
 			"checkPeriod": "12h",
 		},
