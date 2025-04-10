@@ -28,7 +28,7 @@
 			"action":      "check",
 			"src":         ["ryanmalonzo@github"],
 			"dst":         ["tag:docker", "tag:ssh"],
-			"users":       ["ryanmalonzo"],
+			"users":       ["root", "ryanmalonzo"],
 			"checkPeriod": "12h",
 		},
 	],
