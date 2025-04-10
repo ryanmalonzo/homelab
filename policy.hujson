@@ -4,6 +4,7 @@
 		"group:docker":  ["ryanmalonzo@github"],
 		"group:proxmox": ["ryanmalonzo@github"],
 		"group:vpn": ["ryanmalonzo@github", "Kuhame@github"],
+		"group:ssh": ["ryanmalonzo@github"],
 	},
 
 	"tagOwners": {
@@ -19,6 +20,7 @@
 		{"action": "accept", "src": ["group:docker"], "dst": ["tag:docker:*"]},
 		{"action": "accept", "src": ["group:proxmox"], "dst": ["tag:proxmox:*"]},
 		{"action": "accept", "src": ["group:vpn"], "dst": ["autogroup:internet:*"]},
+		{"action": "accept", "src": ["group:ssh"], "dst": ["tag:ssh:*"]},
 	],
 
 	"ssh": [
