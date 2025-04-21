@@ -24,7 +24,7 @@ services:
       glance.name: Tailscale
 
   prowlarr:
-    image: lscr.io/linuxserver/prowlarr:1.33.3
+    image: lscr.io/linuxserver/prowlarr:1.34.1
     container_name: prowlarr
     environment:
       PUID: ${PUID}
