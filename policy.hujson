@@ -2,7 +2,7 @@
 {
 	"groups": {
 		"group:docker":  ["ryanmalonzo@github"],
-		"group:proxmox": ["ryanmalonzo@github"],
+		"group:proxmox": ["ryanmalonzo@github", "fredx619@hotmail.fr"],
 		"group:vpn": ["ryanmalonzo@github", "Kuhame@github"],
 		"group:ssh": ["ryanmalonzo@github"],
 	},
