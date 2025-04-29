@@ -39,7 +39,7 @@ services:
       glance.url: https://beszel.owl-augmented.ts.net
 
   beszel-agent:
-    image: ghcr.io/henrygd/beszel/beszel-agent:0.10.2
+    image: ghcr.io/henrygd/beszel/beszel-agent:0.11.1
     container_name: beszel-agent
     volumes:
       - ${VOLUMES_DIR}/beszel/beszel_socket:/beszel_socket
