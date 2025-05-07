@@ -1,0 +1,21 @@
+services:
+  webfinger:
+    image: nginx:stable-alpine
+    container_name: webfinger
+    volumes:
+      - ./webfinger.json:/usr/share/nginx/html/.well-known/webfinger:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - proxy
+    restart: unless-stopped
+    labels:
+      # traefik
+      traefik.enable: true
+      traefik.http.routers.webfinger.rule: Host(`wf.ryanmalonzo.com`)
+      traefik.http.routers.webfinger.entrypoints: websecure
+      traefik.http.routers.webfinger.tls.certresolver: cloudflare
+      traefik.http.services.webfinger.loadbalancer.server.port: 80
+
+networks:
+  proxy:
+    external: true
