@@ -48,7 +48,7 @@ services:
       glance.url: https://jellystat.owl-augmented.ts.net/
 
   db:
-    image: postgres:15.12
+    image: postgres:15.13
     container_name: jellystat-db
     shm_size: 1gb
     volumes:
