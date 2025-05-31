@@ -1,6 +1,6 @@
 services:
   tailscale-sonarr:
-    image: tailscale/tailscale:v1.82
+    image: tailscale/tailscale:v1.84
     container_name: tailscale-sonarr
     hostname: sonarr
     environment:

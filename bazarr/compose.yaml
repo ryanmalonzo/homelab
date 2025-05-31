@@ -1,6 +1,6 @@
 services:
   tailscale-bazarr:
-    image: tailscale/tailscale:v1.82
+    image: tailscale/tailscale:v1.84
     container_name: tailscale-bazarr
     hostname: bazarr
     environment:
