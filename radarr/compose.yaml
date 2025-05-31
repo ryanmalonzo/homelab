@@ -24,7 +24,7 @@ services:
       glance.name: Tailscale
 
   radarr:
-    image: lscr.io/linuxserver/radarr:5.23.3
+    image: lscr.io/linuxserver/radarr:5.25.0
     container_name: radarr
     environment:
       PUID: ${PUID}
