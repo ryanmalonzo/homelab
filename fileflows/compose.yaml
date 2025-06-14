@@ -24,7 +24,7 @@ services:
       glance.name: Tailscale
 
   fileflows:
-    image: revenz/fileflows:25.05
+    image: revenz/fileflows:25.06
     container_name: fileflows
     environment:
       TempPathHost: ${VOLUMES_DIR}/fileflows/temp
