@@ -1,6 +1,6 @@
 services:
   adguardhome-sync:
-    image: lscr.io/linuxserver/adguardhome-sync:0.7.5
+    image: lscr.io/linuxserver/adguardhome-sync:0.7.8
     container_name: adguardhome-sync
     volumes:
       - ${VOLUMES_DIR}/adguardhome-sync/config:/config
