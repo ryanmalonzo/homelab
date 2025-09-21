@@ -1,0 +1,57 @@
+---
+- name: Create Docker network for socket proxy
+  community.docker.docker_network:
+    name: socket-proxy
+    state: present
+    driver: bridge
+
+- name: Create Docker volume for socket proxy
+  community.docker.docker_volume:
+    name: socket-proxy
+    state: present
+
+- name: Ensure socket-proxy directory exists
+  ansible.builtin.file:
+    path: /home/chaldea/socket-proxy
+    state: directory
+    owner: chaldea
+    group: chaldea
+    mode: "0755"
+
+- name: Copy socket proxy Docker Compose file
+  ansible.builtin.copy:
+    src: docker/socket-proxy.yml
+    dest: /home/chaldea/socket-proxy/compose.yaml
+    owner: chaldea
+    group: chaldea
+    mode: "0600"
+
+- name: Deploy socket proxy stack with Docker Compose v2
+  community.docker.docker_compose_v2:
+    project_src: /home/chaldea/socket-proxy
+    files:
+      - compose.yaml
+    state: present
+
+- name: Ensure newt directory exists
+  ansible.builtin.file:
+    path: /home/chaldea/newt
+    state: directory
+    owner: chaldea
+    group: chaldea
+    mode: "0755"
+
+- name: Template Newt Docker Compose file with secrets
+  ansible.builtin.template:
+    src: docker/newt.yml.j2
+    dest: /home/chaldea/newt/compose.yaml
+    owner: chaldea
+    group: chaldea
+    mode: "0600"
+
+- name: Deploy Newt agent with Docker Compose v2
+  community.docker.docker_compose_v2:
+    project_src: /home/chaldea/newt
+    files:
+      - compose.yaml
+    state: present
