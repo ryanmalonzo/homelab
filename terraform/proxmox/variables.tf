@@ -85,5 +85,5 @@ variable "timezone" {
 variable "debian_image_url" {
   description = "URL for the Debian 13 Trixie genericcloud image"
   type        = string
-  default     = "https://cloud.debian.org/images/cloud/trixie/latest/debian-13-genericcloud-amd64.qcow2"
+  default     = "https://cdimage.debian.org/cdimage/cloud/trixie/latest/debian-13-genericcloud-amd64.qcow2"
 }
