@@ -10,7 +10,7 @@ data "local_file" "ssh_public_key" {
 
 # Download Debian 13 Trixie cloud image
 resource "proxmox_virtual_environment_download_file" "debian_cloud_image" {
-  content_type = "iso"
+  content_type = "import"
   datastore_id = var.snippets_datastore
   node_name    = var.proxmox_node
   url          = var.debian_image_url
