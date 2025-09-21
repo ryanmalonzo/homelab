@@ -1,3 +1,2 @@
-#cloud-config
 local-hostname: ${hostname}
 instance-id: ${vm_name}-001
