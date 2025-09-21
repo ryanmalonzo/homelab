@@ -20,7 +20,7 @@
 
 - name: Copy socket proxy Docker Compose file
   ansible.builtin.copy:
-    src: docker/socket-proxy.yml
+    src: socket-proxy.yml
     dest: /home/chaldea/socket-proxy/compose.yaml
     owner: chaldea
     group: chaldea
@@ -43,7 +43,7 @@
 
 - name: Template Newt Docker Compose file with secrets
   ansible.builtin.template:
-    src: docker/newt.yml.j2
+    src: newt.yml.j2
     dest: /home/chaldea/newt/compose.yaml
     owner: chaldea
     group: chaldea
