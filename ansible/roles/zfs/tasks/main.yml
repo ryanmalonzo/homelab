@@ -1,0 +1,18 @@
+---
+- name: Check if ZFS pool exists
+  command: zpool list {{ zfs_pool }}
+  register: zpool_check
+  ignore_errors: true
+
+- name: Create ZFS pool if it does not exist
+  command: "zpool create {{ zfs_pool }} {{ zfs_pool_devices | join(' ') }}"
+  when: zpool_check.rc != 0
+  register: zpool_create
+
+- name: Ensure ZFS dataset for each share is present
+  community.general.zfs:
+    name: "{{ zfs_pool }}/{{ item }}"
+    state: present
+    extra_zfs_properties:
+      mountpoint: "/{{ zfs_pool }}/{{ item }}"
+  loop: "{{ zfs_datasets }}"
