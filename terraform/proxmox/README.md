@@ -73,7 +73,7 @@ This Terraform configuration creates a Debian 13 Trixie virtual machine on Proxm
 | `proxmox_node`       | Proxmox node name             | `"pve"`          |
 | `vm_name`            | VM name                       | `"docker"`       |
 | `vm_cpu_cores`       | Number of CPU cores           | `4`              |
-| `vm_memory`          | RAM in MB                     | `8192`           |
+| `vm_memory`          | RAM in MB                     | `16384`          |
 | `vm_disk_size`       | Disk size in GB               | `100`            |
 | `vm_disk_datastore`  | VM disk datastore             | `"local-lvm"`    |
 | `snippets_datastore` | Cloud-init snippets datastore | `"local"`        |
