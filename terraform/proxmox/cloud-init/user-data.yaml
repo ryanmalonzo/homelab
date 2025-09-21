@@ -1,0 +1,98 @@
+#cloud-config
+hostname: ${hostname}
+timezone: ${timezone}
+
+# User configuration
+users:
+  - default
+  - name: ${username}
+    groups:
+      - sudo
+      - docker
+    shell: /bin/bash
+    ssh_authorized_keys:
+      - ${ssh_public_key}
+    sudo: ALL=(ALL) NOPASSWD:ALL
+
+# Enable non-free repositories for Intel graphics drivers
+apt:
+  sources:
+    non-free:
+      source: "deb http://deb.debian.org/debian trixie main non-free non-free-firmware"
+    non-free-updates:
+      source: "deb http://deb.debian.org/debian trixie-updates main non-free non-free-firmware"
+    non-free-security:
+      source: "deb http://security.debian.org/debian-security trixie-security main non-free non-free-firmware"
+
+# Update package cache
+package_update: true
+package_upgrade: true
+
+# Install required packages
+packages:
+  # Essential system packages
+  - qemu-guest-agent
+  - curl
+  - wget
+  - ca-certificates
+  - gnupg
+  - lsb-release
+  - apt-transport-https
+  - software-properties-common
+  
+  # NFS client packages
+  - nfs-common
+  - nfs4-acl-tools
+  
+  # Intel graphics and media packages
+  - vainfo
+  - intel-media-va-driver-non-free
+  - firmware-intel-graphics
+  
+  # Development and utility packages
+  - git
+  - vim
+  - htop
+  - rsync
+  - unzip
+  - net-tools
+
+# Run commands after package installation
+runcmd:
+  # Enable and start qemu-guest-agent
+  - systemctl enable qemu-guest-agent
+  - systemctl start qemu-guest-agent
+  
+  # Install Docker using the official convenience script
+  - curl -fsSL https://get.docker.com -o get-docker.sh
+  - sh get-docker.sh
+  - rm get-docker.sh
+  
+  # Enable Docker service
+  - systemctl enable docker
+  - systemctl start docker
+  
+  # Add user to docker group (already done in user config, but ensuring it's set)
+  - usermod -aG docker ${username}
+  
+  # Create a marker file to indicate cloud-init completion
+  - echo "Cloud-init configuration completed at $(date)" > /tmp/cloud-config-completed.txt
+  - echo "Docker installed and configured for user ${username}" >> /tmp/cloud-config-completed.txt
+  - echo "Intel graphics drivers and NFS client installed" >> /tmp/cloud-config-completed.txt
+
+# Final message
+final_message: |
+  Cloud-init has finished configuring the system.
+  The system is ready for use with:
+  - User: ${username} (with sudo and Docker access)
+  - Docker: Installed and running
+  - NFS client: Ready for network storage
+  - Intel graphics: Drivers installed for hardware acceleration
+  - QEMU guest agent: Running for Proxmox integration
+  
+  You can now SSH into the system using your SSH key.
+
+# Power management - reboot after setup if needed
+power_state:
+  mode: reboot
+  condition: True
