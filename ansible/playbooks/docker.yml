@@ -1,0 +1,7 @@
+---
+- name: Configure Docker VM
+  hosts: docker
+  become: true
+  roles:
+    - nfs_client
+    - docker_services
