@@ -1,3 +1,9 @@
+variable "proxmox_endpoint_url" {
+  description = "The Proxmox VE API endpoint URL"
+  type        = string
+  default     = "https://192.168.1.35:8006/"
+}
+
 variable "proxmox_node" {
   description = "The Proxmox node name where the VM will be created"
   type        = string

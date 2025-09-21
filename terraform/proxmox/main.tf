@@ -1,3 +1,8 @@
+provider "proxmox" {
+  endpoint = var.proxmox_endpoint_url
+  insecure = true
+}
+
 # Read SSH public key
 data "local_file" "ssh_public_key" {
   filename = var.ssh_public_key_file
@@ -60,7 +65,7 @@ resource "proxmox_virtual_environment_vm" "debian_vm" {
   # CPU configuration
   cpu {
     cores = var.vm_cpu_cores
-    type  = "x86-64-v2-AES"  # Recommended for modern CPUs
+    type  = "x86-64-v2-AES" # Recommended for modern CPUs
   }
 
   # Memory configuration
@@ -102,7 +107,7 @@ resource "proxmox_virtual_environment_vm" "debian_vm" {
 
   # Operating system type
   operating_system {
-    type = "l26"  # Linux 2.6/3.x/4.x/5.x kernel
+    type = "l26" # Linux 2.6/3.x/4.x/5.x kernel
   }
 
   # Stop the VM gracefully on destroy (important when guest agent is not ready)
