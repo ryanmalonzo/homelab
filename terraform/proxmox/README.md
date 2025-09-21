@@ -23,6 +23,7 @@ This Terraform configuration creates a Debian 13 Trixie virtual machine on Proxm
 ## Quick Start
 
 1. **Configure Proxmox Provider**: Create a `provider.tf` file with your Proxmox connection details:
+
    ```hcl
    terraform {
      required_providers {
@@ -43,12 +44,14 @@ This Terraform configuration creates a Debian 13 Trixie virtual machine on Proxm
    ```
 
 2. **Copy and customize variables**:
+
    ```bash
    cp terraform.tfvars.example terraform.tfvars
    # Edit terraform.tfvars with your specific values
    ```
 
 3. **Initialize and deploy**:
+
    ```bash
    terraform init
    terraform plan
@@ -65,19 +68,19 @@ This Terraform configuration creates a Debian 13 Trixie virtual machine on Proxm
 
 ### Variables
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `proxmox_node` | Proxmox node name | `"pve"` |
-| `vm_name` | VM name | `"docker"` |
-| `vm_cpu_cores` | Number of CPU cores | `4` |
-| `vm_memory` | RAM in MB | `8192` |
-| `vm_disk_size` | Disk size in GB | `100` |
-| `vm_disk_datastore` | VM disk datastore | `"local-lvm"` |
-| `snippets_datastore` | Cloud-init snippets datastore | `"local"` |
-| `network_bridge` | Network bridge | `"vmbr0"` |
-| `username` | VM user account | `"chaldea"` |
-| `hostname` | VM hostname | `"docker"` |
-| `timezone` | System timezone | `"Europe/Paris"` |
+| Variable             | Description                   | Default          |
+| -------------------- | ----------------------------- | ---------------- |
+| `proxmox_node`       | Proxmox node name             | `"pve"`          |
+| `vm_name`            | VM name                       | `"docker"`       |
+| `vm_cpu_cores`       | Number of CPU cores           | `4`              |
+| `vm_memory`          | RAM in MB                     | `8192`           |
+| `vm_disk_size`       | Disk size in GB               | `100`            |
+| `vm_disk_datastore`  | VM disk datastore             | `"local-lvm"`    |
+| `snippets_datastore` | Cloud-init snippets datastore | `"local"`        |
+| `network_bridge`     | Network bridge                | `"vmbr0"`        |
+| `username`           | VM user account               | `"chaldea"`      |
+| `hostname`           | VM hostname                   | `"docker"`       |
+| `timezone`           | System timezone               | `"Europe/Paris"` |
 
 ### Cloud-init Configuration
 
@@ -174,6 +177,7 @@ runcmd:
 ## Troubleshooting
 
 ### Cloud-init Issues
+
 ```bash
 # Check cloud-init status
 ssh chaldea@<vm-ip> 'sudo cloud-init status'
@@ -183,12 +187,14 @@ ssh chaldea@<vm-ip> 'sudo journalctl -u cloud-init'
 ```
 
 ### QEMU Guest Agent
+
 ```bash
 # Check agent status
 ssh chaldea@<vm-ip> 'sudo systemctl status qemu-guest-agent'
 ```
 
 ### Docker Issues
+
 ```bash
 # Check Docker daemon
 ssh chaldea@<vm-ip> 'sudo systemctl status docker'
