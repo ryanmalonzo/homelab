@@ -3,6 +3,28 @@
   hosts: proxmox
   become: true
   roles:
-    - zfs
-    - nfs
-    - media_dirs
+    - role: zfs
+      vars:
+        zfs_pool: "tank"
+        zfs_pool_devices:
+          - "/dev/sda"
+          - "/dev/sdb"
+        zfs_datasets:
+          - "media"
+          - "music"
+          - "photos"
+          - "files"
+    - role: nfs
+      vars:
+        nfs_exports:
+          - "/tank/media *(rw,sync,no_subtree_check,all_squash,anonuid=1000,anongid=1000)"
+          - "/tank/music *(rw,sync,no_subtree_check,all_squash,anonuid=1000,anongid=1000)"
+          - "/tank/photos *(rw,sync,no_subtree_check,all_squash,anonuid=1000,anongid=1000)"
+          - "/tank/files *(rw,sync,no_subtree_check,all_squash,anonuid=1000,anongid=1000)"
+    - role: media_dirs
+      vars:
+        media_directories:
+          - "/tank/media"
+          - "/tank/music"
+          - "/tank/photos"
+          - "/tank/files"
