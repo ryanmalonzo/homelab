@@ -1,0 +1,31 @@
+---
+- name: Install NFS client package (Debian/Ubuntu)
+  ansible.builtin.apt:
+    name: nfs-common
+    state: present
+  when: ansible_os_family == 'Debian'
+
+- name: Install NFS client package (RHEL/CentOS)
+  ansible.builtin.yum:
+    name: nfs-utils
+    state: present
+  when: ansible_os_family == 'RedHat'
+
+- name: Create mount point directories for all shares
+  ansible.builtin.file:
+    path: "{{ item.mount_point }}"
+    state: directory
+    owner: 1000
+    group: 1000
+    mode: "0755"
+  loop: "{{ nfs_shares }}"
+
+- name: Mount all NFS shares and ensure persistence
+  ansible.posix.mount:
+    src: "{{ nfs_server_ip }}:/{{ zfs_pool }}/{{ item.name }}"
+    path: "{{ item.mount_point }}"
+    fstype: nfs
+    opts: "{{ nfs_mount_opts }}"
+    state: mounted
+    boot: true
+  loop: "{{ nfs_shares }}"
