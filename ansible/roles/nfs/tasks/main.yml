@@ -1,0 +1,17 @@
+---
+- name: Ensure exported directories are owned by UID/GID 1000
+  ansible.builtin.file:
+    path: "/{{ zfs_pool }}/{{ item }}"
+    owner: 1000
+    group: 1000
+    recurse: true
+  loop: "{{ zfs_datasets }}"
+
+- name: Build NFS exports list
+  set_fact:
+    nfs_exports: >-
+      {{ zfs_datasets | map('regex_replace', '^(.*)$', '/' ~ zfs_pool ~ '/\1 ' ~ proxmox_subnet ~ '(rw,sync,no_subtree_check,all_squash,anonuid=1000,anongid=1000)') | list }}
+
+- name: Install and configure NFS server
+  include_role:
+    name: geerlingguy.nfs
