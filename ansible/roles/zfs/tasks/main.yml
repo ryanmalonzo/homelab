@@ -3,13 +3,16 @@
   command: zpool list {{ zfs_pool }}
   register: zpool_check
   ignore_errors: true
-  check_mode: false
-  changed_when: false
 
-- name: Create ZFS pool if it does not exist
-  command: "zpool create {{ zfs_pool }} {{ zfs_pool_devices | join(' ') }}"
+- name: Check if ZFS pool is available for import
+  command: zpool import -f {{ zfs_pool }}
+  register: zpool_import
+  ignore_errors: true
   when: zpool_check.rc != 0
-  register: zpool_create
+
+- name: Create ZFS pool if it does not exist and cannot be imported
+  command: "zpool create {{ zfs_pool }} {{ zfs_pool_devices | join(' ') }}"
+  when: zpool_check.rc != 0 and zpool_import.rc != 0
 
 - name: Ensure ZFS dataset for each share is present
   community.general.zfs:
@@ -18,4 +21,3 @@
     extra_zfs_properties:
       mountpoint: "/{{ zfs_pool }}/{{ item }}"
   loop: "{{ zfs_datasets }}"
-  when: zpool_check.rc == 0
