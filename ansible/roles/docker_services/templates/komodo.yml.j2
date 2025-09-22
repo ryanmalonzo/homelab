@@ -4,8 +4,6 @@ services:
   mongo:
     image: mongo:8.0.13
     command: --quiet --wiredTigerCacheSizeGB 0.25
-    ports:
-      - "27017:27017"
     volumes:
       - mongo-data:/data/db
       - mongo-config:/data/configdb
