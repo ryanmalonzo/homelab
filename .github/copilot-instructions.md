@@ -35,6 +35,12 @@ cd ../../ansible && ansible-playbook playbooks/site.yml
 - **Scope limitation**: Only change what was specifically requested, nothing more
 - **Comments**: Only add comments where genuinely needed for clarity, use human-like language, no emojis
 
+## AI Workflow
+
+When prompted to do something, always architect a plan first, asking any and all questions you may have for clarification, then wait for validation. The plan's different steps should be separated by SEMANTIC GIT COMMITS, which clearly specify the scope of the changes inside parentheses where relevant, and that follow the previous commits' scopes (not inventing a new scope when an appropriate one already exists).
+
+Example existing scopes from git history: `(ansible)`, `(docker)`, `(terraform)`, `(zfs)`, `(gitignore)`, `(instructions)`
+
 ## Critical Conventions
 
 ### Ansible Structure
