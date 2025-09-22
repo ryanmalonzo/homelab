@@ -17,7 +17,8 @@ locals {
     "qbittorrent",
     "immich",
     "nextcloud",
-    "fileflows"
+    "fileflows",
+    "komodo"
   ]
 
   dns_records = concat(
