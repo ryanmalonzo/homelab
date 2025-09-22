@@ -43,7 +43,7 @@
 
 - name: Template Newt Docker Compose file with secrets
   ansible.builtin.template:
-    src: newt.yml.j2
+    src: ../files/docker/newt.yml
     dest: /home/chaldea/newt/compose.yaml
     owner: chaldea
     group: chaldea
