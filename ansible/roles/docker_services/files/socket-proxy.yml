@@ -1,3 +1,5 @@
+name: socket-proxy
+
 services:
   socket-proxy:
     image: "11notes/socket-proxy:2.1.4"
