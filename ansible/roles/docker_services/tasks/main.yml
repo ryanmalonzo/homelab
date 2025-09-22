@@ -55,3 +55,34 @@
     files:
       - compose.yaml
     state: present
+
+- name: Ensure komodo directory exists
+  ansible.builtin.file:
+    path: /home/chaldea/komodo
+    state: directory
+    owner: chaldea
+    group: chaldea
+    mode: "0755"
+
+- name: Template Komodo environment file
+  ansible.builtin.template:
+    src: komodo.env.j2
+    dest: /home/chaldea/komodo/.env
+    owner: chaldea
+    group: chaldea
+    mode: "0600"
+
+- name: Template Komodo Docker Compose file
+  ansible.builtin.template:
+    src: komodo.yml.j2
+    dest: /home/chaldea/komodo/compose.yaml
+    owner: chaldea
+    group: chaldea
+    mode: "0600"
+
+- name: Deploy Komodo stack with Docker Compose v2
+  community.docker.docker_compose_v2:
+    project_src: /home/chaldea/komodo
+    files:
+      - compose.yaml
+    state: present
