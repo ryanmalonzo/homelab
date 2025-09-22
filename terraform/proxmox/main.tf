@@ -65,7 +65,7 @@ resource "proxmox_virtual_environment_vm" "debian_vm" {
   # CPU configuration
   cpu {
     cores = var.vm_cpu_cores
-    type  = "x86-64-v2-AES" # Recommended for modern CPUs
+    type  = "host"
   }
 
   # Memory configuration
