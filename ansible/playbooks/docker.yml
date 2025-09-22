@@ -4,17 +4,4 @@
   become: true
   roles:
     - role: nfs_client
-      vars:
-        nfs_shares:
-          - name: media
-            mount_point: /mnt/media
-          - name: music
-            mount_point: /mnt/music
-          - name: photos
-            mount_point: /mnt/photos
-          - name: files
-            mount_point: /mnt/files
-        nfs_server_ip: "192.168.1.35"
-        zfs_pool: "tank"
-        nfs_mount_opts: "defaults,_netdev"
     - role: docker_services

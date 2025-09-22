@@ -1,2 +1,0 @@
-nfs_server_ip: "{{ proxmox_host_ip }}"
-nfs_mount_opts: "defaults,_netdev"

@@ -1,0 +1,8 @@
+---
+# Default values for media_dirs role
+zfs_pool: "tank"
+zfs_datasets:
+  - "media"
+  - "music"
+  - "photos"
+  - "files"

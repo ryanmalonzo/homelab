@@ -1,0 +1,11 @@
+---
+# Default values for ZFS role
+zfs_pool: "tank"
+zfs_pool_devices:
+  - "/dev/sda"
+  - "/dev/sdb"
+zfs_datasets:
+  - "media"
+  - "music"
+  - "photos"
+  - "files"

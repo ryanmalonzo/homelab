@@ -1,15 +1,5 @@
-docker_appdata: /opt/appdata
-
-proxmox_host_ip: "192.168.1.35"
-proxmox_subnet: "192.168.1.0/24"
-
-zfs_pool: "tank"
-zfs_datasets:
-  - media
-  - music
-  - photos
-  - files
-
+---
+# Default values for NFS client role
 nfs_shares:
   - name: media
     mount_point: /mnt/media
@@ -19,6 +9,6 @@ nfs_shares:
     mount_point: /mnt/photos
   - name: files
     mount_point: /mnt/files
-
-nfs_server_ip: "{{ proxmox_host_ip }}"
+nfs_server_ip: "192.168.1.35"
+zfs_pool: "tank"
 nfs_mount_opts: "defaults,_netdev"

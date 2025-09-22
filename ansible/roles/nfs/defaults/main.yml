@@ -1,0 +1,9 @@
+---
+# Default values for NFS role
+zfs_pool: "tank"
+zfs_datasets:
+  - "media"
+  - "music"
+  - "photos"
+  - "files"
+proxmox_subnet: "192.168.1.0/24"
