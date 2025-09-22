@@ -34,12 +34,27 @@ cd ../../ansible && ansible-playbook playbooks/site.yml
 - **No over-engineering**: Resist the urge to refactor or improve code beyond what was asked
 - **Scope limitation**: Only change what was specifically requested, nothing more
 - **Comments**: Only add comments where genuinely needed for clarity, use human-like language, no emojis
+- **Mandatory testing**: After completing each step, test the changes to ensure they work as expected before proceeding
 
 ## AI Workflow
 
-When prompted to do something, always architect a plan first, asking any and all questions you may have for clarification, then wait for validation. The plan's different steps should be separated by SEMANTIC GIT COMMITS, which clearly specify the scope of the changes inside parentheses where relevant, and that follow the previous commits' scopes (not inventing a new scope when an appropriate one already exists).
+When prompted to do something, always architect a plan first, asking any and all questions you may have for clarification, then wait for validation.
 
-Example existing scopes from git history: `(ansible)`, `(docker)`, `(terraform)`, `(zfs)`, `(gitignore)`, `(instructions)`
+After implementing each logical step:
+
+1. **Test the changes** - Verify the implementation works correctly using appropriate testing methods
+2. **Commit immediately** - Create a semantic commit for each completed step using the convention: `type(scope): description`
+
+### Semantic Commit Convention
+
+- Use conventional commit format: `type(scope): description`
+- **Types**: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
+- **Scopes**: Match existing project scopes from git history or create minimal new ones when necessary
+- **Description**: Clear, concise summary of what was changed
+- **One commit per logical step**: Don't bundle multiple unrelated changes
+
+Example existing scopes: `ansible`, `docker`, `terraform`, `zfs`, `gitignore`, `instructions`
+Example commits: `feat(docker): add nginx service configuration`, `fix(ansible): correct NFS mount permissions`
 
 ## Critical Conventions
 
