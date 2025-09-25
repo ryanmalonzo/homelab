@@ -12,6 +12,8 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${KOMODO_DB_PASSWORD}
     labels:
       komodo.skip: # Prevent Komodo from stopping with StopAllContainers
+    networks:
+      - komodo
     restart: unless-stopped
 
   core:
@@ -29,20 +31,32 @@ services:
       - komodo-backups:/backups
     labels:
       komodo.skip:
+    networks:
+      - komodo
     restart: unless-stopped
 
   periphery:
     image: ghcr.io/moghtech/komodo-periphery:1.19.4
     env_file: ./.env
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - socket-proxy:/var/run
       - /proc:/proc
       - /etc/komodo:/etc/komodo
     labels:
       komodo.skip:
+    networks:
+      - komodo
+      - socket-proxy
     restart: unless-stopped
 
 volumes:
   komodo-backups:
   mongo-data:
   mongo-config:
+  socket-proxy:
+    external: true
+
+networks:
+  komodo:
+  socket-proxy:
+    external: true
