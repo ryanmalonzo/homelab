@@ -85,22 +85,6 @@ services:
       - ${INCOMPLETE_DOWNLOADS_DIR}:/incomplete-downloads
       - ${DOWNLOADS_DIR}:/downloads
 
-  qbittorrent:
-    <<: *linuxserver-base
-    image: lscr.io/linuxserver/qbittorrent:5.1.2
-    container_name: qbittorrent
-    ports:
-      - "8081:8081"
-      - "6881:6881"
-      - "6881:6881/udp"
-    volumes:
-      - qbittorrent:/config
-      - ${DOWNLOADS_DIR}:/downloads
-    environment:
-      <<: *common-variables
-      WEBUI_PORT: 8081
-      TORRENTING_PORT: 6881
-
   radarr:
     <<: *radarr-base
     container_name: radarr
