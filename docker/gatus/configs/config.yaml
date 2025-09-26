@@ -1,0 +1,18 @@
+alerting:
+  discord:
+    webhook-url: ${DISCORD_WEBHOOK_URL}
+
+ui:
+  default-sort-by: group
+
+endpoints:
+  - name: Jellyfin
+    group: Jellyfin
+    url: https://jellyfin.ryanmalonzo.com
+    interval: 30s
+    conditions:
+      - "[STATUS] == 200"
+    alerts:
+      - type: discord
+        description: "healthcheck failed"
+        send-on-resolved: true

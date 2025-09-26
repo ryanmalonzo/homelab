@@ -7,8 +7,7 @@ services:
     ports:
       - "8081:8080"
     volumes:
-      - gatus:/app/config
+      - ./configs/config.yaml:/config/config.yaml
+    environment:
+      - DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL}
     restart: unless-stopped
-
-volumes:
-  gatus:
