@@ -2,7 +2,6 @@ locals {
   root_domain = "ryanmalonzo.com"
   cname_subdomains = [
     "pangolin",
-    "portainer",
     "vaultwarden",
     "jellyfin",
     "radarr",
@@ -14,10 +13,6 @@ locals {
     "radarr-nonanime",
     "profilarr-nonanime",
     "jellyseerr",
-    "qbittorrent",
-    "immich",
-    "nextcloud",
-    "fileflows",
     "komodo"
   ]
 
