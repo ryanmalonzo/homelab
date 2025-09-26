@@ -1,0 +1,14 @@
+name: gatus
+
+services:
+  gatus:
+    image: ghcr.io/twin/gatus:v5.24.3
+    container_name: gatus
+    ports:
+      - "8081:8080"
+    volumes:
+      - gatus:/app/config
+    restart: unless-stopped
+
+volumes:
+  gatus:
