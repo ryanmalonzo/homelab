@@ -1,115 +1,108 @@
-# Copilot Instructions for Homelab Infrastructure
+# Homelab Infrastructure Copilot Instructions
 
-## Project Architecture
+## Architecture Overview
 
-This is a homelab infrastructure project managing Proxmox VMs with Terraform and configuring services with Ansible. The architecture follows a two-tier approach:
+This is a **three-layer homelab infrastructure** built around Proxmox virtualization:
 
-- **Proxmox Host** (`192.168.1.35`): ZFS storage backend with NFS exports for shared media/data
-- **Docker VM** (`192.168.1.253`): Debian VM running containerized services, consumes NFS mounts
+1. **Proxmox Host** (192.168.1.35) - Physical server running ZFS storage and NFS shares
+2. **Docker VM** (192.168.1.253) - Debian 13 VM running containerized services
+3. **Services Layer** - Media stack (Jellyfin, Sonarr, Radarr) and management tools (Komodo)
 
-## Key Workflows
+**Data Flow**: Proxmox ZFS pool → NFS exports → Docker VM mounts → Container volumes
 
-### Initial Setup
+## Key Infrastructure Patterns
+
+### Terraform + Cloud-Init VM Provisioning
+
+- VMs are created via `terraform/proxmox/` with cloud-init templates in `cloud-init/`
+- Debian 13 Trixie images with Intel graphics drivers, Docker, and NFS client pre-installed
+- SSH key from `ssh/key.pub` is automatically deployed
+- **Always template cloud-init changes** - don't hardcode values in YAML files
+
+### Ansible Configuration Management
+
+- **Two-phase deployment**: `ansible-playbook playbooks/site.yml` runs both `proxmox.yml` then `docker.yml`
+- **Inventory pattern**: `ansible/inventory/hosts.yml` defines `proxmox` and `docker` host groups
+- **Role dependency order matters**: Proxmox roles (zfs → nfs → media_dirs) must run before Docker roles (nfs_client → docker_services)
+
+### Docker Services Architecture
+
+- **Socket proxy pattern**: All services connect through socket-proxy network for security
+- **Docker Compose templating**: Services deployed via Ansible templates (`.j2` files) not direct compose files
+- **Volume strategy**: `{{ docker_appdata }}:/opt/appdata` for persistent data, NFS mounts for media
+
+## Critical Workflows
+
+### Deploy Infrastructure Changes
 
 ```bash
-# Install Ansible dependencies first
-cd ansible && ansible-galaxy install -r requirements.yml -p galaxy_roles
+# 1. Install Ansible dependencies (always run first)
+ansible-galaxy install -r ansible/requirements.yml -p ansible/galaxy_roles
 
-# Deploy infrastructure (run from terraform/proxmox/)
-terraform plan && terraform apply
+# 2. Deploy all infrastructure
+ansible-playbook ansible/playbooks/site.yml
 
-# Configure all services
-cd ../../ansible && ansible-playbook playbooks/site.yml
+# 3. Deploy specific layer
+ansible-playbook ansible/playbooks/proxmox.yml  # Storage/NFS only
+ansible-playbook ansible/playbooks/docker.yml   # Services only
 ```
 
-### Service Management
+### Terraform VM Management
 
-- Individual playbooks: `ansible-playbook playbooks/docker.yml` or `playbooks/proxmox.yml`
-- Docker services use socket-proxy pattern for security (see `roles/docker_services`)
-- All services configured via Ansible templates, never manual Docker commands
+```bash
+cd terraform/proxmox
+terraform plan    # Always review before apply
+terraform apply   # Creates VM with cloud-init
+```
 
-## Coding Practices
+## Configuration Conventions
 
-- **Minimal changes only**: Make the smallest possible change to achieve the requested outcome
-- **No over-engineering**: Resist the urge to refactor or improve code beyond what was asked
-- **Scope limitation**: Only change what was specifically requested, nothing more
-- **Comments**: Only add comments where genuinely needed for clarity, use human-like language, no emojis
-- **Mandatory testing**: After completing each step, test the changes to ensure they work as expected before proceeding
+### Variable Hierarchy
 
-## AI Workflow
+- `group_vars/all.yml` - Global settings (NFS shares, network, timezone)
+- `group_vars/proxmox.yml` - Host-specific overrides (ZFS devices)
+- Role `defaults/main.yml` - Service-specific defaults
 
-When prompted to do something, always architect a plan first, asking any and all questions you may have for clarification, then wait for validation.
+### NFS Sharing Pattern
 
-After implementing each logical step:
+```yaml
+# Define in all.yml
+zfs_datasets: [media, music, photos, files]
+nfs_shares:
+  - name: media
+    mount_point: /mnt/media
+```
 
-1. **Test the changes** - Verify the implementation works correctly using appropriate testing methods
-2. **Commit immediately** - Create a semantic commit for each completed step using the convention: `type(scope): description`
+Creates: ZFS dataset → NFS export → Docker VM mount point
 
-### Semantic Commit Convention
+### Docker Compose Extensions
 
-- Use conventional commit format: `type(scope): description`
-- **Types**: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
-- **Scopes**: Match existing project scopes from git history or create minimal new ones when necessary
-- **Description**: Clear, concise summary of what was changed
-- **One commit per logical step**: Don't bundle multiple unrelated changes
+Uses YAML anchors for DRY patterns:
 
-Example existing scopes: `ansible`, `docker`, `terraform`, `zfs`, `gitignore`, `instructions`
-Example commits: `feat(docker): add nginx service configuration`, `fix(ansible): correct NFS mount permissions`
-
-## Critical Conventions
-
-### Ansible Structure
-
-- **Galaxy roles** in `galaxy_roles/` (external dependencies from `requirements.yml`)
-- **Custom roles** in `roles/` for project-specific logic
-- **Group variables** define infrastructure topology (`group_vars/all.yml`, `docker.yml`, `proxmox.yml`)
-- **SSH key management**: Uses `chaldea` key at `/Users/ryanmalonzo/.ssh/chaldea` for all hosts
-
-### Storage & Networking
-
-- **ZFS pool**: Always named `tank` with datasets: `media`, `music`, `photos`, `files`
-- **NFS mounts**: Docker VM mounts all datasets from Proxmox host at `/mnt/{dataset}`
-- **Docker networks**: Use `socket-proxy` network for secure Docker socket access
-- **User mapping**: NFS exports use `anonuid=1000,anongid=1000` for consistent permissions
-
-### Terraform Patterns
-
-- **Cloud-init templating**: Variables injected into `cloud-init/user-data.yaml` template
-- **Provider configuration**: Not committed (create `provider.tf` with Proxmox credentials)
-- **VM specs**: Defaults in `variables.tf` - 4 cores, 16GB RAM, 100GB disk
-- **Debian image**: Uses genericcloud image with non-free repos for Intel graphics
+- `&common-variables` - PUID/PGID/TZ environment
+- `&restart-policy` - Standard restart policies
+- `&linuxserver-base` - Common LinuxServer.io container config
 
 ## Integration Points
 
-### Docker Service Deployment
+- **SSH Keys**: Centralized in `ssh/key.pub`, deployed by Terraform cloud-init and Ansible
+- **Network**: Fixed IPs in inventory must match Terraform outputs and NFS client configs
+- **Storage**: ZFS pool name in `group_vars/proxmox.yml` must match dataset references
+- **Docker Networks**: `socket-proxy` network bridges all services securely
+- **Cloudflare**: DNS managed separately in `terraform/cloudflare/`
 
-Services follow this pattern (see `roles/docker_services/tasks/main.yml`):
+## Service-Specific Notes
 
-1. Create Docker network and volumes
-2. Template compose files with secrets from environment
-3. Deploy via `community.docker.docker_compose_v2`
-4. Use socket-proxy for secure Docker API access
+### Jellyfin Stack
 
-### Environment Variables
+- Hardware transcoding enabled (Intel graphics drivers in cloud-init)
+- Media paths mounted from NFS: `/mnt/{media,music,photos}`
+- Uses LinuxServer.io images with common environment pattern
 
-- **Newt service**: Requires `NEWT_ID` and `NEWT_SECRET` environment variables
-- **Pangolin endpoint**: Hardcoded to `https://pangolin.ryanmalonzo.com`
+### Komodo (Docker Management)
 
-### File Locations
+- MongoDB backend with resource limits (`--wiredTigerCacheSizeGB 0.25`)
+- Environment file templated by Ansible (`komodo.env.j2`)
+- Prevents self-management with `komodo.skip` label
 
-- **Docker configs**: `/home/chaldea/{service-name}/compose.yaml`
-- **Ansible templates**: `roles/{role}/templates/` for dynamic configs
-- **Static files**: `roles/{role}/files/` for copying unchanged configs
-
-## Common Tasks
-
-- **Adding new Docker service**: Create template in `roles/docker_services/templates/`, add deployment task
-- **Modifying ZFS datasets**: Update `group_vars/all.yml` and both `proxmox.yml` + `docker.yml` playbooks
-- **VM configuration changes**: Modify `terraform/proxmox/variables.tf` and cloud-init templates
-- **Network changes**: Update inventory hosts and group_vars for new IP addresses
-
-## Security Notes
-
-- SSH uses key-based auth only (`IdentitiesOnly=yes` in inventory)
-- NFS exports restricted to `192.168.1.0/24` subnet
-- Terraform state contains sensitive data - handle carefully
+When modifying services, **always update Ansible templates**, not the deployed compose files directly.
