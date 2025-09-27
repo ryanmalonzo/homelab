@@ -14,7 +14,8 @@ locals {
     "profilarr-nonanime",
     "jellyseerr",
     "komodo",
-    "gatus"
+    "gatus",
+    "linkding"
   ]
 
   dns_records = concat(

@@ -1,0 +1,16 @@
+services:
+  linkding:
+    image: ghcr.io/sissbruecker/linkding:1.42.0
+    container_name: linkding
+    ports:
+      - "9090:9090"
+    volumes:
+      - "linkding:/etc/linkding/data"
+    environment:
+      - LD_SUPERUSER_NAME=chaldea
+      - LD_SUPERUSER_PASSWORD=${LD_SUPERUSER_PASSWORD}
+      - LD_CSRF_TRUSTED_ORIGINS=https://linkding.ryanmalonzo.com
+    restart: unless-stopped
+
+volumes:
+  linkding:
