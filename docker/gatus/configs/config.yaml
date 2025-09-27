@@ -16,3 +16,14 @@ endpoints:
       - type: discord
         description: "healthcheck failed"
         send-on-resolved: true
+
+  - name: linkding
+    group: Linkding
+    url: https://linkding.ryanmalonzo.com/health
+    interval: 30s
+    conditions:
+      - "[STATUS] == 200"
+    alerts:
+      - type: discord
+        description: "healthcheck failed"
+        send-on-resolved: true
