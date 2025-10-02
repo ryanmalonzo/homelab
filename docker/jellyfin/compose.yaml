@@ -45,6 +45,14 @@ services:
       - ${NFS_MEDIA}/non-anime/movies:/data/non-anime/movies
     environment:
       - JELLYFIN_PublishedServerUrl=https://jellyfin.ryanmalonzo.com
+    labels:
+      pangolin.proxy-resources.jellyfin.name: Jellyfin
+      pangolin.proxy-resources.jellyfin.protocol: http
+      pangolin.proxy-resources.jellyfin.full-domain: jellyfin.ryanmalonzo.com
+      pangolin.proxy-resources.jellyfin.auth.sso-enabled: false
+      pangolin.proxy-resources.jellyfin.targets[0].hostname: 192.168.1.253
+      pangolin.proxy-resources.jellyfin.targets[0].port: 8096
+      pangolin.proxy-resources.jellyfin.targets[0].method: http
 
   jellyseerr:
     <<: *restart-policy
@@ -64,6 +72,13 @@ services:
       timeout: 3s
       interval: 15s
       retries: 3
+    labels:
+      pangolin.proxy-resources.jellyseerr.name: Jellyseerr
+      pangolin.proxy-resources.jellyseerr.protocol: http
+      pangolin.proxy-resources.jellyseerr.full-domain: jellyseerr.ryanmalonzo.com
+      pangolin.proxy-resources.jellyseerr.auth.sso-enabled: true
+      pangolin.proxy-resources.jellyseerr.targets[0].hostname: 192.168.1.253
+      pangolin.proxy-resources.jellyseerr.targets[0].method: http
 
   prowlarr:
     <<: *linuxserver-base
@@ -73,6 +88,13 @@ services:
       - "9696:9696"
     volumes:
       - prowlarr:/config
+    labels:
+      pangolin.proxy-resources.prowlarr.name: Prowlarr
+      pangolin.proxy-resources.prowlarr.protocol: http
+      pangolin.proxy-resources.prowlarr.full-domain: prowlarr.ryanmalonzo.com
+      pangolin.proxy-resources.prowlarr.auth.sso-enabled: true
+      pangolin.proxy-resources.prowlarr.targets[0].hostname: 192.168.1.253
+      pangolin.proxy-resources.prowlarr.targets[0].method: http
 
   sabnzbd:
     <<: *linuxserver-base
@@ -84,6 +106,13 @@ services:
       - sabnzbd:/config
       - ${INCOMPLETE_DOWNLOADS_DIR}:/incomplete-downloads
       - ${DOWNLOADS_DIR}:/downloads
+    labels:
+      pangolin.proxy-resources.sabnzbd.name: SABnzbd
+      pangolin.proxy-resources.sabnzbd.protocol: http
+      pangolin.proxy-resources.sabnzbd.full-domain: sabnzbd.ryanmalonzo.com
+      pangolin.proxy-resources.sabnzbd.auth.sso-enabled: true
+      pangolin.proxy-resources.sabnzbd.targets[0].hostname: 192.168.1.253
+      pangolin.proxy-resources.sabnzbd.targets[0].method: http
 
   radarr:
     <<: *radarr-base
@@ -94,6 +123,13 @@ services:
       - radarr:/config
       - ${NFS_MEDIA}/anime/movies:/movies
       - ${DOWNLOADS_DIR}:/downloads
+    labels:
+      pangolin.proxy-resources.radarr.name: Radarr
+      pangolin.proxy-resources.radarr.protocol: http
+      pangolin.proxy-resources.radarr.full-domain: radarr.ryanmalonzo.com
+      pangolin.proxy-resources.radarr.auth.sso-enabled: true
+      pangolin.proxy-resources.radarr.targets[0].hostname: 192.168.1.253
+      pangolin.proxy-resources.radarr.targets[0].method: http
 
   sonarr:
     <<: *sonarr-base
@@ -104,6 +140,13 @@ services:
       - sonarr:/config
       - ${NFS_MEDIA}/anime/tv:/tv
       - ${DOWNLOADS_DIR}:/downloads
+    labels:
+      pangolin.proxy-resources.sonarr.name: Sonarr
+      pangolin.proxy-resources.sonarr.protocol: http
+      pangolin.proxy-resources.sonarr.full-domain: sonarr.ryanmalonzo.com
+      pangolin.proxy-resources.sonarr.auth.sso-enabled: true
+      pangolin.proxy-resources.sonarr.targets[0].hostname: 192.168.1.253
+      pangolin.proxy-resources.sonarr.targets[0].method: http
 
   profilarr:
     <<: *profilarr-base
@@ -112,6 +155,13 @@ services:
       - "6868:6868"
     volumes:
       - profilarr:/config
+    labels:
+      pangolin.proxy-resources.profilarr.name: Profilarr
+      pangolin.proxy-resources.profilarr.protocol: http
+      pangolin.proxy-resources.profilarr.full-domain: profilarr.ryanmalonzo.com
+      pangolin.proxy-resources.profilarr.auth.sso-enabled: true
+      pangolin.proxy-resources.profilarr.targets[0].hostname: 192.168.1.253
+      pangolin.proxy-resources.profilarr.targets[0].method: http
 
   radarr-nonanime:
     <<: *radarr-base
@@ -122,6 +172,14 @@ services:
       - radarr-nonanime:/config
       - ${NFS_MEDIA}/non-anime/movies:/movies
       - ${DOWNLOADS_DIR}:/downloads
+    labels:
+      pangolin.proxy-resources.radarr-nonanime.name: Radarr (Others)
+      pangolin.proxy-resources.radarr-nonanime.protocol: http
+      pangolin.proxy-resources.radarr-nonanime.full-domain: radarr-nonanime.ryanmalonzo.com
+      pangolin.proxy-resources.radarr-nonanime.auth.sso-enabled: true
+      pangolin.proxy-resources.radarr-nonanime.targets[0].hostname: 192.168.1.253
+      pangolin.proxy-resources.radarr-nonanime.targets[0].port: 7879
+      pangolin.proxy-resources.radarr-nonanime.targets[0].method: http
 
   sonarr-nonanime:
     <<: *sonarr-base
@@ -132,6 +190,14 @@ services:
       - sonarr-nonanime:/config
       - ${NFS_MEDIA}/non-anime/tv:/tv
       - ${DOWNLOADS_DIR}:/downloads
+    labels:
+      pangolin.proxy-resources.sonarr-nonanime.name: Sonarr (Others)
+      pangolin.proxy-resources.sonarr-nonanime.protocol: http
+      pangolin.proxy-resources.sonarr-nonanime.full-domain: sonarr-nonanime.ryanmalonzo.com
+      pangolin.proxy-resources.sonarr-nonanime.auth.sso-enabled: true
+      pangolin.proxy-resources.sonarr-nonanime.targets[0].hostname: 192.168.1.253
+      pangolin.proxy-resources.sonarr-nonanime.targets[0].port: 8990
+      pangolin.proxy-resources.sonarr-nonanime.targets[0].method: http
 
   profilarr-nonanime:
     <<: *profilarr-base
@@ -140,6 +206,14 @@ services:
       - "6869:6868"
     volumes:
       - profilarr-nonanime:/config
+    labels:
+      pangolin.proxy-resources.profilarr-nonanime.name: Profilarr (Others)
+      pangolin.proxy-resources.profilarr-nonanime.protocol: http
+      pangolin.proxy-resources.profilarr-nonanime.full-domain: profilarr-nonanime.ryanmalonzo.com
+      pangolin.proxy-resources.profilarr-nonanime.auth.sso-enabled: true
+      pangolin.proxy-resources.profilarr-nonanime.targets[0].hostname: 192.168.1.253
+      pangolin.proxy-resources.profilarr-nonanime.targets[0].port: 6869
+      pangolin.proxy-resources.profilarr-nonanime.targets[0].method: http
 
 volumes:
   jellyfin-cache:

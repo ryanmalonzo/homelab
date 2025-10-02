@@ -10,4 +10,12 @@ services:
       - ./configs/config.yaml:/config/config.yaml
     environment:
       - DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL}
+    labels:
+      pangolin.proxy-resources.gatus.name: Gatus
+      pangolin.proxy-resources.gatus.protocol: http
+      pangolin.proxy-resources.gatus.full-domain: gatus.ryanmalonzo.com
+      pangolin.proxy-resources.gatus.auth.sso-enabled: true
+      pangolin.proxy-resources.gatus.targets[0].hostname: 192.168.1.253
+      pangolin.proxy-resources.gatus.targets[0].port: 8081
+      pangolin.proxy-resources.gatus.targets[0].method: http
     restart: unless-stopped

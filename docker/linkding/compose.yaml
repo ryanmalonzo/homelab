@@ -10,6 +10,22 @@ services:
       - LD_SUPERUSER_NAME=chaldea
       - LD_SUPERUSER_PASSWORD=${LD_SUPERUSER_PASSWORD}
       - LD_CSRF_TRUSTED_ORIGINS=https://linkding.ryanmalonzo.com
+    labels:
+      pangolin.proxy-resources.linkding.name: Linkding
+      pangolin.proxy-resources.linkding.protocol: http
+      pangolin.proxy-resources.linkding.full-domain: linkding.ryanmalonzo.com
+      pangolin.proxy-resources.linkding.auth.sso-enabled: true
+      pangolin.proxy-resources.linkding.targets[0].hostname: 192.168.1.253
+      pangolin.proxy-resources.linkding.targets[0].method: http
+      pangolin.proxy-resources.linkding.rules[0].match: path
+      pangolin.proxy-resources.linkding.rules[0].value: /api/*
+      pangolin.proxy-resources.linkding.rules[0].action: allow
+      pangolin.proxy-resources.linkding.rules[1].match: path
+      pangolin.proxy-resources.linkding.rules[1].value: /bookmarks/*
+      pangolin.proxy-resources.linkding.rules[1].action: allow
+      pangolin.proxy-resources.linkding.rules[2].match: path
+      pangolin.proxy-resources.linkding.rules[2].value: /admin/*
+      pangolin.proxy-resources.linkding.rules[2].action: deny
     restart: unless-stopped
 
 volumes:
