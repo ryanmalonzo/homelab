@@ -12,6 +12,7 @@ services:
       - NEWT_SECRET={{ lookup('env', 'NEWT_SECRET') }}
       - DOCKER_SOCKET=/run/proxy/docker.sock
     networks:
+      - newt
       - socket-proxy
     restart: unless-stopped
 
@@ -20,5 +21,7 @@ volumes:
     external: true
 
 networks:
+  newt:
+    external: true
   socket-proxy:
     external: true

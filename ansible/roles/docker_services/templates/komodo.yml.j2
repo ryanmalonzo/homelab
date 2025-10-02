@@ -10,6 +10,8 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${KOMODO_DB_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${KOMODO_DB_PASSWORD}
+    networks:
+      - komodo
     labels:
       komodo.skip: # Prevent Komodo from stopping with StopAllContainers
     restart: unless-stopped
@@ -27,6 +29,9 @@ services:
       KOMODO_DATABASE_PASSWORD: ${KOMODO_DB_PASSWORD}
     volumes:
       - komodo-backups:/backups
+    networks:
+      - komodo
+      - newt
     labels:
       komodo.skip:
       pangolin.proxy-resources.komodo.name: Komodo
@@ -43,6 +48,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /proc:/proc
       - /etc/komodo:/etc/komodo
+    networks:
+      - komodo
     labels:
       komodo.skip:
     restart: unless-stopped
@@ -51,3 +58,8 @@ volumes:
   komodo-backups:
   mongo-data:
   mongo-config:
+
+networks:
+  komodo:
+  newt:
+    external: true
