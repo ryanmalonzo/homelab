@@ -1,0 +1,81 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "prHourlyLimit": 0,
+  "prConcurrentLimit": 0,
+  "semanticCommits": "enabled",
+  "assignees": ["ryanmalonzo"],
+  "reviewers": ["ryanmalonzo"],
+  "labels": ["dependencies", "renovate"],
+  "timezone": "Europe/Paris",
+  "schedule": ["* 0-4 * * *"],
+  "packageRules": [
+    {
+      "description": "Automerge non-breaking Docker updates",
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true
+    },
+    {
+      "description": "Group major Docker updates for review",
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["major"],
+      "groupName": "Docker major updates",
+      "automerge": false
+    },
+    {
+      "description": "Pin digest updates",
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["digest"],
+      "enabled": false
+    }
+  ],
+  "docker-compose": {
+    "managerFilePatterns": ["/docker/.+/compose\\.ya?ml$", "/compose\\.ya?ml$"]
+  },
+  "customManagers": [
+    {
+      "description": "Update Docker images in Ansible Jinja2 templates",
+      "customType": "regex",
+      "managerFilePatterns": ["/ansible/roles/.+/templates/.+\\.ya?ml\\.j2$"],
+      "matchStrings": ["image:\\s*(?<depName>[^:]+):(?<currentValue>[^\\s]+)"],
+      "datasourceTemplate": "docker"
+    },
+    {
+      "description": "Update Docker images in direct YAML files under ansible/",
+      "customType": "regex",
+      "managerFilePatterns": ["/ansible/.+\\.ya?ml$"],
+      "matchStrings": ["image:\\s*(?<depName>[^:]+):(?<currentValue>[^\\s]+)"],
+      "datasourceTemplate": "docker"
+    },
+    {
+      "description": "Update Docker images in Ansible anchors with custom tag format",
+      "customType": "regex",
+      "managerFilePatterns": ["/docker/.+/compose\\.ya?ml$"],
+      "matchStrings": ["image:\\s*(?<depName>[^:]+):(?<currentValue>[^\\s]+)"],
+      "datasourceTemplate": "docker"
+    }
+  ],
+  "hostRules": [
+    {
+      "matchHost": "ghcr.io",
+      "hostType": "docker"
+    },
+    {
+      "matchHost": "registry.hub.docker.com",
+      "hostType": "docker"
+    },
+    {
+      "matchHost": "docker.io",
+      "hostType": "docker"
+    },
+    {
+      "matchHost": "lscr.io",
+      "hostType": "docker"
+    }
+  ],
+  "ignoreDeps": [],
+  "ignorePaths": ["**/node_modules/**", "**/bower_components/**", ".git/**"]
+}
