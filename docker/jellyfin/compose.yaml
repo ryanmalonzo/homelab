@@ -76,7 +76,7 @@ services:
       pangolin.proxy-resources.jellyseerr.name: Jellyseerr
       pangolin.proxy-resources.jellyseerr.protocol: http
       pangolin.proxy-resources.jellyseerr.full-domain: jellyseerr.ryanmalonzo.com
-      pangolin.proxy-resources.jellyseerr.auth.sso-enabled: true
+      pangolin.proxy-resources.jellyseerr.auth.sso-enabled: false
       pangolin.proxy-resources.jellyseerr.targets[0].hostname: 192.168.1.253
       pangolin.proxy-resources.jellyseerr.targets[0].method: http
 
