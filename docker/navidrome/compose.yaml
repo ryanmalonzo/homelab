@@ -1,0 +1,32 @@
+services:
+  navidrome:
+    image: ghcr.io/navidrome/navidrome:0.58.0
+    container_name: navidrome
+    user: ${PUID}:${PGID}
+    ports:
+      - "4533:4533"
+    environment:
+      ND_SCANSCHEDULE: 1h
+      ND_LOGLEVEL: info
+      ND_SESSIONTIMEOUT: 24h
+      ND_BASEURL: https://navidrome.ryanmalonzo.com
+      ND_ENABLEINSIGHTSCOLLECTOR: false
+      ND_DEFAULTTHEME: Spotify-ish
+      ND_TRANSCODINGCACHESIZE: 512MB
+    volumes:
+      - "navidrome:/data"
+      - "${NFS_MUSIC}:/music:ro"
+    labels:
+      pangolin.proxy-resources.navidrome.name: Navidrome
+      pangolin.proxy-resources.navidrome.protocol: http
+      pangolin.proxy-resources.navidrome.full-domain: navidrome.ryanmalonzo.com
+      pangolin.proxy-resources.navidrome.auth.sso-enabled: true
+      pangolin.proxy-resources.navidrome.targets[0].hostname: 192.168.1.253
+      pangolin.proxy-resources.navidrome.targets[0].method: http
+      pangolin.proxy-resources.navidrome.rules[0].match: path
+      pangolin.proxy-resources.navidrome.rules[0].value: /rest/*
+      pangolin.proxy-resources.navidrome.rules[0].action: allow
+    restart: unless-stopped
+
+volumes:
+  navidrome:
