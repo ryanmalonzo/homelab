@@ -33,12 +33,6 @@
       - compose.yaml
     state: present
 
-- name: Create Docker network for newt
-  community.docker.docker_network:
-    name: newt
-    state: present
-    driver: bridge
-
 - name: Ensure newt directory exists
   ansible.builtin.file:
     path: /home/chaldea/newt
