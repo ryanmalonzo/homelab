@@ -29,6 +29,11 @@ services:
       - komodo-backups:/backups
     labels:
       komodo.skip:
+      pangolin.proxy-resources.komodo.name: Komodo
+      pangolin.proxy-resources.komodo.protocol: http
+      pangolin.proxy-resources.komodo.full-domain: komodo.ryanmalonzo.com
+      pangolin.proxy-resources.komodo.auth.sso-enabled: true
+      pangolin.proxy-resources.komodo.targets[0].method: http
     restart: unless-stopped
 
   periphery:
