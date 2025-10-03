@@ -9,14 +9,13 @@
   "labels": ["dependencies", "renovate"],
   "timezone": "Europe/Paris",
   "schedule": ["* 0-4 * * *"],
+  "ignoreTests": true,
   "packageRules": [
     {
       "description": "Automerge non-breaking Docker updates",
       "matchDatasources": ["docker"],
       "matchUpdateTypes": ["minor", "patch"],
-      "automerge": true,
-      "automergeType": "pr",
-      "platformAutomerge": true
+      "automerge": true
     },
     {
       "description": "Group major Docker updates for review",
