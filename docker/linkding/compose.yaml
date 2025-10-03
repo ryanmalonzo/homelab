@@ -1,6 +1,6 @@
 services:
   linkding:
-    image: ghcr.io/sissbruecker/linkding:1.42.0
+    image: ghcr.io/sissbruecker/linkding:1.43.0
     container_name: linkding
     ports:
       - "9090:9090"
