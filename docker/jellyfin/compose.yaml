@@ -84,136 +84,226 @@ services:
     <<: *linuxserver-base
     image: lscr.io/linuxserver/prowlarr:2.0.5
     container_name: prowlarr
-    ports:
-      - "9696:9696"
+    network_mode: service:tailscale-prowlarr
+    depends_on:
+      - tailscale-prowlarr
     volumes:
       - prowlarr:/config
-    labels:
-      pangolin.proxy-resources.prowlarr.name: Prowlarr
-      pangolin.proxy-resources.prowlarr.protocol: http
-      pangolin.proxy-resources.prowlarr.full-domain: prowlarr.ryanmalonzo.com
-      pangolin.proxy-resources.prowlarr.auth.sso-enabled: true
-      pangolin.proxy-resources.prowlarr.targets[0].hostname: 192.168.1.253
-      pangolin.proxy-resources.prowlarr.targets[0].method: http
+
+  tailscale-prowlarr:
+    image: ghcr.io/tailscale/tailscale:v1.88.3
+    container_name: tailscale-prowlarr
+    hostname: prowlarr
+    volumes:
+      - tailscale-prowlarr:/var/lib/tailscale
+      - ./tailscale/prowlarr.json:/tailscale/prowlarr.json
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_SERVE_CONFIG=/tailscale/prowlarr.json
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_USERSPACE=false
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
 
   sabnzbd:
     <<: *linuxserver-base
     image: lscr.io/linuxserver/sabnzbd:4.5.3
     container_name: sabnzbd
-    ports:
-      - "8080:8080"
+    network_mode: service:tailscale-sabnzbd
+    depends_on:
+      - tailscale-sabnzbd
     volumes:
       - sabnzbd:/config
       - ${INCOMPLETE_DOWNLOADS_DIR}:/incomplete-downloads
       - ${DOWNLOADS_DIR}:/downloads
-    labels:
-      pangolin.proxy-resources.sabnzbd.name: SABnzbd
-      pangolin.proxy-resources.sabnzbd.protocol: http
-      pangolin.proxy-resources.sabnzbd.full-domain: sabnzbd.ryanmalonzo.com
-      pangolin.proxy-resources.sabnzbd.auth.sso-enabled: true
-      pangolin.proxy-resources.sabnzbd.targets[0].hostname: 192.168.1.253
-      pangolin.proxy-resources.sabnzbd.targets[0].method: http
+
+  tailscale-sabnzbd:
+    image: ghcr.io/tailscale/tailscale:v1.88.3
+    container_name: tailscale-sabnzbd
+    hostname: sabnzbd
+    volumes:
+      - tailscale-sabnzbd:/var/lib/tailscale
+      - ./tailscale/sabnzbd.json:/tailscale/sabnzbd.json
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_SERVE_CONFIG=/tailscale/sabnzbd.json
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_USERSPACE=false
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
 
   radarr:
     <<: *radarr-base
     container_name: radarr
-    ports:
-      - "7878:7878"
+    network_mode: service:tailscale-radarr
+    depends_on:
+      - tailscale-radarr
     volumes:
       - radarr:/config
       - ${NFS_MEDIA}/anime/movies:/movies
       - ${DOWNLOADS_DIR}:/downloads
-    labels:
-      pangolin.proxy-resources.radarr.name: Radarr
-      pangolin.proxy-resources.radarr.protocol: http
-      pangolin.proxy-resources.radarr.full-domain: radarr.ryanmalonzo.com
-      pangolin.proxy-resources.radarr.auth.sso-enabled: true
-      pangolin.proxy-resources.radarr.targets[0].hostname: 192.168.1.253
-      pangolin.proxy-resources.radarr.targets[0].method: http
+
+  tailscale-radarr:
+    image: ghcr.io/tailscale/tailscale:v1.88.3
+    container_name: tailscale-radarr
+    hostname: radarr
+    volumes:
+      - tailscale-radarr:/var/lib/tailscale
+      - ./tailscale/radarr.json:/tailscale/radarr.json
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_SERVE_CONFIG=/tailscale/radarr.json
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_USERSPACE=false
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
 
   sonarr:
     <<: *sonarr-base
     container_name: sonarr
-    ports:
-      - "8989:8989"
     volumes:
       - sonarr:/config
       - ${NFS_MEDIA}/anime/tv:/tv
       - ${DOWNLOADS_DIR}:/downloads
-    labels:
-      pangolin.proxy-resources.sonarr.name: Sonarr
-      pangolin.proxy-resources.sonarr.protocol: http
-      pangolin.proxy-resources.sonarr.full-domain: sonarr.ryanmalonzo.com
-      pangolin.proxy-resources.sonarr.auth.sso-enabled: true
-      pangolin.proxy-resources.sonarr.targets[0].hostname: 192.168.1.253
-      pangolin.proxy-resources.sonarr.targets[0].method: http
+
+  tailscale-sonarr:
+    image: ghcr.io/tailscale/tailscale:v1.88.3
+    container_name: tailscale-sonarr
+    hostname: sonarr
+    volumes:
+      - tailscale-sonarr:/var/lib/tailscale
+      - ./tailscale/sonarr.json:/tailscale/sonarr.json
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_SERVE_CONFIG=/tailscale/sonarr.json
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_USERSPACE=false
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
 
   profilarr:
     <<: *profilarr-base
     container_name: profilarr
-    ports:
-      - "6868:6868"
+    network_mode: service:tailscale-profilarr
+    depends_on:
+      - tailscale-profilarr
     volumes:
       - profilarr:/config
-    labels:
-      pangolin.proxy-resources.profilarr.name: Profilarr
-      pangolin.proxy-resources.profilarr.protocol: http
-      pangolin.proxy-resources.profilarr.full-domain: profilarr.ryanmalonzo.com
-      pangolin.proxy-resources.profilarr.auth.sso-enabled: true
-      pangolin.proxy-resources.profilarr.targets[0].hostname: 192.168.1.253
-      pangolin.proxy-resources.profilarr.targets[0].method: http
+
+  tailscale-profilarr:
+    image: ghcr.io/tailscale/tailscale:v1.88.3
+    container_name: tailscale-profilarr
+    hostname: profilarr
+    volumes:
+      - tailscale-profilarr:/var/lib/tailscale
+      - ./tailscale/profilarr.json:/tailscale/profilarr.json
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_SERVE_CONFIG=/tailscale/profilarr.json
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_USERSPACE=false
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
 
   radarr-nonanime:
     <<: *radarr-base
     container_name: radarr-nonanime
-    ports:
-      - "7879:7878"
+    network_mode: service:tailscale-radarr-nonanime
+    depends_on:
+      - tailscale-radarr-nonanime
     volumes:
       - radarr-nonanime:/config
       - ${NFS_MEDIA}/non-anime/movies:/movies
       - ${DOWNLOADS_DIR}:/downloads
-    labels:
-      pangolin.proxy-resources.radarr-nonanime.name: Radarr (Others)
-      pangolin.proxy-resources.radarr-nonanime.protocol: http
-      pangolin.proxy-resources.radarr-nonanime.full-domain: radarr-nonanime.ryanmalonzo.com
-      pangolin.proxy-resources.radarr-nonanime.auth.sso-enabled: true
-      pangolin.proxy-resources.radarr-nonanime.targets[0].hostname: 192.168.1.253
-      pangolin.proxy-resources.radarr-nonanime.targets[0].port: 7879
-      pangolin.proxy-resources.radarr-nonanime.targets[0].method: http
+
+  tailscale-radarr-nonanime:
+    image: ghcr.io/tailscale/tailscale:v1.88.3
+    container_name: tailscale-radarr-nonanime
+    hostname: radarr-nonanime
+    volumes:
+      - tailscale-radarr-nonanime:/var/lib/tailscale
+      - ./tailscale/radarr-nonanime.json:/tailscale/radarr-nonanime.json
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_SERVE_CONFIG=/tailscale/radarr-nonanime.json
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_USERSPACE=false
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
 
   sonarr-nonanime:
     <<: *sonarr-base
     container_name: sonarr-nonanime
-    ports:
-      - "8990:8989"
+    network_mode: service:tailscale-sonarr-nonanime
+    depends_on:
+      - tailscale-sonarr-nonanime
     volumes:
       - sonarr-nonanime:/config
       - ${NFS_MEDIA}/non-anime/tv:/tv
       - ${DOWNLOADS_DIR}:/downloads
-    labels:
-      pangolin.proxy-resources.sonarr-nonanime.name: Sonarr (Others)
-      pangolin.proxy-resources.sonarr-nonanime.protocol: http
-      pangolin.proxy-resources.sonarr-nonanime.full-domain: sonarr-nonanime.ryanmalonzo.com
-      pangolin.proxy-resources.sonarr-nonanime.auth.sso-enabled: true
-      pangolin.proxy-resources.sonarr-nonanime.targets[0].hostname: 192.168.1.253
-      pangolin.proxy-resources.sonarr-nonanime.targets[0].port: 8990
-      pangolin.proxy-resources.sonarr-nonanime.targets[0].method: http
+
+  tailscale-sonarr-nonanime:
+    image: ghcr.io/tailscale/tailscale:v1.88.3
+    container_name: tailscale-sonarr-nonanime
+    hostname: sonarr-nonanime
+    volumes:
+      - tailscale-sonarr-nonanime:/var/lib/tailscale
+      - ./tailscale/sonarr-nonanime.json:/tailscale/sonarr-nonanime.json
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_SERVE_CONFIG=/tailscale/sonarr-nonanime.json
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_USERSPACE=false
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
 
   profilarr-nonanime:
     <<: *profilarr-base
     container_name: profilarr-nonanime
-    ports:
-      - "6869:6868"
+    network_mode: service:tailscale-profilarr-nonanime
+    depends_on:
+      - tailscale-profilarr-nonanime
     volumes:
       - profilarr-nonanime:/config
-    labels:
-      pangolin.proxy-resources.profilarr-nonanime.name: Profilarr (Others)
-      pangolin.proxy-resources.profilarr-nonanime.protocol: http
-      pangolin.proxy-resources.profilarr-nonanime.full-domain: profilarr-nonanime.ryanmalonzo.com
-      pangolin.proxy-resources.profilarr-nonanime.auth.sso-enabled: true
-      pangolin.proxy-resources.profilarr-nonanime.targets[0].hostname: 192.168.1.253
-      pangolin.proxy-resources.profilarr-nonanime.targets[0].port: 6869
-      pangolin.proxy-resources.profilarr-nonanime.targets[0].method: http
+
+  tailscale-profilarr-nonanime:
+    image: ghcr.io/tailscale/tailscale:v1.88.3
+    container_name: tailscale-profilarr-nonanime
+    hostname: profilarr-nonanime
+    volumes:
+      - tailscale-profilarr-nonanime:/var/lib/tailscale
+      - ./tailscale/profilarr-nonanime.json:/tailscale/profilarr-nonanime.json
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_SERVE_CONFIG=/tailscale/profilarr-nonanime.json
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_USERSPACE=false
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
 
 volumes:
   jellyfin-cache:
@@ -222,9 +312,16 @@ volumes:
   profilarr:
   profilarr-nonanime:
   prowlarr:
-  qbittorrent:
   radarr:
   radarr-nonanime:
   sabnzbd:
   sonarr:
   sonarr-nonanime:
+  tailscale-profilarr:
+  tailscale-profilarr-nonanime:
+  tailscale-prowlarr:
+  tailscale-radarr:
+  tailscale-radarr-nonanime:
+  tailscale-sabnzbd:
+  tailscale-sonarr:
+  tailscale-sonarr-nonanime:
