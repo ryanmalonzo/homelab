@@ -19,10 +19,10 @@ services:
     hostname: subtrackr
     volumes:
       - tailscale-subtrackr:/var/lib/tailscale
-      - ./config/tailscale.json:/config/tailscale.json
+      - ./tailscale/subtrackr.json:/tailscale/subtrackr.json
     environment:
       - TS_AUTHKEY=${TS_AUTHKEY}
-      - TS_SERVE_CONFIG=/config/tailscale.json
+      - TS_SERVE_CONFIG=/tailscale/subtrackr.json
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_USERSPACE=false
     devices:
