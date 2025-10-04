@@ -4,7 +4,6 @@
   "prHourlyLimit": 0,
   "prConcurrentLimit": 0,
   "semanticCommits": "enabled",
-  "assignees": ["ryanmalonzo"],
   "reviewers": ["ryanmalonzo"],
   "labels": ["dependencies", "renovate"],
   "timezone": "Europe/Paris",
