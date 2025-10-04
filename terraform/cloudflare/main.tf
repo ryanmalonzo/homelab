@@ -16,7 +16,8 @@ locals {
     "komodo",
     "gatus",
     "linkding",
-    "navidrome"
+    "navidrome",
+    "memos"
   ]
 
   dns_records = concat(

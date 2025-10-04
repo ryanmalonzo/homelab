@@ -1,0 +1,25 @@
+name: memos
+
+services:
+  memos:
+    image: ghcr.io/usememos/memos:0.25.1
+    container_name: memos
+    ports:
+      - "5230:5230"
+    volumes:
+      - memos:/var/opt/memos
+    environment:
+      - MEMOS_MODE=prod
+      - MEMOS_PORT=5230
+    labels:
+      pangolin.proxy-resources.memos.name: Memos
+      pangolin.proxy-resources.memos.protocol: http
+      pangolin.proxy-resources.memos.full-domain: memos.ryanmalonzo.com
+      pangolin.proxy-resources.memos.auth.sso-enabled: true
+      pangolin.proxy-resources.memos.targets[0].hostname: 192.168.1.253
+      pangolin.proxy-resources.memos.targets[0].port: 5230
+      pangolin.proxy-resources.memos.targets[0].method: http
+    restart: unless-stopped
+
+volumes:
+  memos:
