@@ -3,6 +3,7 @@ name: subtrackr
 services:
   subtrackr:
     image: ghcr.io/bscott/subtrackr:0.4.4
+    container_name: subtrackr
     network_mode: service:tailscale-subtrackr
     depends_on:
       - tailscale-subtrackr
