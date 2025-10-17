@@ -170,6 +170,9 @@ services:
   sonarr:
     <<: *sonarr-base
     container_name: sonarr
+    network_mode: service:tailscale-sonarr
+    depends_on:
+      - tailscale-sonarr
     volumes:
       - sonarr:/config
       - ${NFS_MEDIA}/anime/tv:/tv
