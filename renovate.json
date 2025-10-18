@@ -9,6 +9,7 @@
   "timezone": "Europe/Paris",
   "schedule": ["* 0-4 * * *"],
   "ignoreTests": true,
+  "enabledManagers": ["docker-compose", "regex"],
   "packageRules": [
     {
       "description": "Automerge non-breaking Docker updates",
