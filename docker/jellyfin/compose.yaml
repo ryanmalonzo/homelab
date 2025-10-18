@@ -240,10 +240,10 @@ services:
     hostname: radarr-nonanime
     volumes:
       - tailscale-radarr-nonanime:/var/lib/tailscale
-      - ./tailscale/radarr-nonanime.json:/tailscale/radarr-nonanime.json
+      - ./tailscale/radarr.json:/tailscale/radarr.json
     environment:
       - TS_AUTHKEY=${TS_AUTHKEY}
-      - TS_SERVE_CONFIG=/tailscale/radarr-nonanime.json
+      - TS_SERVE_CONFIG=/tailscale/radarr.json
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_USERSPACE=false
     devices:
@@ -269,10 +269,10 @@ services:
     hostname: sonarr-nonanime
     volumes:
       - tailscale-sonarr-nonanime:/var/lib/tailscale
-      - ./tailscale/sonarr-nonanime.json:/tailscale/sonarr-nonanime.json
+      - ./tailscale/sonarr.json:/tailscale/sonarr.json
     environment:
       - TS_AUTHKEY=${TS_AUTHKEY}
-      - TS_SERVE_CONFIG=/tailscale/sonarr-nonanime.json
+      - TS_SERVE_CONFIG=/tailscale/sonarr.json
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_USERSPACE=false
     devices:
@@ -296,10 +296,10 @@ services:
     hostname: profilarr-nonanime
     volumes:
       - tailscale-profilarr-nonanime:/var/lib/tailscale
-      - ./tailscale/profilarr-nonanime.json:/tailscale/profilarr-nonanime.json
+      - ./tailscale/profilarr.json:/tailscale/profilarr.json
     environment:
       - TS_AUTHKEY=${TS_AUTHKEY}
-      - TS_SERVE_CONFIG=/tailscale/profilarr-nonanime.json
+      - TS_SERVE_CONFIG=/tailscale/profilarr.json
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_USERSPACE=false
     devices:
