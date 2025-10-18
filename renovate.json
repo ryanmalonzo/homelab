@@ -1,59 +1,99 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended"],
+  "extends": [
+    "config:recommended"
+  ],
   "prHourlyLimit": 0,
   "prConcurrentLimit": 0,
   "semanticCommits": "enabled",
-  "reviewers": ["ryanmalonzo"],
-  "labels": ["dependencies", "renovate"],
+  "reviewers": [
+    "ryanmalonzo"
+  ],
+  "labels": [
+    "dependencies",
+    "renovate"
+  ],
   "timezone": "Europe/Paris",
-  "schedule": ["* 0-4 * * *"],
+  "schedule": [
+    "* 0-4 * * *"
+  ],
   "ignoreTests": true,
-  "enabledManagers": ["docker-compose", "regex"],
+  "enabledManagers": [
+    "docker-compose",
+    "custom.regex"
+  ],
   "packageRules": [
     {
       "description": "Automerge non-breaking Docker updates",
-      "matchDatasources": ["docker"],
-      "matchUpdateTypes": ["minor", "patch"],
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
       "automerge": true
     },
     {
       "description": "Group major Docker updates for review",
-      "matchDatasources": ["docker"],
-      "matchUpdateTypes": ["major"],
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
       "groupName": "Docker major updates",
       "automerge": false
     },
     {
       "description": "Pin digest updates",
-      "matchDatasources": ["docker"],
-      "matchUpdateTypes": ["digest"],
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchUpdateTypes": [
+        "digest"
+      ],
       "enabled": false
     }
   ],
   "docker-compose": {
-    "managerFilePatterns": ["/docker/.+/compose\\.ya?ml$", "/compose\\.ya?ml$"]
+    "managerFilePatterns": [
+      "/docker/.+/compose\\.ya?ml$",
+      "/compose\\.ya?ml$"
+    ]
   },
   "customManagers": [
     {
       "description": "Update Docker images in Ansible Jinja2 templates",
       "customType": "regex",
-      "managerFilePatterns": ["/ansible/roles/.+/templates/.+\\.ya?ml\\.j2$"],
-      "matchStrings": ["image:\\s*(?<depName>[^:]+):(?<currentValue>[^\\s]+)"],
+      "managerFilePatterns": [
+        "/ansible/roles/.+/templates/.+\\.ya?ml\\.j2$"
+      ],
+      "matchStrings": [
+        "image:\\s*(?<depName>[^:]+):(?<currentValue>[^\\s]+)"
+      ],
       "datasourceTemplate": "docker"
     },
     {
       "description": "Update Docker images in direct YAML files under ansible/",
       "customType": "regex",
-      "managerFilePatterns": ["/ansible/.+\\.ya?ml$"],
-      "matchStrings": ["image:\\s*(?<depName>[^:]+):(?<currentValue>[^\\s]+)"],
+      "managerFilePatterns": [
+        "/ansible/.+\\.ya?ml$"
+      ],
+      "matchStrings": [
+        "image:\\s*(?<depName>[^:]+):(?<currentValue>[^\\s]+)"
+      ],
       "datasourceTemplate": "docker"
     },
     {
       "description": "Update Docker images in Ansible anchors with custom tag format",
       "customType": "regex",
-      "managerFilePatterns": ["/docker/.+/compose\\.ya?ml$"],
-      "matchStrings": ["image:\\s*(?<depName>[^:]+):(?<currentValue>[^\\s]+)"],
+      "managerFilePatterns": [
+        "/docker/.+/compose\\.ya?ml$"
+      ],
+      "matchStrings": [
+        "image:\\s*(?<depName>[^:]+):(?<currentValue>[^\\s]+)"
+      ],
       "datasourceTemplate": "docker"
     }
   ],
@@ -76,5 +116,9 @@
     }
   ],
   "ignoreDeps": [],
-  "ignorePaths": ["**/node_modules/**", "**/bower_components/**", ".git/**"]
+  "ignorePaths": [
+    "**/node_modules/**",
+    "**/bower_components/**",
+    ".git/**"
+  ]
 }
