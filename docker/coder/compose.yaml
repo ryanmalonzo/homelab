@@ -2,31 +2,33 @@ name: coder
 
 services:
   coder:
-    image: ghcr.io/coder/coder:v2.26.0
+    image: ghcr.io/coder/coder:v2.26.2
     container_name: coder
-    ports:
-      - "7080:7080"
+    network_mode: service:tailscale-coder
+    depends_on:
+      tailscale-coder:
+        condition: service_started
+      database:
+        condition: service_healthy
     environment:
       CODER_PG_CONNECTION_URL: "postgresql://chaldea:${POSTGRES_PASSWORD}@database/coder?sslmode=disable"
       CODER_HTTP_ADDRESS: "0.0.0.0:7080"
-      CODER_ACCESS_URL: https://coder.ryanmalonzo.com
+      CODER_ACCESS_URL: https://coder.owl-augmented.ts.net
     group_add:
       - "1000" # docker group on host
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - coder_home:/home/coder
-    depends_on:
-      database:
-        condition: service_healthy
+      - coder-home:/home/coder
+    restart: unless-stopped
 
   database:
-    image: postgres:17
+    image: postgres:18.0
     environment:
       POSTGRES_USER: chaldea
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: coder
     volumes:
-      - coder_data:/var/lib/postgresql/data
+      - coder-data:/var/lib/postgresql/data
     healthcheck:
       test:
         [
@@ -36,7 +38,27 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    restart: unless-stopped
+
+  tailscale-coder:
+    image: ghcr.io/tailscale/tailscale:v1.88.4
+    container_name: tailscale-coder
+    hostname: coder
+    volumes:
+      - tailscale-coder:/var/lib/tailscale
+      - ./tailscale/coder.json:/tailscale/coder.json
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_SERVE_CONFIG=/tailscale/coder.json
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_USERSPACE=false
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
 
 volumes:
-  coder_data:
-  coder_home:
+  coder-data:
+  coder-home:
+  tailscale-coder:
