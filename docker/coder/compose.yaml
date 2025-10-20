@@ -14,6 +14,8 @@ services:
       CODER_PG_CONNECTION_URL: "postgresql://chaldea:${POSTGRES_PASSWORD}@database/coder?sslmode=disable"
       CODER_HTTP_ADDRESS: "0.0.0.0:7080"
       CODER_ACCESS_URL: https://coder.owl-augmented.ts.net
+      CODER_BLOCK_DIRECT: true
+      CODER_DERP_FORCE_WEBSOCKETS: true
     group_add:
       - "1000" # docker group on host
     volumes:
