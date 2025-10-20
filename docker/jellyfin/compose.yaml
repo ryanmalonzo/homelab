@@ -15,7 +15,7 @@ x-linuxserver-base: &linuxserver-base
 
 x-radarr-base: &radarr-base
   <<: *linuxserver-base
-  image: lscr.io/linuxserver/radarr:5.27.5
+  image: lscr.io/linuxserver/radarr:5.28.0
 
 x-sonarr-base: &sonarr-base
   <<: *linuxserver-base
