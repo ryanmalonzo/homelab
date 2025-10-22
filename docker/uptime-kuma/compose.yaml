@@ -1,0 +1,29 @@
+name: uptime-kuma
+
+services:
+  uptime-kuma:
+    image: louislam/uptime-kuma:2.0.2
+    container_name: uptime-kuma
+    ports:
+      - "3001:3001"
+    volumes:
+      - uptime-kuma:/app/data
+      - "socket-proxy:/var/run"
+    labels:
+      pangolin.proxy-resources.uptime-kuma.name: Uptime Kuma
+      pangolin.proxy-resources.uptime-kuma.protocol: http
+      pangolin.proxy-resources.uptime-kuma.full-domain: status.ryanmalonzo.com
+      pangolin.proxy-resources.uptime-kuma.auth.sso-enabled: true
+      pangolin.proxy-resources.uptime-kuma.targets[0].hostname: 192.168.1.253
+      pangolin.proxy-resources.uptime-kuma.targets[0].port: 3001
+      pangolin.proxy-resources.uptime-kuma.targets[0].method: http
+    restart: unless-stopped
+
+volumes:
+  socket-proxy:
+    external: true
+  uptime-kuma:
+
+networks:
+  socket-proxy:
+    external: true
