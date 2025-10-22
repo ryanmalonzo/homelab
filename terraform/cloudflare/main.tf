@@ -10,7 +10,6 @@ locals {
     "navidrome",
     "memos",
     "pdf",
-    "coder"
   ]
 
   dns_records = concat(
