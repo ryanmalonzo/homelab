@@ -19,6 +19,7 @@ services:
       pangolin.proxy-resources.stirling-pdf.targets[0].hostname: 192.168.1.253
       pangolin.proxy-resources.stirling-pdf.targets[0].port: 8080
       pangolin.proxy-resources.stirling-pdf.targets[0].method: http
+    restart: unless-stopped
 
 volumes:
   stirling-pdf:
