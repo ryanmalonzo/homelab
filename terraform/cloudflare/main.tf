@@ -6,7 +6,6 @@ locals {
     "jellyfin",
     "jellyseerr",
     "komodo",
-    "gatus",
     "linkding",
     "navidrome",
     "memos",
