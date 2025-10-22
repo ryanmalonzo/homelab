@@ -53,6 +53,9 @@ services:
       pangolin.proxy-resources.jellyfin.targets[0].hostname: 192.168.1.253
       pangolin.proxy-resources.jellyfin.targets[0].port: 8096
       pangolin.proxy-resources.jellyfin.targets[0].method: http
+      pangolin.proxy-resources.jellyfin.rules[0].match: path
+      pangolin.proxy-resources.jellyfin.rules[0].value: /health
+      pangolin.proxy-resources.jellyfin.rules[0].action: allow
 
   jellyseerr:
     <<: *restart-policy
