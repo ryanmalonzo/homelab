@@ -30,6 +30,9 @@ services:
       pangolin.proxy-resources.vaultwarden.rules[3].match: path
       pangolin.proxy-resources.vaultwarden.rules[3].value: /admin/*
       pangolin.proxy-resources.vaultwarden.rules[3].action: deny
+      pangolin.proxy-resources.vaultwarden.rules[4].match: path
+      pangolin.proxy-resources.vaultwarden.rules[4].value: /alive
+      pangolin.proxy-resources.vaultwarden.rules[4].action: allow
     restart: unless-stopped
 
 volumes:
