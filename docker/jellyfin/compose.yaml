@@ -116,7 +116,7 @@ services:
 
   sabnzbd:
     <<: *linuxserver-base
-    image: lscr.io/linuxserver/sabnzbd:4.5.4
+    image: lscr.io/linuxserver/sabnzbd:4.5.5
     container_name: sabnzbd
     network_mode: service:tailscale-sabnzbd
     depends_on:
