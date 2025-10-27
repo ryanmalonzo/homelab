@@ -88,7 +88,7 @@ services:
 
   prowlarr:
     <<: *linuxserver-base
-    image: lscr.io/linuxserver/prowlarr:2.0.5
+    image: lscr.io/linuxserver/prowlarr:2.1.5
     container_name: prowlarr
     network_mode: service:tailscale-prowlarr
     depends_on:
