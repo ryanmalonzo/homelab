@@ -1,0 +1,36 @@
+name: redlib
+
+services:
+  redlib:
+    image: quay.io/redlib/redlib:sha-2dc6b5f
+    container_name: "redlib"
+    ports:
+      - 8081:8080
+    user: nobody
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    env_file: .env
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "--spider",
+          "-q",
+          "--tries=1",
+          "http://localhost:8080/settings",
+        ]
+      interval: 5m
+      timeout: 3s
+    labels:
+      pangolin.proxy-resources.redlib.name: Redlib
+      pangolin.proxy-resources.redlib.protocol: http
+      pangolin.proxy-resources.redlib.full-domain: redlib.ryanmalonzo.com
+      pangolin.proxy-resources.redlib.auth.sso-enabled: true
+      pangolin.proxy-resources.redlib.targets[0].hostname: 192.168.1.253
+      pangolin.proxy-resources.redlib.targets[0].port: 8081
+      pangolin.proxy-resources.redlib.targets[0].method: http
+    restart: unless-stopped
