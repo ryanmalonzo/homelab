@@ -1,0 +1,7 @@
+---
+docker_cron_prune_minute: "0"
+docker_cron_prune_hour: "3"
+docker_cron_prune_day: "*"
+docker_cron_prune_weekday: "*"
+docker_cron_prune_month: "*"
+docker_cron_prune_until: "24h"

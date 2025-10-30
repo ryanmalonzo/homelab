@@ -5,3 +5,4 @@
   roles:
     - role: nfs_client
     - role: docker_services
+    - role: docker_cron_prune
