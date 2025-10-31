@@ -1,0 +1,49 @@
+name: fileflows
+
+services:
+  fileflows:
+    image: revenz/fileflows:stable
+    container_name: fileflows
+    network_mode: service:tailscale-fileflows
+    depends_on:
+      - tailscale-fileflows
+    environment:
+      - TempPathHost=fileflows-temp
+      - TZ=${TZ}
+      - PUID=${PUID}
+      - PGID=${PGID}
+    volumes:
+      - fileflows-temp:/temp
+      - fileflows-data:/app/Data
+      - fileflows-logs:/app/Logs
+      - fileflows-common:/app/common
+      - ${NFS_MEDIA}/anime/tv:/data/anime/tv
+      - ${NFS_MEDIA}/anime/movies:/data/anime/movies
+      - ${NFS_MEDIA}/non-anime/tv:/data/non-anime/tv
+      - ${NFS_MEDIA}/non-anime/movies:/data/non-anime/movies
+    restart: unless-stopped
+
+  tailscale-fileflows:
+    image: ghcr.io/tailscale/tailscale:v1.88.4
+    container_name: tailscale-fileflows
+    hostname: fileflows
+    volumes:
+      - tailscale-fileflows:/var/lib/tailscale
+      - ./tailscale/fileflows.json:/tailscale/fileflows.json
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_SERVE_CONFIG=/tailscale/fileflows.json
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_USERSPACE=false
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+
+volumes:
+  fileflows-temp:
+  fileflows-data:
+  fileflows-logs:
+  fileflows-common:
+  tailscale-fileflows:
