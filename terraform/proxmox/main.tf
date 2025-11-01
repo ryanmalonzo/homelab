@@ -51,6 +51,7 @@ resource "proxmox_virtual_environment_file" "meta_data_cloud_config" {
 
 # Create the VM
 resource "proxmox_virtual_environment_vm" "debian_vm" {
+  machine     = "q35"
   name        = var.vm_name
   description = "Debian 13 Trixie VM with Docker, NFS, and Intel graphics support"
   tags        = ["terraform", "debian", "docker"]
