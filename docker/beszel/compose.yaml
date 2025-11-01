@@ -1,0 +1,58 @@
+services:
+  beszel:
+    image: ghcr.io/henrygd/beszel/beszel:0.15.2
+    container_name: beszel
+    network_mode: service:tailscale-beszel
+    depends_on:
+      - tailscale-beszel
+    volumes:
+      - beszel-data:/beszel_data
+      - beszel-socket:/beszel_socket
+    restart: unless-stopped
+
+  beszel-agent:
+    image: ghcr.io/henrygd/beszel/beszel-agent:0.15.2
+    container_name: beszel-agent
+    network_mode: host
+    volumes:
+      - beszel-agent-data:/var/lib/beszel-agent
+      - beszel-socket:/beszel_socket
+      - socket-proxy:/var/run
+    environment:
+      LISTEN: /beszel_socket/beszel.sock
+      HUB_URL: http://localhost:8090
+      TOKEN: ${BESZEL_TOKEN}
+      KEY: ${BESZEL_KEY}
+    restart: unless-stopped
+
+  tailscale-beszel:
+    image: ghcr.io/tailscale/tailscale:v1.88.4
+    container_name: tailscale-beszel
+    hostname: beszel
+    ports:
+      - "8090:8090"
+    volumes:
+      - tailscale-beszel:/var/lib/tailscale
+      - ./tailscale/beszel.json:/tailscale/beszel.json
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_SERVE_CONFIG=/tailscale/beszel.json
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_USERSPACE=false
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+
+volumes:
+  beszel-agent-data:
+  beszel-data:
+  beszel-socket:
+  socket-proxy:
+    external: true
+  tailscale-beszel:
+
+networks:
+  socket-proxy:
+    external: true
