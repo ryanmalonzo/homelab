@@ -33,6 +33,8 @@ services:
     image: ghcr.io/jellyfin/jellyfin:10.11.1
     container_name: jellyfin
     user: ${PUID}:${PGID}
+    group_add:
+      - ${RENDER_GROUP_ID}
     ports:
       - "7359:7359/udp"
       - "8096:8096"
@@ -45,6 +47,8 @@ services:
       - ${NFS_MEDIA}/non-anime/movies:/data/non-anime/movies
     environment:
       - JELLYFIN_PublishedServerUrl=https://jellyfin.ryanmalonzo.com
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128
     labels:
       pangolin.proxy-resources.jellyfin.name: Jellyfin
       pangolin.proxy-resources.jellyfin.protocol: http
