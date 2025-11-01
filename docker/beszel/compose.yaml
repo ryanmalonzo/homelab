@@ -18,13 +18,11 @@ services:
       - beszel-agent-data:/var/lib/beszel-agent
       - beszel-socket:/beszel_socket
       - socket-proxy:/var/run
-      - /sys/class/thermal:/sys/class/thermal:ro
     environment:
       LISTEN: /beszel_socket/beszel.sock
       HUB_URL: http://localhost:8090
       TOKEN: ${BESZEL_TOKEN}
       KEY: ${BESZEL_KEY}
-      SYS_SENSORS: /sys/class/thermal
     restart: unless-stopped
 
   tailscale-beszel:
