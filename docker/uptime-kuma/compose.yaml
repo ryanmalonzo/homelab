@@ -4,24 +4,36 @@ services:
   uptime-kuma:
     image: louislam/uptime-kuma:2.0.2
     container_name: uptime-kuma
-    ports:
-      - "3001:3001"
+    network_mode: service:tailscale-uptime-kuma
+    depends_on:
+      - tailscale-uptime-kuma
     volumes:
       - uptime-kuma:/app/data
       - "socket-proxy:/var/run"
-    labels:
-      pangolin.proxy-resources.uptime-kuma.name: Uptime Kuma
-      pangolin.proxy-resources.uptime-kuma.protocol: http
-      pangolin.proxy-resources.uptime-kuma.full-domain: status.ryanmalonzo.com
-      pangolin.proxy-resources.uptime-kuma.auth.sso-enabled: true
-      pangolin.proxy-resources.uptime-kuma.targets[0].hostname: 192.168.1.253
-      pangolin.proxy-resources.uptime-kuma.targets[0].port: 3001
-      pangolin.proxy-resources.uptime-kuma.targets[0].method: http
+    restart: unless-stopped
+
+  tailscale-uptime-kuma:
+    image: ghcr.io/tailscale/tailscale:v1.88.4
+    container_name: tailscale-uptime-kuma
+    hostname: uptime-kuma
+    volumes:
+      - tailscale-uptime-kuma:/var/lib/tailscale
+      - ./tailscale/uptime-kuma.json:/tailscale/uptime-kuma.json
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_SERVE_CONFIG=/tailscale/uptime-kuma.json
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_USERSPACE=false
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - NET_ADMIN
     restart: unless-stopped
 
 volumes:
   socket-proxy:
     external: true
+  tailscale-uptime-kuma:
   uptime-kuma:
 
 networks:
