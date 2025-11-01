@@ -14,7 +14,7 @@ resource "proxmox_virtual_environment_download_file" "debian_cloud_image" {
   datastore_id = var.snippets_datastore
   node_name    = var.proxmox_node
   url          = var.debian_image_url
-  file_name    = "debian-13-genericcloud-amd64.qcow2"
+  file_name    = "debian-13-generic-amd64.qcow2"
 }
 
 # Create cloud-init user-data file
@@ -119,5 +119,19 @@ resource "proxmox_virtual_environment_vm" "debian_vm" {
     order      = "3"
     up_delay   = "60"
     down_delay = "60"
+  }
+
+  hostpci {
+    device = "hostpci0"
+    id     = "0000:00:02"
+    pcie   = true
+    rombar = true
+    xvga   = false
+  }
+
+  lifecycle {
+    ignore_changes = [
+      disk[0].file_id
+    ]
   }
 }
