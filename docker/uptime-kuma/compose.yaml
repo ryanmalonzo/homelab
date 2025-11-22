@@ -13,7 +13,7 @@ services:
     restart: unless-stopped
 
   tailscale-uptime-kuma:
-    image: ghcr.io/tailscale/tailscale:v1.90.6
+    image: ghcr.io/tailscale/tailscale:v1.90.8
     container_name: tailscale-uptime-kuma
     hostname: uptime-kuma
     volumes:
