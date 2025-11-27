@@ -16,7 +16,7 @@ services:
     restart: unless-stopped
 
   tailscale-changedetection:
-    image: ghcr.io/tailscale/tailscale:v1.90.8
+    image: ghcr.io/tailscale/tailscale:v1.90.9
     container_name: tailscale-changedetection
     hostname: changedetection
     volumes:
