@@ -26,7 +26,7 @@ services:
     restart: unless-stopped
 
   tailscale-beszel:
-    image: ghcr.io/tailscale/tailscale:v1.90.9
+    image: ghcr.io/tailscale/tailscale:v1.92.3
     container_name: tailscale-beszel
     hostname: beszel
     ports:
