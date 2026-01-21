@@ -1,6 +1,6 @@
 services:
   changedetection:
-    image: ghcr.io/dgtlmoon/changedetection.io:0.52.7
+    image: ghcr.io/dgtlmoon/changedetection.io:0.52.8
     container_name: changedetection
     network_mode: service:tailscale-changedetection
     depends_on:
