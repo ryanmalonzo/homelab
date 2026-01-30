@@ -23,7 +23,7 @@ x-sonarr-base: &sonarr-base
 
 x-profilarr-base: &profilarr-base
   <<: *restart-policy
-  image: santiagosayshey/profilarr:v1.1.3
+  image: santiagosayshey/profilarr:v1.1.4
   environment:
     TZ: ${TZ}
 
