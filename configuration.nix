@@ -15,7 +15,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Use latest kernel.
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_6_18;
 
   networking.hostName = "chaldea"; # Define your hostname.
 
@@ -131,5 +131,13 @@
   security.sudo.wheelNeedsPassword = false;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  boot.supportedFilesystems = [ "zfs" ];
+  boot.zfs = {
+    package = pkgs.zfs_unstable;
+    forceImportRoot = false;
+    extraPools = [ "tank" ];
+  };
+  networking.hostId = "637816ff";
 }
 
