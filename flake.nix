@@ -16,6 +16,7 @@
         sops-nix.nixosModules.sops
         ./configuration.nix
         ./services/jellyfin.nix
+        ./modules/backups.nix
       ];
     };
   };
