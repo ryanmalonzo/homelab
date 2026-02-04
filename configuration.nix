@@ -26,7 +26,7 @@
 
   users.users.ren = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "docker" ];
+    extraGroups = [ "wheel" ];
     shell = pkgs.zsh;
     home = "/home/ren";
     packages = with pkgs; [
@@ -88,6 +88,10 @@
   };
   networking.hostId = "637816ff";
 
-  virtualisation.docker.enable = true;
+  virtualisation.podman = {
+    enable = true;
+    # Create the default bridge network for podman
+    defaultNetwork.settings.dns_enabled = true;
+  };
 }
 
