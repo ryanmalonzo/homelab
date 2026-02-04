@@ -19,6 +19,7 @@
         ./modules/virtualisation.nix
         ./modules/backups.nix
         ./services/jellyfin.nix
+        ./services/newt.nix
       ];
     };
   };
