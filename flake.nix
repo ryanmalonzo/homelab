@@ -15,8 +15,10 @@
       modules = [
         sops-nix.nixosModules.sops
         ./configuration.nix
-        ./services/jellyfin.nix
+        ./modules/zfs.nix
+        ./modules/virtualisation.nix
         ./modules/backups.nix
+        ./services/jellyfin.nix
       ];
     };
   };
