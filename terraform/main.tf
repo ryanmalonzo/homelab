@@ -2,7 +2,8 @@ locals {
   root_domain = "chaldea.dev"
   cname_subdomains = [
     "pangolin",
-    "jellyfin"
+    "jellyfin",
+    "vaultwarden"
   ]
 
   dns_records = concat(
