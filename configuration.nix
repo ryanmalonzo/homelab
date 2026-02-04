@@ -80,6 +80,11 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  sops = {
+    defaultSopsFile = ./secrets/secrets.yaml;
+    age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+  };
+
   boot.supportedFilesystems = [ "zfs" ];
   boot.zfs = {
     package = pkgs.zfs_unstable;
