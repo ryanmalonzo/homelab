@@ -22,6 +22,11 @@
         "/srv"
       ];
 
+      exclude = [
+        "**/cache"
+        "**/logs"
+      ];
+
       passwordFile = config.sops.secrets.restic_password.path;
       environmentFile = config.sops.templates."restic-b2-env".path;
 
