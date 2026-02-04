@@ -19,7 +19,7 @@
 
       paths = [
         "/etc/nixos"
-        "/var/lib/containers"
+        "/srv"
       ];
 
       passwordFile = config.sops.secrets.restic_password.path;
