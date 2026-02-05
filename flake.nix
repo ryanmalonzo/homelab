@@ -21,6 +21,7 @@
         ./services/jellyfin.nix
         ./services/newt.nix
         ./services/vaultwarden.nix
+        ./services/sonarr.nix
       ];
     };
   };

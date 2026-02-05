@@ -25,6 +25,7 @@
       exclude = [
         "**/cache"
         "**/logs"
+        "/srv/downloads"
       ];
 
       passwordFile = config.sops.secrets.restic_password.path;
