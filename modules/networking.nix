@@ -8,6 +8,7 @@
   services.tailscale = {
     enable = true;
     authKeyFile = config.sops.secrets.tailscale-auth-key.path;
+    extraUpFlags = [ "--ssh" ];
   };
 
   networking.nftables.enable = true;
