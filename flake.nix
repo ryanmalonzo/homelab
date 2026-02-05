@@ -15,9 +15,11 @@
       modules = [
         sops-nix.nixosModules.sops
         ./configuration.nix
+        ./modules/networking.nix
         ./modules/zfs.nix
         ./modules/virtualisation.nix
         ./modules/backups.nix
+        ./modules/caddy.nix
         ./services/jellyfin.nix
         ./services/newt.nix
         ./services/vaultwarden.nix

@@ -6,6 +6,21 @@ locals {
     "vaultwarden"
   ]
 
+  internal_subdomains = [
+    "sonarr",
+    "prowlarr",
+    "sabnzbd",
+    "profilarr"
+  ]
+
+  internal_dns_records = [
+    for sub in local.internal_subdomains : {
+      name    = "${sub}.internal.${local.root_domain}"
+      type    = "A"
+      content = var.tailscale_ip
+    }
+  ]
+
   dns_records = concat(
     [
       {
@@ -20,7 +35,8 @@ locals {
         type    = "CNAME"
         content = local.root_domain
       }
-    ]
+    ],
+    local.internal_dns_records
   )
 }
 

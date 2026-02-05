@@ -7,3 +7,8 @@ variable "pangolin_ip" {
   type    = string
   default = "217.154.121.137"
 }
+
+variable "tailscale_ip" {
+  type        = string
+  default     = "100.93.61.51"
+}
