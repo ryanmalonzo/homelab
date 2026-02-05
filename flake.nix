@@ -22,6 +22,7 @@
         ./services/newt.nix
         ./services/vaultwarden.nix
         ./services/sonarr.nix
+        ./services/sabnzbd.nix
       ];
     };
   };

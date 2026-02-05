@@ -26,6 +26,7 @@
         "**/cache"
         "**/logs"
         "/srv/downloads"
+        "/srv/incomplete-downloads"
       ];
 
       passwordFile = config.sops.secrets.restic_password.path;
