@@ -23,6 +23,7 @@
         ./services/vaultwarden.nix
         ./services/sonarr.nix
         ./services/sabnzbd.nix
+        ./services/profilarr.nix
       ];
     };
   };
