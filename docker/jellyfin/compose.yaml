@@ -101,7 +101,7 @@ services:
       - prowlarr:/config
 
   tailscale-prowlarr:
-    image: ghcr.io/tailscale/tailscale:v1.92.5
+    image: ghcr.io/tailscale/tailscale:v1.94.1
     container_name: tailscale-prowlarr
     hostname: prowlarr
     volumes:
@@ -131,7 +131,7 @@ services:
       - ${DOWNLOADS_DIR}:/downloads
 
   tailscale-sabnzbd:
-    image: ghcr.io/tailscale/tailscale:v1.92.5
+    image: ghcr.io/tailscale/tailscale:v1.94.1
     container_name: tailscale-sabnzbd
     hostname: sabnzbd
     volumes:
@@ -160,7 +160,7 @@ services:
       - ${DOWNLOADS_DIR}:/downloads
 
   tailscale-radarr:
-    image: ghcr.io/tailscale/tailscale:v1.92.5
+    image: ghcr.io/tailscale/tailscale:v1.94.1
     container_name: tailscale-radarr
     hostname: radarr
     volumes:
@@ -189,7 +189,7 @@ services:
       - ${DOWNLOADS_DIR}:/downloads
 
   tailscale-sonarr:
-    image: ghcr.io/tailscale/tailscale:v1.92.5
+    image: ghcr.io/tailscale/tailscale:v1.94.1
     container_name: tailscale-sonarr
     hostname: sonarr
     volumes:
@@ -216,7 +216,7 @@ services:
       - profilarr:/config
 
   tailscale-profilarr:
-    image: ghcr.io/tailscale/tailscale:v1.92.5
+    image: ghcr.io/tailscale/tailscale:v1.94.1
     container_name: tailscale-profilarr
     hostname: profilarr
     volumes:
@@ -245,7 +245,7 @@ services:
       - ${DOWNLOADS_DIR}:/downloads
 
   tailscale-radarr-nonanime:
-    image: ghcr.io/tailscale/tailscale:v1.92.5
+    image: ghcr.io/tailscale/tailscale:v1.94.1
     container_name: tailscale-radarr-nonanime
     hostname: radarr-nonanime
     volumes:
@@ -274,7 +274,7 @@ services:
       - ${DOWNLOADS_DIR}:/downloads
 
   tailscale-sonarr-nonanime:
-    image: ghcr.io/tailscale/tailscale:v1.92.5
+    image: ghcr.io/tailscale/tailscale:v1.94.1
     container_name: tailscale-sonarr-nonanime
     hostname: sonarr-nonanime
     volumes:
@@ -301,7 +301,7 @@ services:
       - profilarr-nonanime:/config
 
   tailscale-profilarr-nonanime:
-    image: ghcr.io/tailscale/tailscale:v1.92.5
+    image: ghcr.io/tailscale/tailscale:v1.94.1
     container_name: tailscale-profilarr-nonanime
     hostname: profilarr-nonanime
     volumes:
