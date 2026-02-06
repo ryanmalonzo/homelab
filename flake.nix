@@ -27,6 +27,7 @@
         ./services/sabnzbd.nix
         ./services/profilarr.nix
         ./services/prowlarr.nix
+        ./services/radarr.nix
       ];
     };
   };

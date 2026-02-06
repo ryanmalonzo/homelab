@@ -10,7 +10,8 @@ locals {
     "sonarr",
     "prowlarr",
     "sabnzbd",
-    "profilarr"
+    "profilarr",
+    "radarr"
   ]
 
   internal_dns_records = [
