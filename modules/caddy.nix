@@ -43,6 +43,12 @@ in
           reverse_proxy localhost:6868
         '';
       };
+      "radarr.internal.chaldea.dev" = {
+        extraConfig = ''
+          ${tlsConfig}
+          reverse_proxy localhost:7878
+        '';
+      };
     };
   };
 
