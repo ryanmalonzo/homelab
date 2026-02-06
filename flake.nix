@@ -28,6 +28,7 @@
         ./services/profilarr.nix
         ./services/prowlarr.nix
         ./services/radarr.nix
+        ./services/jellyseerr.nix
       ];
     };
   };

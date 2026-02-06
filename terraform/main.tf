@@ -3,7 +3,8 @@ locals {
   cname_subdomains = [
     "pangolin",
     "jellyfin",
-    "vaultwarden"
+    "vaultwarden",
+    "jellyseerr"
   ]
 
   internal_subdomains = [
