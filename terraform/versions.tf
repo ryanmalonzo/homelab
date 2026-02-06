@@ -7,4 +7,12 @@ terraform {
       version = "5.7.1"
     }
   }
+
+  cloud {
+    organization = "chaldea"
+
+    workspaces {
+      name = "chaldea"
+    }
+  }
 }
