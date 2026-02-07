@@ -20,6 +20,7 @@
       paths = [
         "/etc/nixos"
         "/srv"
+        "/var/lib/technitium-dns-server"
       ];
 
       exclude = [

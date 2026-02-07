@@ -49,6 +49,12 @@ in
           reverse_proxy localhost:7878
         '';
       };
+      "dns.internal.chaldea.dev" = {
+        extraConfig = ''
+          ${tlsConfig}
+          reverse_proxy localhost:5380
+        '';
+      };
     };
   };
 

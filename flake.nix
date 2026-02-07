@@ -16,6 +16,7 @@
         sops-nix.nixosModules.sops
         ./configuration.nix
         ./modules/networking.nix
+        ./modules/dns.nix
         ./modules/zfs.nix
         ./modules/virtualisation.nix
         ./modules/backups.nix
