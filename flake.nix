@@ -30,6 +30,7 @@
         ./services/radarr.nix
         ./services/jellyseerr.nix
         ./services/papra.nix
+        ./services/bentopdf.nix
       ];
     };
   };
