@@ -7,11 +7,11 @@
   ];
 
   sops.secrets = {
-    papra_auth_secret = { };
+    papra-auth-secret = { };
   };
   sops.templates."papra-env" = {
     content = ''
-      AUTH_SECRET=${config.sops.placeholder.papra_auth_secret}
+      AUTH_SECRET=${config.sops.placeholder.papra-auth-secret}
       APP_BASE_URL="https://papra.chaldea.dev"
     '';
   };
