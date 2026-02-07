@@ -1,0 +1,32 @@
+{ config, pkgs, ... }:
+
+{
+  systemd.tmpfiles.rules = [
+    "d /srv/papra/db 0755 1000 100 -"
+    "d /tank/documents 0755 1000 100 -"
+  ];
+
+  sops.secrets = {
+    papra_auth_secret = { };
+  };
+  sops.templates."papra-env" = {
+    content = ''
+      AUTH_SECRET=${config.sops.placeholder.papra_auth_secret}
+      APP_BASE_URL="https://papra.chaldea.dev"
+    '';
+  };
+
+
+  virtualisation.oci-containers.containers.papra = {
+    image = "ghcr.io/papra-hq/papra:26.1.0-rootless";
+    user = "1000:100";
+    ports = [ "1221" ];
+    volumes = [
+      "/srv/papra/db:/app/app-data/db"
+      "/tank/documents:/app/app-data/documents"
+    ];
+    environmentFiles = [
+      config.sops.templates."papra-env".path
+    ];
+  };
+}
