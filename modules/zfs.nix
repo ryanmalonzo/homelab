@@ -9,4 +9,10 @@
   };
 
   networking.hostId = "637816ff";
+
+  services.zfs.autoScrub = {
+    enable = true;
+    interval = "monthly";
+    pools = [ "tank" ];
+  };
 }
