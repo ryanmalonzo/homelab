@@ -3,7 +3,7 @@
 {
   systemd.tmpfiles.rules = [
     "d /srv/papra/db 0755 1000 100 -"
-    "d /tank/documents 0755 1000 100 -"
+    "d /tank/documents/papra 0755 1000 100 -"
   ];
 
   sops.secrets = {
@@ -23,7 +23,7 @@
     ports = [ "1221" ];
     volumes = [
       "/srv/papra/db:/app/app-data/db"
-      "/tank/documents:/app/app-data/documents"
+      "/tank/documents/papra:/app/app-data/documents"
     ];
     environmentFiles = [
       config.sops.templates."papra-env".path
