@@ -4,6 +4,10 @@
   systemd.tmpfiles.rules = [
     "d /srv/jellyfin/cache 0755 1000 100 -"
     "d /srv/jellyfin/config 0755 1000 100 -"
+    "d /tank/media/anime/tv 0755 1000 100 -"
+    "d /tank/media/anime/movies 0755 1000 100 -"
+    "d /tank/media/others/tv 0755 1000 100 -"
+    "d /tank/media/others/movies 0755 1000 100 -"
   ];
 
   virtualisation.oci-containers.containers.jellyfin = {

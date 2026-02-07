@@ -4,6 +4,7 @@
   systemd.tmpfiles.rules = [
     "d /srv/radarr/config 0755 1000 100 -"
     "d /srv/downloads 0755 1000 100 -"
+    "d /tank/media/anime/movies 0755 1000 100 -"
   ];
 
   virtualisation.oci-containers.containers.radarr = {
