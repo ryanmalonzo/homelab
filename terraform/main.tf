@@ -6,7 +6,8 @@ locals {
     "vaultwarden",
     "jellyseerr",
     "papra",
-    "pdf"
+    "pdf",
+    "music"
   ]
 
   internal_subdomains = [

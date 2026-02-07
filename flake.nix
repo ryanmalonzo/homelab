@@ -31,6 +31,7 @@
         ./services/jellyseerr.nix
         ./services/papra.nix
         ./services/bentopdf.nix
+        ./services/gonic.nix
       ];
     };
   };
