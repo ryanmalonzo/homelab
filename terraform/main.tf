@@ -4,7 +4,8 @@ locals {
     "pangolin",
     "jellyfin",
     "vaultwarden",
-    "jellyseerr"
+    "jellyseerr",
+    "papra"
   ]
 
   internal_subdomains = [

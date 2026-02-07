@@ -29,6 +29,7 @@
         ./services/prowlarr.nix
         ./services/radarr.nix
         ./services/jellyseerr.nix
+        ./services/papra.nix
       ];
     };
   };
