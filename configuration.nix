@@ -46,6 +46,10 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  system.activationScripts.hushlogin = ''
+    touch /home/ren/.hushlogin
+  '';
+
   sops = {
     defaultSopsFile = ./secrets/secrets.yaml;
     age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
