@@ -16,7 +16,6 @@
     '';
   };
 
-
   virtualisation.oci-containers.containers.papra = {
     image = "ghcr.io/papra-hq/papra:26.1.0-rootless";
     user = "1000:100";

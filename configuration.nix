@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   imports = [
@@ -44,11 +49,16 @@
 
   security.sudo.wheelNeedsPassword = false;
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "terraform"
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
   ];
+
+  nixpkgs.config.allowUnfreePredicate =
+    pkg:
+    builtins.elem (lib.getName pkg) [
+      "terraform"
+    ];
 
   system.activationScripts.hushlogin = ''
     touch /home/ren/.hushlogin
@@ -61,4 +71,3 @@
 
   system.stateVersion = "25.11";
 }
-
