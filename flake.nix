@@ -10,6 +10,11 @@
   };
 
   outputs = { self, nixpkgs, sops-nix }: {
+    formatter = {
+      x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style;
+      aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.nixfmt-rfc-style;
+    };
+
     nixosConfigurations.chaldea = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [

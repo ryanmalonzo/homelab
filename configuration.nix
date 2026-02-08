@@ -46,6 +46,10 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "terraform"
+  ];
+
   system.activationScripts.hushlogin = ''
     touch /home/ren/.hushlogin
   '';
