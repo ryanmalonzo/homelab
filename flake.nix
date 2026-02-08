@@ -45,6 +45,7 @@
           ./services/bentopdf.nix
           ./services/gonic.nix
           ./services/github-runner.nix
+          ./services/ntfy.nix
         ];
       };
     };
