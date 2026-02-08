@@ -17,7 +17,7 @@
       NTFY_BASE_URL=https://push.chaldea.dev
       NTFY_CACHE_FILE=/var/lib/ntfy/cache.db
       NTFY_ENABLE_LOGIN=true
-      NTFY_UPSTREAM_BASE_URL=https://ntfy.sh
+      NTFY_UPSTREAM_BASE_URL=https://push.chaldea.dev
       NTFY_WEB_PUSH_FILE=/var/lib/ntfy/webpush.db
       TZ=Europe/Paris
     '';
