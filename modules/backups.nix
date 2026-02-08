@@ -2,14 +2,14 @@
 
 {
   sops.secrets = {
-    restic_password = { };
-    b2_account_id = { };
-    b2_account_key = { };
+    restic-password = { };
+    b2-account-id = { };
+    b2-account-key = { };
   };
   sops.templates."restic-b2-env" = {
     content = ''
-      B2_ACCOUNT_ID=${config.sops.placeholder.b2_account_id}
-      B2_ACCOUNT_KEY=${config.sops.placeholder.b2_account_key}
+      B2_ACCOUNT_ID=${config.sops.placeholder.b2-account-id}
+      B2_ACCOUNT_KEY=${config.sops.placeholder.b2-account-key}
     '';
   };
 
@@ -30,7 +30,7 @@
         "/srv/incomplete-downloads"
       ];
 
-      passwordFile = config.sops.secrets.restic_password.path;
+      passwordFile = config.sops.secrets.restic-password.path;
       environmentFile = config.sops.templates."restic-b2-env".path;
 
       timerConfig = {

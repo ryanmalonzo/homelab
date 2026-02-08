@@ -2,15 +2,15 @@
 
 {
   sops.secrets = {
-    pangolin_endpoint = { };
-    newt_id = { };
-    newt_secret = { };
+    pangolin-endpoint = { };
+    newt-id = { };
+    newt-secret = { };
   };
   sops.templates."newt-env" = {
     content = ''
-      PANGOLIN_ENDPOINT=${config.sops.placeholder.pangolin_endpoint}
-      NEWT_ID=${config.sops.placeholder.newt_id}
-      NEWT_SECRET=${config.sops.placeholder.newt_secret}
+      PANGOLIN_ENDPOINT=${config.sops.placeholder.pangolin-endpoint}
+      NEWT_ID=${config.sops.placeholder.newt-id}
+      NEWT_SECRET=${config.sops.placeholder.newt-secret}
     '';
   };
 
