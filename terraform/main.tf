@@ -7,7 +7,8 @@ locals {
     "jellyseerr",
     "papra",
     "pdf",
-    "music"
+    "music",
+    "ntfy"
   ]
 
   internal_subdomains = [
