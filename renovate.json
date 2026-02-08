@@ -1,0 +1,44 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "prHourlyLimit": 0,
+  "prConcurrentLimit": 0,
+  "semanticCommits": "enabled",
+  "reviewers": ["ryanmalonzo"],
+  "labels": ["dependencies", "renovate"],
+  "ignoreTests": true,
+  "enabledManagers": ["custom.regex"],
+  "customManagers": [
+    {
+      "description": "Update Docker images in NixOS OCI container definitions",
+      "customType": "regex",
+      "managerFilePatterns": ["(^|/)services/.+\\.nix$"],
+      "matchStrings": [
+        "image\\s*=\\s*\"(?<depName>[^:\"]+):(?<currentValue>[^\"]+)\""
+      ],
+      "datasourceTemplate": "docker",
+      "autoReplaceStringTemplate": "image = \"{{{depName}}}:{{{newValue}}}\""
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "Automerge minor and patch Docker updates",
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true
+    },
+    {
+      "description": "Open PRs for major Docker updates without automerge",
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["major"],
+      "groupName": "Docker major updates",
+      "automerge": false
+    },
+    {
+      "description": "Disable digest pinning",
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["digest"],
+      "enabled": false
+    }
+  ]
+}
