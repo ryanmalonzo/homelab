@@ -1,10 +1,10 @@
-name: CI
+name: Validate Configuration
 
 on:
   pull_request:
 
 jobs:
-  ci:
+  validate:
     runs-on: [self-hosted, nixos, homelab]
     permissions:
       pull-requests: write
