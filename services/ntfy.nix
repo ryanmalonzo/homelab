@@ -18,5 +18,8 @@
     environment = {
       TZ = "Europe/Paris";
     };
+    extraOptions = [
+      "--cap-add=NET_BIND_SERVICE"
+    ];
   };
 }
