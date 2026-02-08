@@ -2,8 +2,7 @@
 
 {
   systemd.tmpfiles.rules = [
-    "d /srv/ntfy/cache 0755 1000 100 -"
-    "d /srv/ntfy/etc 0755 1000 100 -"
+    "d /srv/ntfy 0755 1000 100 -"
   ];
 
   sops.secrets = {
@@ -11,12 +10,15 @@
   };
   sops.templates."ntfy-env" = {
     content = ''
+      NTFY_ATTACHMENT_CACHE_DIR=/var/lib/ntfy/attachments
       NTFY_AUTH_DEFAULT_ACCESS=deny-all
       NTFY_AUTH_FILE=/var/lib/ntfy/auth.db
       NTFY_AUTH_USERS=${config.sops.placeholder.ntfy-auth-users}
       NTFY_BASE_URL=https://push.chaldea.dev
       NTFY_CACHE_FILE=/var/lib/ntfy/cache.db
       NTFY_ENABLE_LOGIN=true
+      NTFY_UPSTREAM_BASE_URL=https://ntfy.sh
+      NTFY_WEB_PUSH_FILE=/var/lib/ntfy/webpush.db
       TZ=Europe/Paris
     '';
   };
@@ -27,8 +29,7 @@
     cmd = [ "serve" ];
     ports = [ "80" ];
     volumes = [
-      "/srv/ntfy/cache:/var/cache/ntfy"
-      "/srv/ntfy/etc:/etc/ntfy"
+      "/srv/ntfy:/var/lib/ntfy"
     ];
     environmentFiles = [
       config.sops.templates."ntfy-env".path
