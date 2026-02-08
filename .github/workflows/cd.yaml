@@ -1,0 +1,40 @@
+name: CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  cd:
+    runs-on: [self-hosted, nixos, homelab]
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      TF_VAR_cloudflare_zone_id: ${{ vars.TF_VAR_CLOUDFLARE_ZONE_ID }}
+      TF_VAR_tailscale_ip: ${{ vars.TF_VAR_TAILSCALE_IP }}
+      TF_VAR_pangolin_ip: ${{ vars.TF_VAR_PANGOLIN_IP }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Terraform init
+        working-directory: terraform
+        run: terraform init
+
+      - name: Terraform apply
+        working-directory: terraform
+        run: terraform apply -auto-approve
+
+      - name: Setup SSH for deployment
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+
+      - name: Deploy NixOS configuration
+        run: |
+          export NIX_SSHOPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i $HOME/.ssh/id_ed25519"
+          /run/current-system/sw/bin/nixos-rebuild switch \
+            --flake .#chaldea \
+            --target-host root@127.0.0.1

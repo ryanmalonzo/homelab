@@ -32,6 +32,13 @@
     ];
   };
 
+  users.users.root = {
+    home = "/root";
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH2bDHDDP6w44/esyFcFd96dYbHGzaq3SV1+ugo2EMlc ryanmalonzo@Ryans-MacBook-Pro"
+    ];
+  };
+
   programs.zsh = {
     enable = true;
     autosuggestions.enable = true;

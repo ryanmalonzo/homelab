@@ -18,6 +18,7 @@
       git
       terraform
       gh
+      openssh
     ];
   };
 
@@ -26,16 +27,4 @@
     group = "github-runner";
   };
   users.groups.github-runner = { };
-
-  security.sudo.extraRules = [
-    {
-      users = [ "github-runner" ];
-      commands = [
-        {
-          command = "${pkgs.nixos-rebuild}/bin/nixos-rebuild";
-          options = [ "NOPASSWD" ];
-        }
-      ];
-    }
-  ];
 }
