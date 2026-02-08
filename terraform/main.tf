@@ -8,7 +8,7 @@ locals {
     "papra",
     "pdf",
     "music",
-    "ntfy"
+    "push"
   ]
 
   internal_subdomains = [
