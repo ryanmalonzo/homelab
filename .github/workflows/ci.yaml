@@ -35,12 +35,19 @@ jobs:
         run: terraform validate
 
       - name: Terraform plan
+        id: plan
         working-directory: terraform
-        run: terraform plan -no-color | tee plan.txt
+        continue-on-error: true
+        run: |
+          terraform plan -detailed-exitcode -no-color | tee plan.txt
+          echo "exitcode=$?" >> $GITHUB_OUTPUT
 
       - name: Comment plan on PR
+        if: steps.plan.outputs.exitcode == '2'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh pr comment ${{ github.event.pull_request.number }} \
-            --body "$(printf '## Terraform Plan\n```\n%s\n```\n' "$(cat terraform/plan.txt)")"
+            --body "$(printf '## Terraform Plan\n```\n%s\n```\n' "$(cat terraform/plan.txt)")" \
+            --edit-last \
+            --create-if-none
