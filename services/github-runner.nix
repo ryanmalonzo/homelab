@@ -10,7 +10,15 @@
     url = "https://github.com/ryanmalonzo/homelab";
     tokenFile = config.sops.secrets.github-runner-token.path;
     user = "github-runner";
-    extraLabels = [ "nixos" "homelab" ];
+    extraLabels = [
+      "nixos"
+      "homelab"
+    ];
+    extraPackages = with pkgs; [
+      git
+      terraform
+      gh
+    ];
   };
 
   users.users.github-runner = {
