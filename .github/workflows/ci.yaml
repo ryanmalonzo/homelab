@@ -18,27 +18,46 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      - uses: DeterminateSystems/magic-nix-cache-action@v8
+
+      - name: Detect changes
+        uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            terraform:
+              - 'terraform/**'
+            nix:
+              - '**.nix'
+              - 'flake.lock'
+
       - name: Check Nix formatting
+        if: steps.changes.outputs.nix == 'true'
         run: |
           nix fmt $(git ls-files "*.nix")
           git diff --exit-code
 
       - name: Check Terraform formatting
+        if: steps.changes.outputs.terraform == 'true'
         working-directory: terraform
         run: terraform fmt -check -recursive
 
       - name: Check flake
+        if: steps.changes.outputs.nix == 'true'
         run: nix flake check
 
       - name: Terraform init
+        if: steps.changes.outputs.terraform == 'true'
         working-directory: terraform
         run: terraform init
 
       - name: Terraform validate
+        if: steps.changes.outputs.terraform == 'true'
         working-directory: terraform
         run: terraform validate
 
       - name: Terraform plan
+        if: steps.changes.outputs.terraform == 'true'
         id: plan
         working-directory: terraform
         continue-on-error: true
