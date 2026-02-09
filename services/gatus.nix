@@ -39,7 +39,7 @@
           name = "Sonarr";
           group = "media-management";
           url = "https://sonarr.internal.chaldea.dev/ping";
-          interval = "1m";
+          interval = "30s";
           conditions = [ "[STATUS] == 200" ];
           alerts = [ { type = "ntfy"; } ];
         }
@@ -47,7 +47,7 @@
           name = "Radarr";
           group = "media-management";
           url = "https://radarr.internal.chaldea.dev/ping";
-          interval = "1m";
+          interval = "30s";
           conditions = [ "[STATUS] == 200" ];
           alerts = [ { type = "ntfy"; } ];
         }
@@ -55,7 +55,7 @@
           name = "Prowlarr";
           group = "media-management";
           url = "https://prowlarr.internal.chaldea.dev/ping";
-          interval = "1m";
+          interval = "30s";
           conditions = [ "[STATUS] == 200" ];
           alerts = [ { type = "ntfy"; } ];
         }
@@ -63,7 +63,7 @@
           name = "Profilarr";
           group = "media-management";
           url = "https://profilarr.internal.chaldea.dev";
-          interval = "1m";
+          interval = "30s";
           conditions = [ "[STATUS] == 200" ];
           alerts = [ { type = "ntfy"; } ];
         }
@@ -71,7 +71,7 @@
           name = "SABnzbd";
           group = "media-management";
           url = "https://sabnzbd.internal.chaldea.dev";
-          interval = "1m";
+          interval = "30s";
           conditions = [ "[STATUS] == 200" ];
           alerts = [ { type = "ntfy"; } ];
         }
@@ -79,7 +79,15 @@
           name = "Jellyseerr";
           group = "media-management";
           url = "https://jellyseerr.chaldea.dev/api/v1/status";
-          interval = "1m";
+          interval = "30s";
+          conditions = [ "[STATUS] == 200" ];
+          alerts = [ { type = "ntfy"; } ];
+        }
+        {
+          name = "Immich";
+          group = "media-management";
+          url = "https://photos.chaldea.dev/api/server/ping";
+          interval = "30s";
           conditions = [ "[STATUS] == 200" ];
           alerts = [ { type = "ntfy"; } ];
         }
@@ -100,7 +108,7 @@
           name = "ntfy";
           group = "infrastructure";
           url = "https://push.chaldea.dev";
-          interval = "1m";
+          interval = "30s";
           conditions = [ "[STATUS] == 200" ];
           alerts = [ { type = "ntfy"; } ];
         }
@@ -108,7 +116,7 @@
           name = "Technitium DNS Server";
           group = "infrastructure";
           url = "https://dns.internal.chaldea.dev";
-          interval = "1m";
+          interval = "30s";
           conditions = [ "[STATUS] == 200" ];
           alerts = [ { type = "ntfy"; } ];
         }
