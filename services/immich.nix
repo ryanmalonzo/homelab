@@ -56,7 +56,6 @@
 
   virtualisation.oci-containers.containers.immich-machine-learning = {
     image = "ghcr.io/immich-app/immich-machine-learning:v2.5.5";
-    user = "1000:100";
     ports = [ "3003" ];
     volumes = [
       "/srv/immich/model-cache:/cache"
