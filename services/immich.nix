@@ -51,7 +51,6 @@
 
   virtualisation.oci-containers.containers.immich-redis = {
     image = "docker.io/valkey/valkey:9.0.2";
-    user = "1000:100";
     ports = [ "6379" ];
   };
 
