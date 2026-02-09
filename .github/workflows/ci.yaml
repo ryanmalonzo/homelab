@@ -18,6 +18,8 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      - uses: DeterminateSystems/magic-nix-cache-action@v8
+
       - name: Check Nix formatting
         run: |
           nix fmt $(git ls-files "*.nix")
