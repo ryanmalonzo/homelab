@@ -1,12 +1,16 @@
 name: Deploy Infrastructure
 
 on:
-  push:
+  pull_request_target:
+    types: [closed]
     branches:
       - main
 
 jobs:
   deploy:
+    if: |
+      github.event.pull_request.merged == true &&
+      !contains(github.event.pull_request.labels.*.name, 'skip-deploy')
     runs-on: [self-hosted, nixos, homelab]
     environment:
       name: production
