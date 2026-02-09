@@ -14,7 +14,7 @@
     settings = {
       alerting = {
         ntfy = {
-          topic = "gatus-alerts";
+          topic = "gatus";
           url = "https://push.chaldea.dev";
           priority = 4;
           token = "$GATUS_NTFY_TOKEN";
