@@ -20,4 +20,8 @@
       config.sops.templates."newt-env".path
     ];
   };
+
+  systemd.services."podman-newt".restartTriggers = [
+    config.sops.templates."newt-env".file
+  ];
 }

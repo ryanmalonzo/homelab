@@ -39,4 +39,8 @@
       "--cap-add=NET_BIND_SERVICE"
     ];
   };
+
+  systemd.services."podman-ntfy".restartTriggers = [
+    config.sops.templates."ntfy-env".file
+  ];
 }
