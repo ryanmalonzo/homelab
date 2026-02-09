@@ -19,7 +19,6 @@
       terraform
       gh
       openssh
-      xz
     ];
   };
 
