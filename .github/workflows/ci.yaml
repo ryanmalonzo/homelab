@@ -16,7 +16,7 @@ jobs:
       TF_VAR_tailscale_ip: ${{ vars.TF_VAR_TAILSCALE_IP }}
       TF_VAR_pangolin_ip: ${{ vars.TF_VAR_PANGOLIN_IP }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Check formatting
         run: |
