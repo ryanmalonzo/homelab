@@ -18,10 +18,14 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: Check formatting
+      - name: Check Nix formatting
         run: |
           nix fmt $(git ls-files "*.nix")
           git diff --exit-code
+
+      - name: Check Terraform formatting
+        working-directory: terraform
+        run: terraform fmt -check -recursive
 
       - name: Check flake
         run: nix flake check
