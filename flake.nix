@@ -49,6 +49,7 @@
           ./services/gonic.nix
           ./services/github-runner.nix
           ./services/ntfy.nix
+          ./services/immich.nix
           ./services/gatus.nix
         ];
       };

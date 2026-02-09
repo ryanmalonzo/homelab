@@ -8,7 +8,8 @@ locals {
     "papra",
     "pdf",
     "music",
-    "push"
+    "push",
+    "photos"
   ]
 
   internal_subdomains = [
