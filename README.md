@@ -1,20 +1,5 @@
 # chaldea
 
-<div align="center">
-
-![CI](https://github.com/ryanmalonzo/homelab/workflows/Validate%20Configuration/badge.svg)
-![Deploy](https://github.com/ryanmalonzo/homelab/workflows/Deploy%20Infrastructure/badge.svg)
-![NixOS](https://img.shields.io/badge/NixOS-25.11-blue?logo=nixos)
-![Terraform](https://img.shields.io/badge/Terraform-managed-623CE4?logo=terraform)
-
-**Self-deploying homelab infrastructure**
-
-`NixOS` • `Terraform` • `GitOps` • `Zero manual deployments`
-
-</div>
-
----
-
 My declarative homelab using NixOS and Terraform. Automated backups, continuous deployment, monitoring, version control.
 
 ## Structure
