@@ -19,7 +19,6 @@
           priority = 4;
           token = "$GATUS_NTFY_TOKEN";
           default-alert = {
-            description = "[ENDPOINT_NAME] is down";
             send-on-resolved = true;
             failure-threshold = 3;
             success-threshold = 2;
