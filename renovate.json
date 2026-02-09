@@ -7,12 +7,11 @@
   "reviewers": ["ryanmalonzo"],
   "labels": ["dependencies", "renovate"],
   "ignoreTests": true,
-  "enabledManagers": ["custom.regex"],
   "customManagers": [
     {
       "description": "Update Docker images in NixOS OCI container definitions",
       "customType": "regex",
-      "managerFilePatterns": ["(^|/)services/.+\\.nix$"],
+      "managerFilePatterns": ["/^services\\/.+\\.nix$/"],
       "matchStrings": [
         "image\\s*=\\s*\"(?<depName>[^:\"]+):(?<currentValue>[^\"]+)\""
       ],
