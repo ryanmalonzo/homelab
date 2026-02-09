@@ -28,4 +28,8 @@
       config.sops.templates."papra-env".path
     ];
   };
+
+  systemd.services."podman-papra".restartTriggers = [
+    config.sops.templates."papra-env".file
+  ];
 }
