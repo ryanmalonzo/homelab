@@ -17,7 +17,8 @@ locals {
     "sabnzbd",
     "profilarr",
     "radarr",
-    "dns"
+    "dns",
+    "status"
   ]
 
   internal_dns_records = [
