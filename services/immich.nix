@@ -14,6 +14,7 @@
 
   sops.templates."immich-env" = {
     content = ''
+      POSTGRES_PASSWORD=${config.sops.placeholder.immich-db-password}
       DB_PASSWORD=${config.sops.placeholder.immich-db-password}
       DB_USERNAME=postgres
       DB_DATABASE_NAME=immich
