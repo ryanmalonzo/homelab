@@ -1,6 +1,6 @@
 # chaldea
 
-My declarative homelab using NixOS and Terraform. Automated backups, continuous deployment, monitoring, version control.
+My self-deploying homelab infrastructure using NixOS and Terraform. Automated backups, continuous deployment, monitoring, version control.
 
 ## Structure
 
