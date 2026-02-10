@@ -61,6 +61,12 @@ in
           reverse_proxy localhost:8085
         '';
       };
+      "fileflows.internal.chaldea.dev" = {
+        extraConfig = ''
+          ${tlsConfig}
+          reverse_proxy localhost:5000
+        '';
+      };
     };
   };
 

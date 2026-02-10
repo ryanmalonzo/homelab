@@ -92,6 +92,14 @@
           alerts = [ { type = "ntfy"; } ];
         }
         {
+          name = "FileFlows";
+          group = "media-management";
+          url = "https://fileflows.internal.chaldea.dev/api/settings/fileflows-status";
+          interval = "30s";
+          conditions = [ "[STATUS] == 200" ];
+          alerts = [ { type = "ntfy"; } ];
+        }
+        {
           name = "Vaultwarden";
           group = "infrastructure";
           url = "https://vaultwarden.chaldea.dev/alive";
