@@ -10,8 +10,7 @@
   ];
 
   virtualisation.oci-containers.containers.fileflows = {
-    image = "revenz/fileflows:stable";
-    user = "1000:100";
+    image = "revenz/fileflows:26.01";
     ports = [ "5000:5000" ];
     volumes = [
       "/srv/fileflows/temp:/temp"
