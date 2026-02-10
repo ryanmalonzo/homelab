@@ -128,6 +128,14 @@
           conditions = [ "[STATUS] == 200" ];
           alerts = [ { type = "ntfy"; } ];
         }
+        {
+          name = "Actual";
+          group = "finance";
+          url = "https://actual.internal.chaldea.dev/health";
+          interval = "30s";
+          conditions = [ "[STATUS] == 200" ];
+          alerts = [ { type = "ntfy"; } ];
+        }
       ];
 
       web = {
