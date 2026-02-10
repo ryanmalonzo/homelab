@@ -94,7 +94,7 @@
         {
           name = "FileFlows";
           group = "media-management";
-          url = "https://fileflows.internal.chaldea.dev/api/settings/fileflows-status";
+          url = "https://fileflows.internal.chaldea.dev/api/status";
           interval = "30s";
           conditions = [ "[STATUS] == 200" ];
           alerts = [ { type = "ntfy"; } ];
