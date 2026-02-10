@@ -35,6 +35,7 @@
           ./modules/virtualisation.nix
           ./modules/backups.nix
           ./modules/caddy.nix
+          ./modules/hardware-transcoding.nix
           ./services/jellyfin.nix
           ./services/newt.nix
           ./services/vaultwarden.nix
@@ -51,6 +52,7 @@
           ./services/ntfy.nix
           ./services/immich.nix
           ./services/gatus.nix
+          ./services/fileflows.nix
         ];
       };
     };

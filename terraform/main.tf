@@ -19,7 +19,8 @@ locals {
     "profilarr",
     "radarr",
     "dns",
-    "status"
+    "status",
+    "fileflows"
   ]
 
   internal_dns_records = [
