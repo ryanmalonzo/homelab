@@ -20,7 +20,8 @@ locals {
     "radarr",
     "dns",
     "status",
-    "fileflows"
+    "fileflows",
+    "actual"
   ]
 
   internal_dns_records = [
