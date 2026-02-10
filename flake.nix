@@ -53,6 +53,7 @@
           ./services/immich.nix
           ./services/gatus.nix
           ./services/fileflows.nix
+          ./services/actual.nix
         ];
       };
     };
