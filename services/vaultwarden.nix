@@ -6,7 +6,7 @@
   ];
 
   virtualisation.oci-containers.containers.vaultwarden = {
-    image = "ghcr.io/dani-garcia/vaultwarden:1.35.2";
+    image = "ghcr.io/dani-garcia/vaultwarden:1.35.3";
     user = "1000:100";
     ports = [ "8080" ];
     volumes = [
