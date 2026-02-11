@@ -85,7 +85,7 @@
         }
         {
           name = "Immich";
-          group = "media-management";
+          group = "photos";
           url = "https://photos.chaldea.dev/api/server/ping";
           interval = "30s";
           conditions = [ "[STATUS] == 200" ];
@@ -101,7 +101,7 @@
         }
         {
           name = "Vaultwarden";
-          group = "infrastructure";
+          group = "authentication";
           url = "https://vaultwarden.chaldea.dev/alive";
           interval = "30s";
           conditions = [ "[STATUS] == 200" ];
