@@ -136,6 +136,14 @@
           conditions = [ "[STATUS] == 200" ];
           alerts = [ { type = "ntfy"; } ];
         }
+        {
+          name = "Papra";
+          group = "documents";
+          url = "https://papra.internal.chaldea.dev";
+          interval = "30s";
+          conditions = [ "[STATUS] == 200" ];
+          alerts = [ { type = "ntfy"; } ];
+        }
       ];
 
       web = {

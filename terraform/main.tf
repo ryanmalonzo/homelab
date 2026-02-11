@@ -5,7 +5,6 @@ locals {
     "jellyfin",
     "vaultwarden",
     "jellyseerr",
-    "papra",
     "pdf",
     "music",
     "push",
@@ -21,7 +20,8 @@ locals {
     "dns",
     "status",
     "fileflows",
-    "actual"
+    "actual",
+    "papra"
   ]
 
   internal_dns_records = [

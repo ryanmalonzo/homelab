@@ -73,6 +73,12 @@ in
           reverse_proxy localhost:5006
         '';
       };
+      "papra.internal.chaldea.dev" = {
+        extraConfig = ''
+          ${tlsConfig}
+          reverse_proxy localhost:1221
+        '';
+      };
     };
   };
 
