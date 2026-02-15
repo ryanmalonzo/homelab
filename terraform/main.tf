@@ -4,7 +4,7 @@ locals {
     "pangolin",
     "jellyfin",
     "vaultwarden",
-    "jellyseerr",
+    "seerr",
     "pdf",
     "music",
     "push",

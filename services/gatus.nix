@@ -76,9 +76,9 @@
           alerts = [ { type = "ntfy"; } ];
         }
         {
-          name = "Jellyseerr";
+          name = "Seerr";
           group = "media-management";
-          url = "https://jellyseerr.chaldea.dev/api/v1/status";
+          url = "https://seerr.chaldea.dev/api/v1/status";
           interval = "30s";
           conditions = [ "[STATUS] == 200" ];
           alerts = [ { type = "ntfy"; } ];
