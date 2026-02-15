@@ -44,7 +44,7 @@
           ./services/profilarr.nix
           ./services/prowlarr.nix
           ./services/radarr.nix
-          ./services/jellyseerr.nix
+          ./services/seerr.nix
           ./services/papra.nix
           ./services/bentopdf.nix
           ./services/gonic.nix
