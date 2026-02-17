@@ -17,7 +17,7 @@
   };
 
   virtualisation.oci-containers.containers.papra = {
-    image = "ghcr.io/papra-hq/papra:26.1.0-rootless";
+    image = "ghcr.io/papra-hq/papra:26.2.0-rootless";
     user = "1000:100";
     ports = [ "1221:1221" ];
     volumes = [
