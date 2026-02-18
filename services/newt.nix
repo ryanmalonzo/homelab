@@ -15,7 +15,7 @@
   };
 
   virtualisation.oci-containers.containers.newt = {
-    image = "ghcr.io/fosrl/newt:1.9.0";
+    image = "ghcr.io/fosrl/newt:1.9.1";
     environmentFiles = [
       config.sops.templates."newt-env".path
     ];
