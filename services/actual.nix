@@ -6,7 +6,7 @@
   ];
 
   virtualisation.oci-containers.containers.actual = {
-    image = "ghcr.io/actualbudget/actual:26.2.0";
+    image = "ghcr.io/actualbudget/actual:26.2.1";
     user = "1000:100";
     ports = [ "5006:5006" ];
     volumes = [
