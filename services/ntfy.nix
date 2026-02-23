@@ -28,7 +28,6 @@
     image = "binwiederhier/ntfy:v2.17.0";
     user = "1000:100";
     cmd = [ "serve" ];
-    ports = [ "80" ];
     volumes = [
       "/srv/ntfy:/var/lib/ntfy"
     ];

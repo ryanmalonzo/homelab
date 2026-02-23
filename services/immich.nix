@@ -35,7 +35,6 @@
   virtualisation.oci-containers.containers.immich-postgres = {
     image = "ghcr.io/tensorchord/pgvecto-rs:pg14-v0.3.0-rootless";
     user = "1000:100";
-    ports = [ "5432" ];
     volumes = [
       "/srv/immich/postgres:/var/lib/postgresql/data"
     ];
@@ -51,12 +50,10 @@
 
   virtualisation.oci-containers.containers.immich-redis = {
     image = "docker.io/valkey/valkey:9.0.2";
-    ports = [ "6379" ];
   };
 
   virtualisation.oci-containers.containers.immich-machine-learning = {
     image = "ghcr.io/immich-app/immich-machine-learning:v2.5.6";
-    ports = [ "3003" ];
     volumes = [
       "/srv/immich/model-cache:/cache"
     ];
@@ -70,7 +67,6 @@
   virtualisation.oci-containers.containers.immich-server = {
     image = "ghcr.io/immich-app/immich-server:v2.5.6";
     user = "1000:100";
-    ports = [ "2283" ];
     volumes = [
       "/tank/photos/upload:/usr/src/app/upload"
       "/tank/photos/library:/usr/src/app/library"
