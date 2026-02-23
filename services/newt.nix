@@ -16,11 +16,14 @@
 
   virtualisation.oci-containers.containers.newt = {
     image = "ghcr.io/fosrl/newt:1.10.0";
+    networks = [ "proxy" ];
     environmentFiles = [
       config.sops.templates."newt-env".path
     ];
   };
 
+  systemd.services."podman-newt".after = [ "podman-network-proxy.service" ];
+  systemd.services."podman-newt".requires = [ "podman-network-proxy.service" ];
   systemd.services."podman-newt".restartTriggers = [
     config.sops.templates."newt-env".file
   ];

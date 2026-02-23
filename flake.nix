@@ -35,6 +35,7 @@
           ./modules/virtualisation.nix
           ./modules/backups.nix
           ./modules/caddy.nix
+          ./modules/container-networks.nix
           ./modules/hardware-transcoding.nix
           ./services/jellyfin.nix
           ./services/newt.nix

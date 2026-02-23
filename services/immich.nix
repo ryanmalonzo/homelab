@@ -35,6 +35,7 @@
   virtualisation.oci-containers.containers.immich-postgres = {
     image = "ghcr.io/tensorchord/pgvecto-rs:pg14-v0.3.0-rootless";
     user = "1000:100";
+    networks = [ "immich" ];
     volumes = [
       "/srv/immich/postgres:/var/lib/postgresql/data"
     ];
@@ -50,10 +51,12 @@
 
   virtualisation.oci-containers.containers.immich-redis = {
     image = "docker.io/valkey/valkey:9.0.2";
+    networks = [ "immich" ];
   };
 
   virtualisation.oci-containers.containers.immich-machine-learning = {
     image = "ghcr.io/immich-app/immich-machine-learning:v2.5.6";
+    networks = [ "immich" ];
     volumes = [
       "/srv/immich/model-cache:/cache"
     ];
@@ -67,6 +70,10 @@
   virtualisation.oci-containers.containers.immich-server = {
     image = "ghcr.io/immich-app/immich-server:v2.5.6";
     user = "1000:100";
+    networks = [
+      "immich"
+      "proxy"
+    ];
     volumes = [
       "/tank/photos/upload:/usr/src/app/upload"
       "/tank/photos/library:/usr/src/app/library"
@@ -82,10 +89,24 @@
     ];
   };
 
+  systemd.services."podman-immich-server".after = [
+    "podman-network-immich.service"
+    "podman-network-proxy.service"
+  ];
+  systemd.services."podman-immich-server".requires = [
+    "podman-network-immich.service"
+    "podman-network-proxy.service"
+  ];
   systemd.services."podman-immich-server".restartTriggers = [
     config.sops.templates."immich-env".file
   ];
+  systemd.services."podman-immich-postgres".after = [ "podman-network-immich.service" ];
+  systemd.services."podman-immich-postgres".requires = [ "podman-network-immich.service" ];
   systemd.services."podman-immich-postgres".restartTriggers = [
     config.sops.templates."immich-env".file
   ];
+  systemd.services."podman-immich-redis".after = [ "podman-network-immich.service" ];
+  systemd.services."podman-immich-redis".requires = [ "podman-network-immich.service" ];
+  systemd.services."podman-immich-machine-learning".after = [ "podman-network-immich.service" ];
+  systemd.services."podman-immich-machine-learning".requires = [ "podman-network-immich.service" ];
 }

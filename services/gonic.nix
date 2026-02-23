@@ -12,6 +12,7 @@
   virtualisation.oci-containers.containers.gonic = {
     image = "ghcr.io/sentriz/gonic:v0.20.1";
     user = "1000:100";
+    networks = [ "proxy" ];
     volumes = [
       "/srv/gonic/cache:/cache"
       "/srv/gonic/data:/data"
@@ -24,4 +25,7 @@
       TZ = "Europe/Paris";
     };
   };
+
+  systemd.services."podman-gonic".after = [ "podman-network-proxy.service" ];
+  systemd.services."podman-gonic".requires = [ "podman-network-proxy.service" ];
 }

@@ -19,6 +19,7 @@
   virtualisation.oci-containers.containers.papra = {
     image = "ghcr.io/papra-hq/papra:26.2.2-rootless";
     user = "1000:100";
+    networks = [ "papra" ];
     ports = [ "1221:1221" ];
     volumes = [
       "/srv/papra/db:/app/app-data/db"
@@ -29,6 +30,8 @@
     ];
   };
 
+  systemd.services."podman-papra".after = [ "podman-network-papra.service" ];
+  systemd.services."podman-papra".requires = [ "podman-network-papra.service" ];
   systemd.services."podman-papra".restartTriggers = [
     config.sops.templates."papra-env".file
   ];

@@ -13,6 +13,7 @@
   virtualisation.oci-containers.containers.jellyfin = {
     image = "ghcr.io/jellyfin/jellyfin:10.11.6";
     user = "1000:100";
+    networks = [ "proxy" ];
     ports = [
       "7359:7359/udp"
       "8096:8096"
@@ -26,6 +27,9 @@
       "/tank/media/others/movies:/data/others/movies:ro"
     ];
   };
+
+  systemd.services."podman-jellyfin".after = [ "podman-network-proxy.service" ];
+  systemd.services."podman-jellyfin".requires = [ "podman-network-proxy.service" ];
 
   networking.firewall.interfaces."eth0".allowedTCPPorts = [ 8096 ];
   networking.firewall.interfaces."eth0".allowedUDPPorts = [ 7359 ];

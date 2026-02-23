@@ -10,6 +10,7 @@
   virtualisation.oci-containers.containers.sonarr = {
     image = "ghcr.io/linuxserver/sonarr:4.0.16";
     user = "1000:100";
+    networks = [ "arr" ];
     ports = [ "8989:8989" ];
     volumes = [
       "/srv/sonarr/config:/config"
@@ -22,4 +23,7 @@
       TZ = "Europe/Paris";
     };
   };
+
+  systemd.services."podman-sonarr".after = [ "podman-network-arr.service" ];
+  systemd.services."podman-sonarr".requires = [ "podman-network-arr.service" ];
 }

@@ -10,6 +10,7 @@
   virtualisation.oci-containers.containers.radarr = {
     image = "ghcr.io/linuxserver/radarr:6.0.4";
     user = "1000:100";
+    networks = [ "arr" ];
     ports = [ "7878:7878" ];
     volumes = [
       "/srv/radarr/config:/config"
@@ -22,4 +23,7 @@
       TZ = "Europe/Paris";
     };
   };
+
+  systemd.services."podman-radarr".after = [ "podman-network-arr.service" ];
+  systemd.services."podman-radarr".requires = [ "podman-network-arr.service" ];
 }
