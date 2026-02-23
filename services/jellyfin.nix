@@ -27,6 +27,6 @@
     ];
   };
 
-  networking.firewall.allowedTCPPorts = [ 8096 ];
-  networking.firewall.allowedUDPPorts = [ 7359 ];
+  networking.firewall.interfaces."eth0".allowedTCPPorts = [ 8096 ];
+  networking.firewall.interfaces."eth0".allowedUDPPorts = [ 7359 ];
 }
