@@ -64,10 +64,6 @@
 
   security.sudo.wheelNeedsPassword = false;
 
-  security.protectKernelImage = true;
-  security.forcePageTableIsolation = true;
-  boot.kernel.sysctl."kernel.dmesg_restrict" = 1;
-
   nix = {
     settings = {
       experimental-features = [
