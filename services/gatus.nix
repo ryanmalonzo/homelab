@@ -28,6 +28,14 @@
 
       endpoints = [
         {
+          name = "Gonic";
+          group = "media-streaming";
+          url = "https://music.chaldea.dev/rest/ping.view?f=json";
+          interval = "30s";
+          conditions = [ "[STATUS] == 200" ];
+          alerts = [ { type = "ntfy"; } ];
+        }
+        {
           name = "Jellyfin";
           group = "media-streaming";
           url = "http://jellyfin.chaldea.dev/health";
@@ -140,6 +148,14 @@
           name = "Papra";
           group = "documents";
           url = "https://papra.internal.chaldea.dev";
+          interval = "30s";
+          conditions = [ "[STATUS] == 200" ];
+          alerts = [ { type = "ntfy"; } ];
+        }
+        {
+          name = "BentoPDF";
+          group = "utilities";
+          url = "https://pdf.chaldea.dev";
           interval = "30s";
           conditions = [ "[STATUS] == 200" ];
           alerts = [ { type = "ntfy"; } ];
