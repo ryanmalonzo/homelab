@@ -10,6 +10,7 @@
   virtualisation.oci-containers.containers.sabnzbd = {
     image = "ghcr.io/linuxserver/sabnzbd:4.5.5";
     user = "1000:100";
+    networks = [ "arr" ];
     ports = [ "8080:8080" ];
     volumes = [
       "/srv/sabnzbd/config:/config"
@@ -22,4 +23,7 @@
       TZ = "Europe/Paris";
     };
   };
+
+  systemd.services."podman-sabnzbd".after = [ "podman-network-arr.service" ];
+  systemd.services."podman-sabnzbd".requires = [ "podman-network-arr.service" ];
 }

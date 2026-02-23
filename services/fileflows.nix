@@ -11,6 +11,7 @@
 
   virtualisation.oci-containers.containers.fileflows = {
     image = "revenz/fileflows:26.01";
+    networks = [ "fileflows" ];
     ports = [ "5000:5000" ];
     volumes = [
       "/srv/fileflows/temp:/temp"
@@ -30,4 +31,7 @@
       "--device=/dev/dri:/dev/dri"
     ];
   };
+
+  systemd.services."podman-fileflows".after = [ "podman-network-fileflows.service" ];
+  systemd.services."podman-fileflows".requires = [ "podman-network-fileflows.service" ];
 }

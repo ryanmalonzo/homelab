@@ -27,6 +27,7 @@
   virtualisation.oci-containers.containers.ntfy = {
     image = "binwiederhier/ntfy:v2.17.0";
     user = "1000:100";
+    networks = [ "proxy" ];
     cmd = [ "serve" ];
     volumes = [
       "/srv/ntfy:/var/lib/ntfy"
@@ -39,6 +40,8 @@
     ];
   };
 
+  systemd.services."podman-ntfy".after = [ "podman-network-proxy.service" ];
+  systemd.services."podman-ntfy".requires = [ "podman-network-proxy.service" ];
   systemd.services."podman-ntfy".restartTriggers = [
     config.sops.templates."ntfy-env".file
   ];
