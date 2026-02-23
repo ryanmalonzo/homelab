@@ -12,7 +12,6 @@
   virtualisation.oci-containers.containers.gonic = {
     image = "ghcr.io/sentriz/gonic:v0.20.1";
     user = "1000:100";
-    ports = [ "4747" ];
     volumes = [
       "/srv/gonic/cache:/cache"
       "/srv/gonic/data:/data"
