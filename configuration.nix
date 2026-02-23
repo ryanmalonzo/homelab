@@ -52,7 +52,15 @@
     curl
   ];
 
-  services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    listenAddresses = [
+      {
+        addr = "192.168.1.35";
+        port = 22;
+      }
+    ];
+  };
 
   security.sudo.wheelNeedsPassword = false;
 
