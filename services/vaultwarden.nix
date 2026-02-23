@@ -15,6 +15,7 @@
     environment = {
       DOMAIN = "https://vaultwarden.chaldea.dev";
       ROCKET_PORT = "8080";
+      SIGNUPS_ALLOWED = "false";
     };
   };
 }
