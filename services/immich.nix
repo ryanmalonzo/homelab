@@ -50,7 +50,7 @@
   };
 
   virtualisation.oci-containers.containers.immich-redis = {
-    image = "docker.io/valkey/valkey:9.0.2";
+    image = "docker.io/valkey/valkey:9.0.3";
     networks = [ "immich" ];
   };
 
