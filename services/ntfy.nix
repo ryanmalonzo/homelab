@@ -25,7 +25,7 @@
   };
 
   virtualisation.oci-containers.containers.ntfy = {
-    image = "binwiederhier/ntfy:v2.19.0";
+    image = "binwiederhier/ntfy:v2.19.1";
     user = "1000:100";
     networks = [ "proxy" ];
     cmd = [ "serve" ];
