@@ -55,7 +55,7 @@
   };
 
   virtualisation.oci-containers.containers.immich-machine-learning = {
-    image = "ghcr.io/immich-app/immich-machine-learning:v2.5.6";
+    image = "ghcr.io/immich-app/immich-machine-learning:v2.6.0";
     networks = [ "immich" ];
     volumes = [
       "/srv/immich/model-cache:/cache"
@@ -68,7 +68,7 @@
   };
 
   virtualisation.oci-containers.containers.immich-server = {
-    image = "ghcr.io/immich-app/immich-server:v2.5.6";
+    image = "ghcr.io/immich-app/immich-server:v2.6.0";
     user = "1000:100";
     networks = [
       "immich"
