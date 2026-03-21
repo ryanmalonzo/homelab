@@ -108,19 +108,6 @@
           alerts = [ { type = "ntfy"; } ];
         }
         {
-          name = "Vaultwarden";
-          group = "authentication";
-          url = "https://vaultwarden.chaldea.dev/alive";
-          interval = "30s";
-          conditions = [ "[STATUS] == 200" ];
-          alerts = [
-            {
-              type = "ntfy";
-              failure-threshold = 2;
-            }
-          ];
-        }
-        {
           name = "ntfy";
           group = "infrastructure";
           url = "https://push.chaldea.dev";
