@@ -39,7 +39,6 @@
           ./modules/hardware-transcoding.nix
           ./services/jellyfin.nix
           ./services/newt.nix
-          ./services/vaultwarden.nix
           ./services/sonarr.nix
           ./services/sabnzbd.nix
           ./services/profilarr.nix
