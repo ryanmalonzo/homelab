@@ -38,7 +38,7 @@
         {
           name = "Jellyfin";
           group = "media-streaming";
-          url = "http://jellyfin.chaldea.dev/health";
+          url = "http://jellyfin.internal.chaldea.dev/health";
           interval = "30s";
           conditions = [ "[STATUS] == 200" ];
           alerts = [ { type = "ntfy"; } ];
