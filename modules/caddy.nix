@@ -79,6 +79,12 @@ in
           reverse_proxy localhost:1221
         '';
       };
+      "jellyfin.internal.chaldea.dev" = {
+        extraConfig = ''
+          ${tlsConfig}
+          reverse_proxy localhost:8096
+        '';
+      };
     };
   };
 

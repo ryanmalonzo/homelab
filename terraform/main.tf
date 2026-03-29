@@ -2,7 +2,6 @@ locals {
   root_domain = "chaldea.dev"
   cname_subdomains = [
     "pangolin",
-    "jellyfin",
     "seerr",
     "pdf",
     "music",
