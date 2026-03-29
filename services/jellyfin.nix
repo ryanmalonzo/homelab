@@ -27,9 +27,6 @@
     ];
   };
 
-  systemd.services."podman-jellyfin".after = [ "podman-network-proxy.service" ];
-  systemd.services."podman-jellyfin".requires = [ "podman-network-proxy.service" ];
-
   networking.firewall.interfaces."enp2s0".allowedTCPPorts = [ 8096 ];
   networking.firewall.interfaces."enp2s0".allowedUDPPorts = [ 7359 ];
 }
