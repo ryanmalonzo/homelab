@@ -85,6 +85,12 @@ in
           reverse_proxy localhost:8096
         '';
       };
+      "seerr.internal.chaldea.dev" = {
+        extraConfig = ''
+          ${tlsConfig}
+          reverse_proxy localhost:5055
+        '';
+      };
     };
   };
 

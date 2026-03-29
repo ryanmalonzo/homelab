@@ -2,7 +2,6 @@ locals {
   root_domain = "chaldea.dev"
   cname_subdomains = [
     "pangolin",
-    "seerr",
     "pdf",
     "music",
     "push",
@@ -19,7 +18,9 @@ locals {
     "status",
     "fileflows",
     "actual",
-    "papra"
+    "papra",
+    "jellyfin",
+    "seerr"
   ]
 
   internal_dns_records = [
