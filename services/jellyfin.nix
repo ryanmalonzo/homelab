@@ -17,6 +17,9 @@
       "7359:7359/udp"
       "8096:8096"
     ];
+    networks = [
+      "arr"
+    ];
     volumes = [
       "/srv/jellyfin/config:/config"
       "/srv/jellyfin/cache:/cache"
@@ -26,6 +29,9 @@
       "/tank/media/others/movies:/data/others/movies:ro"
     ];
   };
+
+  systemd.services."podman-jellyfin".after = [ "podman-network-arr.service" ];
+  systemd.services."podman-jellyfin".requires = [ "podman-network-arr.service" ];
 
   networking.firewall.interfaces."enp2s0".allowedTCPPorts = [ 8096 ];
   networking.firewall.interfaces."enp2s0".allowedUDPPorts = [ 7359 ];
