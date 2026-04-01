@@ -2,9 +2,11 @@
 
 {
   sops.secrets.gatus-ntfy-token = { };
+  sops.secrets.mailbox-smtp-password = { };
 
   sops.templates."gatus-env".content = ''
     GATUS_NTFY_TOKEN=${config.sops.placeholder.gatus-ntfy-token}
+    GATUS_SMTP_PASSWORD=${config.sops.placeholder.mailbox-smtp-password}
   '';
 
   services.gatus = {
@@ -13,6 +15,19 @@
 
     settings = {
       alerting = {
+        email = {
+          from = "ryan@ryanmalonzo.com";
+          username = "ryan@ryanmalonzo.com";
+          password = "$GATUS_SMTP_PASSWORD";
+          host = "smtp.mailbox.org";
+          port = 587;
+          to = "alerts@ryanmalonzo.com";
+          default-alert = {
+            send-on-resolved = true;
+            failure-threshold = 3;
+            success-threshold = 2;
+          };
+        };
         ntfy = {
           topic = "gatus";
           url = "https://push.chaldea.dev";
@@ -113,7 +128,7 @@
           url = "https://push.chaldea.dev";
           interval = "30s";
           conditions = [ "[STATUS] == 200" ];
-          alerts = [ { type = "ntfy"; } ];
+          alerts = [ { type = "email"; } ];
         }
         {
           name = "Technitium DNS Server";
