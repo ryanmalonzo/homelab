@@ -2,7 +2,7 @@
 
 {
   virtualisation.oci-containers.containers.bentopdf = {
-    image = "ghcr.io/alam00000/bentopdf-simple:2.7.0";
+    image = "ghcr.io/alam00000/bentopdf-simple:2.8.0";
     networks = [ "proxy" ];
   };
 
