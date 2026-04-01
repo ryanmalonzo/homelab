@@ -3,10 +3,12 @@
 {
   sops.secrets.gatus-ntfy-token = { };
   sops.secrets.mailbox-smtp-password = { };
+  sops.secrets.healthchecks-ping-url = { };
 
   sops.templates."gatus-env".content = ''
     GATUS_NTFY_TOKEN=${config.sops.placeholder.gatus-ntfy-token}
     GATUS_SMTP_PASSWORD=${config.sops.placeholder.mailbox-smtp-password}
+    HEALTHCHECKS_PING_URL=${config.sops.placeholder.healthchecks-ping-url}
   '';
 
   services.gatus = {
@@ -121,6 +123,13 @@
           interval = "30s";
           conditions = [ "[STATUS] == 200" ];
           alerts = [ { type = "ntfy"; } ];
+        }
+        {
+          name = "Healthchecks.io";
+          group = "infrastructure";
+          url = "$HEALTHCHECKS_PING_URL";
+          interval = "1m";
+          conditions = [ "[STATUS] == 200" ];
         }
         {
           name = "ntfy";
