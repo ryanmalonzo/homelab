@@ -1,5 +1,7 @@
 # chaldea
 
+![healthchecks.io](https://healthchecks.io/badge/261911a0-3c4a-4c11-b500-6330b0/8-eeEdAn-2.svg)
+
 My self-deploying homelab infrastructure using NixOS and Terraform. Automated backups, continuous deployment, monitoring, version control.
 
 ## Structure
