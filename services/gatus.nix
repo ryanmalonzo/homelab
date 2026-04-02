@@ -171,6 +171,14 @@
           conditions = [ "[STATUS] == 200" ];
           alerts = [ { type = "ntfy"; } ];
         }
+        {
+          name = "Wallos";
+          group = "finance";
+          url = "https://wallos.internal.chaldea.dev";
+          interval = "30s";
+          conditions = [ "[STATUS] == 200" ];
+          alerts = [ { type = "ntfy"; } ];
+        }
       ];
 
       web = {

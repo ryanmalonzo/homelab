@@ -8,6 +8,7 @@ let
     "immich"
     "papra"
     "proxy"
+    "wallos"
   ];
 in
 {

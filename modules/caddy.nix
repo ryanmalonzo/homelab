@@ -91,6 +91,12 @@ in
           reverse_proxy localhost:5055
         '';
       };
+      "wallos.internal.chaldea.dev" = {
+        extraConfig = ''
+          ${tlsConfig}
+          reverse_proxy localhost:8282
+        '';
+      };
     };
   };
 

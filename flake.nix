@@ -54,6 +54,7 @@
           ./services/gatus.nix
           ./services/fileflows.nix
           ./services/actual.nix
+          ./services/wallos.nix
         ];
       };
     };
