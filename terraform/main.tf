@@ -8,24 +8,9 @@ locals {
     "photos"
   ]
 
-  internal_subdomains = [
-    "sonarr",
-    "prowlarr",
-    "sabnzbd",
-    "profilarr",
-    "radarr",
-    "dns",
-    "status",
-    "fileflows",
-    "actual",
-    "papra",
-    "jellyfin",
-    "seerr"
-  ]
-
   internal_dns_records = [
-    for sub in local.internal_subdomains : {
-      name    = "${sub}.internal.${local.root_domain}"
+    {
+      name    = "*.internal.${local.root_domain}"
       type    = "A"
       content = var.tailscale_ip
     }
