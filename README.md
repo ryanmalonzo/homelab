@@ -39,7 +39,7 @@ My self-deploying homelab infrastructure using NixOS and Terraform. Automated ba
 
 ## Deployment workflow
 
-> The GitHub Actions runner runs on chaldea and deploys to itself — the host rebuilds its own configuration on every merge. Zero manual deployments.
+> The GitHub Actions runner runs on chaldea and deploys to itself. The host rebuilds its own configuration on every merge. Zero manual deployments.
 
 ### Cloud providers
 
@@ -47,17 +47,169 @@ My self-deploying homelab infrastructure using NixOS and Terraform. Automated ba
 - **Tailscale** — VPN mesh network
 - **Pangolin** — self-hosted VPS (unmanaged)
 - **Cloudflare** — DNS management via Terraform
+- **Healthchecks.io** —  heartbeat monitor for Gatus
 
 ### CI/CD pipeline
 
-The GitHub Actions runner executes **directly on chaldea itself**.
+The GitHub Actions runner executes **on chaldea itself**.
 
 1. Pull requests trigger validation: formatting checks, flake correctness, and terraform plan
 2. Terraform plan output is posted as a PR comment when DNS changes are detected
 3. Merges to `main` trigger deployment: DNS updates followed by system configuration
 4. PRs labeled with `skip-deploy` bypass the deployment step
 
-**The entire system state is version controlled.** Rollback is achieved by reverting commits and re-deploying.
+**The entire system state is version controlled.**
+
+## Adding a new service
+
+### Internal service (behind Tailscale)
+
+**1. Create `services/<name>.nix`**
+
+```nix
+{ ... }:
+
+{
+  systemd.tmpfiles.rules = [
+    "d /srv/<name>/data 0755 1000 100 -"
+  ];
+
+  virtualisation.oci-containers.containers.<name> = {
+    image = "image/name:tag";
+    networks = [ "<name>" ];
+    ports = [ "<host-port>:<container-port>" ];
+    volumes = [
+      "/srv/<name>/data:/data"
+    ];
+    environment = {
+      TZ = "Europe/Paris";
+    };
+  };
+
+  systemd.services."podman-<name>".after = [ "podman-network-<name>.service" ];
+  systemd.services."podman-<name>".requires = [ "podman-network-<name>.service" ];
+}
+```
+
+**2. Add the network — `modules/container-networks.nix`**
+
+```nix
+  networks = [
+    ...
+    "<name>"
+  ];
+```
+
+**3. Add the Caddy virtual host — `modules/caddy.nix`**
+
+```nix
+virtualHosts = {
+  ...
+  "<name>.internal.chaldea.dev" = {
+    extraConfig = ''
+      ${tlsConfig}
+      reverse_proxy localhost:<host-port>
+    '';
+  };
+};
+```
+
+**4. Import the module — `flake.nix`**
+
+```nix
+modules = [
+  ...
+  ./services/<name>.nix
+];
+```
+
+### Public service
+
+**1. Create `services/<name>.nix`**
+
+```nix
+{ ... }:
+
+{
+  virtualisation.oci-containers.containers.<name> = {
+    image = "image/name:tag";
+    networks = [ "proxy" ];
+  };
+
+  systemd.services."podman-<name>".after = [ "podman-network-proxy.service" ];
+  systemd.services."podman-<name>".requires = [ "podman-network-proxy.service" ];
+}
+```
+
+**2. Add a CNAME record — `terraform/main.tf`**
+
+```hcl
+  cname_subdomains = [
+    ...
+    "<name>"
+  ]
+```
+
+**3. Import the module — `flake.nix`**
+
+```nix
+modules = [
+  ...
+  ./services/<name>.nix
+];
+```
+
+### Adding a sops secret
+
+**1. Add the plaintext value to `secrets/secrets.yaml`**
+
+```sh
+sops secrets/secrets.yaml
+```
+
+**2. Reference the secret in the service**
+
+```nix
+{ config, ... }:
+
+{
+  sops.secrets.<secret-name> = { };
+
+  sops.templates."<name>-env" = {
+    content = ''
+      ENV_VAR=${config.sops.placeholder.<secret-name>}
+    '';
+  };
+
+  virtualisation.oci-containers.containers.<name> = {
+    ...
+    environmentFiles = [ config.sops.templates."<name>-env".path ];
+  };
+
+  # Restart the container when the secret changes
+  systemd.services."podman-<name>".restartTriggers = [
+    config.sops.templates."<name>-env".file
+  ];
+}
+```
+
+### Adding a Gatus monitor
+
+Add an endpoint to the `endpoints` list in `services/gatus.nix`:
+
+```nix
+endpoints = [
+  ...
+  {
+    name = "<Name>";
+    group = "<group>";
+    url = "https://<name>.internal.chaldea.dev";
+    interval = "30s";
+    conditions = [ "[STATUS] == 200" ];
+    alerts = [ { type = "ntfy"; } ];
+  }
+];
+```
 
 ### GitHub configuration
 
