@@ -11,7 +11,7 @@
   ];
 
   virtualisation.oci-containers.containers.jellyfin = {
-    image = "ghcr.io/jellyfin/jellyfin:10.11.7";
+    image = "ghcr.io/jellyfin/jellyfin:10.11.8";
     user = "1000:100";
     ports = [
       "7359:7359/udp"
