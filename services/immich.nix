@@ -68,7 +68,7 @@
   };
 
   virtualisation.oci-containers.containers.immich-server = {
-    image = "ghcr.io/immich-app/immich-server:v2.7.4";
+    image = "ghcr.io/immich-app/immich-server:v2.7.5";
     user = "1000:100";
     networks = [
       "immich"
