@@ -7,7 +7,7 @@
   ];
 
   virtualisation.oci-containers.containers.wallos = {
-    image = "ghcr.io/ellite/wallos:4.8.3";
+    image = "ghcr.io/ellite/wallos:4.8.4";
     networks = [ "wallos" ];
     ports = [ "8282:80" ];
     volumes = [
