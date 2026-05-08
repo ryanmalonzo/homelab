@@ -15,7 +15,7 @@
   };
 
   virtualisation.oci-containers.containers.newt = {
-    image = "ghcr.io/fosrl/newt:1.12.4";
+    image = "ghcr.io/fosrl/newt:1.12.5";
     networks = [ "proxy" ];
     environmentFiles = [
       config.sops.templates."newt-env".path
