@@ -8,7 +8,7 @@
   ];
 
   virtualisation.oci-containers.containers.sabnzbd = {
-    image = "ghcr.io/linuxserver/sabnzbd:5.0.1";
+    image = "ghcr.io/linuxserver/sabnzbd:5.0.2";
     user = "1000:100";
     networks = [ "arr" ];
     ports = [ "8080:8080" ];
