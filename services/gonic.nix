@@ -10,7 +10,7 @@
   ];
 
   virtualisation.oci-containers.containers.gonic = {
-    image = "ghcr.io/sentriz/gonic:v0.20.1";
+    image = "ghcr.io/sentriz/gonic:v0.21.0";
     user = "1000:100";
     networks = [ "proxy" ];
     volumes = [
