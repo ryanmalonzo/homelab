@@ -6,7 +6,7 @@
   ];
 
   virtualisation.oci-containers.containers.seerr = {
-    image = "ghcr.io/seerr-team/seerr:v3.2.0";
+    image = "ghcr.io/seerr-team/seerr:v3.3.0";
     ports = [ "5055:5055" ];
     networks = [
       "arr"
