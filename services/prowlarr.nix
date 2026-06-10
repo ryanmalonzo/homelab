@@ -6,7 +6,7 @@
   ];
 
   virtualisation.oci-containers.containers.prowlarr = {
-    image = "ghcr.io/linuxserver/prowlarr:2.3.5";
+    image = "ghcr.io/linuxserver/prowlarr:2.4.0";
     user = "1000:100";
     networks = [ "arr" ];
     ports = [ "9696:9696" ];
