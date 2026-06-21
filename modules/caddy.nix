@@ -55,12 +55,6 @@ in
           reverse_proxy localhost:5380
         '';
       };
-      "status.internal.chaldea.dev" = {
-        extraConfig = ''
-          ${tlsConfig}
-          reverse_proxy localhost:8085
-        '';
-      };
       "fileflows.internal.chaldea.dev" = {
         extraConfig = ''
           ${tlsConfig}
