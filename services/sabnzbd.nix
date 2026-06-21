@@ -11,7 +11,7 @@
     image = "ghcr.io/linuxserver/sabnzbd:5.0.4";
     user = "1000:100";
     networks = [ "arr" ];
-    ports = [ "8080:8080" ];
+    ports = [ "127.0.0.1:8080:8080" ];
     volumes = [
       "/srv/sabnzbd/config:/config"
       "/srv/downloads:/downloads"

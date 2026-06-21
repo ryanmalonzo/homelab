@@ -9,7 +9,7 @@
     image = "ghcr.io/linuxserver/prowlarr:2.4.0";
     user = "1000:100";
     networks = [ "arr" ];
-    ports = [ "9696:9696" ];
+    ports = [ "127.0.0.1:9696:9696" ];
     volumes = [
       "/srv/prowlarr/config:/config"
     ];

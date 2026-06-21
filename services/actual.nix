@@ -9,7 +9,7 @@
     image = "ghcr.io/actualbudget/actual:26.6.0";
     user = "1000:100";
     networks = [ "actual" ];
-    ports = [ "5006:5006" ];
+    ports = [ "127.0.0.1:5006:5006" ];
     volumes = [
       "/srv/actual/data:/data"
     ];
