@@ -18,7 +18,6 @@
       repository = "b2:chaldea-backups:/system";
 
       paths = [
-        "/etc/nixos"
         "/srv"
         "/var/lib/technitium-dns-server"
       ];
