@@ -4,7 +4,6 @@ locals {
     "pangolin",
     "pdf",
     "music",
-    "push",
     "photos"
   ]
 
