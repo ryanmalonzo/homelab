@@ -11,7 +11,7 @@
     image = "ghcr.io/linuxserver/radarr:6.2.1";
     user = "1000:100";
     networks = [ "arr" ];
-    ports = [ "7878:7878" ];
+    ports = [ "127.0.0.1:7878:7878" ];
     volumes = [
       "/srv/radarr/config:/config"
       "/srv/downloads:/downloads"

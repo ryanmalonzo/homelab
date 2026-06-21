@@ -11,7 +11,7 @@
     image = "ghcr.io/linuxserver/sonarr:4.0.17";
     user = "1000:100";
     networks = [ "arr" ];
-    ports = [ "8989:8989" ];
+    ports = [ "127.0.0.1:8989:8989" ];
     volumes = [
       "/srv/sonarr/config:/config"
       "/srv/downloads:/downloads"

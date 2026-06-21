@@ -20,7 +20,7 @@
     image = "ghcr.io/papra-hq/papra:26.5.0-rootless";
     user = "1000:100";
     networks = [ "papra" ];
-    ports = [ "1221:1221" ];
+    ports = [ "127.0.0.1:1221:1221" ];
     volumes = [
       "/srv/papra/db:/app/app-data/db"
       "/tank/documents/papra:/app/app-data/documents"
