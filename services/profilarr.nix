@@ -6,7 +6,7 @@
   ];
 
   virtualisation.oci-containers.containers.profilarr = {
-    image = "santiagosayshey/profilarr:v1.1.4";
+    image = "santiagosayshey/profilarr:v1.1.5";
     networks = [ "arr" ];
     ports = [ "127.0.0.1:6868:6868" ];
     volumes = [
