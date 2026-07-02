@@ -8,7 +8,7 @@
   ];
 
   virtualisation.oci-containers.containers.sonarr = {
-    image = "ghcr.io/linuxserver/sonarr:4.0.17";
+    image = "ghcr.io/linuxserver/sonarr:4.0.19";
     user = "1000:100";
     networks = [ "arr" ];
     ports = [ "127.0.0.1:8989:8989" ];
