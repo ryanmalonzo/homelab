@@ -33,3 +33,16 @@ sudo systemctl enable zfs-import-cache.service zfs-mount.service zfs.target
 sudo update-initramfs -u
 sudo reboot
 zpool status
+
+# Install K3s
+sudo apt install curl -y
+curl -sfL https://get.k3s.io | sh -
+
+# Use K3s without sudo
+mkdir -p ~/.kube
+sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
+sudo chown $(id -u):$(id -g) ~/.kube/config
+chmod 600 ~/.kube/config
+echo 'export KUBECONFIG=~/.kube/config' >>~/.bashrc
+source ~/.bashrc
+kubectl get nodes
