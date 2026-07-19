@@ -79,6 +79,14 @@ source ~/.bashrc
 kubectl get nodes
 ```
 
+## Use `kubectl` from local machine
+
+```bash
+cat ~/.kube/config
+# Manually copy over to local ~/.kube/config
+# And replace 127.0.0.1 with the correct local IP
+kubectl get nodes
+
 ## Install Argo CD
 
 ```bash
