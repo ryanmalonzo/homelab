@@ -19,6 +19,9 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /config
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
       containers:
         - name: sonarr-anime
           image: ghcr.io/linuxserver/sonarr:4.0.19
