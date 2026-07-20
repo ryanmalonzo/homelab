@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: profilarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: profilarr
+  template:
+    metadata:
+      labels:
+        app: profilarr
+    spec:
+      initContainers:
+        - name: fix-permissions
+          image: busybox
+          command: ["sh", "-c", "chown -R 1000:1000 /config"]
+          volumeMounts:
+            - name: config
+              mountPath: /config
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+      containers:
+        - name: profilarr
+          image: ghcr.io/dictionarry-hub/profilarr:2.0.9
+          ports:
+            - containerPort: 6868
+          volumeMounts:
+            - name: config
+              mountPath: /config
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: "Europe/Paris"
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: profilarr-config
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
