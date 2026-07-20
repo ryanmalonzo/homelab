@@ -81,17 +81,11 @@ kubectl get nodes
 
 ## Use `kubectl` from local machine
 
-````bash
+```bash
 cat ~/.kube/config
 # Manually copy over to local ~/.kube/config
 # And replace 127.0.0.1 with the correct local IP
 kubectl get nodes
-
-## Install Argo CD
-
-```bash
-kubectl create namespace argocd
-kubectl apply -n argocd --server-side --force-conflicts -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-````
+```
 
 Next steps: [ARGOCD.md](https://github.com/ryanmalonzo/homelab/blob/main/docs/ARGOCD.md)
