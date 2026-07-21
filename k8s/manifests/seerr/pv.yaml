@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: seerr-config
+  labels:
+    name: seerr-config
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/srv/seerr/config"
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
