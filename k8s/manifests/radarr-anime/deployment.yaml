@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: radarr-anime
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: radarr-anime
+  template:
+    metadata:
+      labels:
+        app: radarr-anime
+    spec:
+      initContainers:
+        - name: fix-permissions
+          image: busybox
+          command: ["sh", "-c", "chown -R 1000:1000 /config"]
+          volumeMounts:
+            - name: config
+              mountPath: /config
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+      containers:
+        - name: radarr-anime
+          image: ghcr.io/linuxserver/radarr:6.3.0
+          ports:
+            - containerPort: 8989
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: downloads
+              mountPath: /downloads
+            - name: movies
+              mountPath: /movies
+              subPath: anime/movies
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: "Europe/Paris"
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: radarr-anime-config
+        - name: downloads
+          persistentVolumeClaim:
+            claimName: downloads
+        - name: movies
+          persistentVolumeClaim:
+            claimName: media
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
