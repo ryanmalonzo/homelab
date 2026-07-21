@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jellyfin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jellyfin
+  template:
+    metadata:
+      labels:
+        app: jellyfin
+    spec:
+      initContainers:
+        - name: fix-permissions
+          image: busybox
+          command: ["sh", "-c", "chown -R 1000:1000 /cache /config"]
+          volumeMounts:
+            - name: cache
+              mountPath: /cache
+            - name: config
+              mountPath: /config
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+      containers:
+        - name: jellyfin
+          image: ghcr.io/jellyfin/jellyfin:10.11.11
+          ports:
+            - containerPort: 8096
+          volumeMounts:
+            - name: cache
+              mountPath: /cache
+              subPath: cache
+            - name: config
+              mountPath: /config
+              subPath: config
+            - name: anime-tv
+              mountPath: /media/anime/tv
+              subPath: anime/tv
+              readOnly: true
+            - name: anime-movies
+              mountPath: /media/anime/movies
+              subPath: anime/movies
+              readOnly: true
+            - name: regular-tv
+              mountPath: /media/regular/tv
+              subPath: regular/tv
+              readOnly: true
+            - name: regular-movies
+              mountPath: /media/regular/movies
+              subPath: regular/movies
+              readOnly: true
+          env:
+            - name: TZ
+              value: Europe/Paris
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: jellyfin
+        - name: cache
+          persistentVolumeClaim:
+            claimName: jellyfin
+        - name: anime-tv
+          persistentVolumeClaim:
+            claimName: media
+        - name: anime-movies
+          persistentVolumeClaim:
+            claimName: media
+        - name: regular-tv
+          persistentVolumeClaim:
+            claimName: media
+        - name: regular-movies
+          persistentVolumeClaim:
+            claimName: media
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000

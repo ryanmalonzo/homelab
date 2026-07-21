@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: jellyfin
+  labels:
+    name: jellyfin
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/srv/jellyfin"
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
