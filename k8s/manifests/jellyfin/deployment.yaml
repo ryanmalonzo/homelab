@@ -19,8 +19,10 @@ spec:
           volumeMounts:
             - name: cache
               mountPath: /cache
+              subPath: cache
             - name: config
               mountPath: /config
+              subPath: config
           securityContext:
             runAsUser: 0
             runAsGroup: 0
