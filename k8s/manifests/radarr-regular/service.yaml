@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: radarr-regular
+spec:
+  type: LoadBalancer
+  selector:
+    app: radarr-regular
+  ports:
+    - port: 7879
+      targetPort: 7878

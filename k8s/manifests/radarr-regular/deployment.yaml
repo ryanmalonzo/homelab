@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: radarr-regular
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: radarr-regular
+  template:
+    metadata:
+      labels:
+        app: radarr-regular
+    spec:
+      initContainers:
+        - name: fix-permissions
+          image: busybox
+          command: ["sh", "-c", "chown -R 1000:1000 /config"]
+          volumeMounts:
+            - name: config
+              mountPath: /config
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+      containers:
+        - name: radarr-regular
+          image: ghcr.io/linuxserver/radarr:6.3.0
+          ports:
+            - containerPort: 7878
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: downloads
+              mountPath: /downloads
+            - name: movies
+              mountPath: /movies
+              subPath: regular/movies
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: "Europe/Paris"
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: radarr-regular-config
+        - name: downloads
+          persistentVolumeClaim:
+            claimName: downloads
+        - name: movies
+          persistentVolumeClaim:
+            claimName: media
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
