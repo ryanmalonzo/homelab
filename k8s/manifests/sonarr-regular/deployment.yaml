@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sonarr-regular
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sonarr-regular
+  template:
+    metadata:
+      labels:
+        app: sonarr-regular
+    spec:
+      initContainers:
+        - name: fix-permissions
+          image: busybox
+          command: ["sh", "-c", "chown -R 1000:1000 /config"]
+          volumeMounts:
+            - name: config
+              mountPath: /config
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+      containers:
+        - name: sonarr-regular
+          image: ghcr.io/linuxserver/sonarr:4.0.19
+          ports:
+            - containerPort: 8989
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: downloads
+              mountPath: /downloads
+            - name: tv
+              mountPath: /tv
+              subPath: regular/tv
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: "Europe/Paris"
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: sonarr-regular-config
+        - name: downloads
+          persistentVolumeClaim:
+            claimName: downloads
+        - name: tv
+          persistentVolumeClaim:
+            claimName: media
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000

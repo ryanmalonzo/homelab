@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sonarr-regular
+spec:
+  type: LoadBalancer
+  selector:
+    app: sonarr-regular
+  ports:
+    - port: 8990
+      targetPort: 8989
