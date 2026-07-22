@@ -1,0 +1,60 @@
+name: Validate Configuration
+
+on:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      TF_VAR_cloudflare_zone_id: ${{ vars.TF_VAR_CLOUDFLARE_ZONE_ID }}
+      TF_VAR_tailscale_ip: ${{ vars.TF_VAR_TAILSCALE_IP }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Detect changes
+        uses: dorny/paths-filter@v4
+        id: changes
+        with:
+          filters: |
+            terraform:
+              - 'terraform/**'
+
+      - name: Check Terraform formatting
+        if: steps.changes.outputs.terraform == 'true'
+        working-directory: terraform
+        run: terraform fmt -check -recursive
+
+      - name: Terraform init
+        if: steps.changes.outputs.terraform == 'true'
+        working-directory: terraform
+        run: terraform init
+
+      - name: Terraform validate
+        if: steps.changes.outputs.terraform == 'true'
+        working-directory: terraform
+        run: terraform validate
+
+      - name: Terraform plan
+        if: steps.changes.outputs.terraform == 'true'
+        id: plan
+        working-directory: terraform
+        continue-on-error: true
+        run: |
+          terraform plan -detailed-exitcode -no-color | tee plan.txt
+          echo "exitcode=${PIPESTATUS[0]}" >> $GITHUB_OUTPUT
+
+      - name: Comment plan on PR
+        if: steps.plan.outputs.exitcode == '2'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh pr comment ${{ github.event.pull_request.number }} \
+            --body "$(printf '## Terraform Plan\n```\n%s\n```\n' "$(cat terraform/plan.txt)")" \
+            --edit-last \
+            --create-if-none
