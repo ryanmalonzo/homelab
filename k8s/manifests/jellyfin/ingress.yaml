@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: zerossl-cloudflare-dns01
+  name: jellyfin
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: jellyfin.internal.chaldea.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: jellyfin
+                port:
+                  number: 8096
+  tls:
+    - hosts:
+        - jellyfin.internal.chaldea.dev
+      secretName: jellyfin-tls
