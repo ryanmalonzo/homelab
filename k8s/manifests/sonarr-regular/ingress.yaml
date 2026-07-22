@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: zerossl-cloudflare-dns01
+  name: sonarr-regular
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: sonarr-regular.internal.chaldea.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: sonarr-regular
+                port:
+                  number: 8990
+  tls:
+    - hosts:
+        - sonarr-regular.internal.chaldea.dev
+      secretName: sonarr-regular-tls

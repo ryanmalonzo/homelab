@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: zerossl-cloudflare-dns01
+  name: radarr-anime
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: radarr-anime.internal.chaldea.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: radarr-anime
+                port:
+                  number: 7878
+  tls:
+    - hosts:
+        - radarr-anime.internal.chaldea.dev
+      secretName: radarr-anime-tls

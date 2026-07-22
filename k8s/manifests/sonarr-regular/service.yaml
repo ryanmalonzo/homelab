@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: sonarr-regular
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: sonarr-regular
   ports:

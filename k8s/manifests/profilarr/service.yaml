@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: profilarr
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: profilarr
   ports:

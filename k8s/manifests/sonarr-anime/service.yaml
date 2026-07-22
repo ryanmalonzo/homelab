@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: sonarr-anime
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: sonarr-anime
   ports:

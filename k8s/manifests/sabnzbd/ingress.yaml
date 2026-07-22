@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: zerossl-cloudflare-dns01
+  name: sabnzbd
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: sabnzbd.internal.chaldea.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: sabnzbd
+                port:
+                  number: 8081
+  tls:
+    - hosts:
+        - sabnzbd.internal.chaldea.dev
+      secretName: sabnzbd-tls

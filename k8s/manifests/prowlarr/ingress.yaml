@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: zerossl-cloudflare-dns01
+  name: prowlarr
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: prowlarr.internal.chaldea.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: prowlarr
+                port:
+                  number: 9696
+  tls:
+    - hosts:
+        - prowlarr.internal.chaldea.dev
+      secretName: prowlarr-tls

@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: zerossl-cloudflare-dns01
+  name: radarr-regular
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: radarr-regular.internal.chaldea.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: radarr-regular
+                port:
+                  number: 7879
+  tls:
+    - hosts:
+        - radarr-regular.internal.chaldea.dev
+      secretName: radarr-regular-tls

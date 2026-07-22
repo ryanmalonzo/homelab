@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: zerossl-cloudflare-dns01
+  name: seerr
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: seerr.internal.chaldea.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: seerr
+                port:
+                  number: 5055
+  tls:
+    - hosts:
+        - seerr.internal.chaldea.dev
+      secretName: seerr-tls

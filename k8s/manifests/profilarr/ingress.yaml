@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: zerossl-cloudflare-dns01
+  name: profilarr
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: profilarr.internal.chaldea.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: profilarr
+                port:
+                  number: 6868
+  tls:
+    - hosts:
+        - profilarr.internal.chaldea.dev
+      secretName: profilarr-tls
