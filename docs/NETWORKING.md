@@ -67,3 +67,17 @@ WantedBy=multi-user.target
 sudo systemctl daemon-reload
 sudo systemctl enable --now tailscale-ethtool.service
 ```
+
+## Expose Argo CD
+
+Prerequisite: Argo CD installed per [ARGOCD.md](https://github.com/ryanmalonzo/homelab/blob/main/docs/ARGOCD.md).
+
+`argocd-server` terminates its own TLS by default. Since Traefik is taking over TLS termination (via the cert-manager-issued certificate), `argocd-server` needs to run in insecure mode instead — handled declaratively by `k8s/manifests/argocd/config-map.yaml`, synced automatically by the `chaldea` Argo CD Application.
+
+Kubernetes doesn't propagate a `ConfigMap` change into an already-running Pod, so one restart is required the first time this takes effect (safe to re-run, no-op if already applied):
+
+```bash
+kubectl rollout restart deployment argocd-server -n argocd
+```
+
+TLS and routing are handled by `k8s/manifests/argocd/certificate.yaml` and `ingress-route.yaml`. A Traefik `IngressRoute` is used here specifically because `argocd-server` multiplexes the web UI (HTTP) and CLI (gRPC) on the same port, distinguished by header — something a plain `Ingress` can't route on. Since cert-manager's `Ingress`-watching automation (`ingress-shim`) doesn't watch `IngressRoute`, the `Certificate` is created explicitly instead of via annotation.
