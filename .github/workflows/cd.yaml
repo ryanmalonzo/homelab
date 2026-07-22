@@ -55,6 +55,10 @@ jobs:
             terraform:
               - 'terraform/**'
 
+      - name: Setup Terraform
+        if: steps.changes.outputs.terraform == 'true'
+        uses: hashicorp/setup-terraform@v4
+
       - name: Terraform init
         if: steps.changes.outputs.terraform == 'true'
         working-directory: terraform
