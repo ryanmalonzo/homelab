@@ -1,0 +1,13 @@
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: zerossl-eab-hmac
+  namespace: cert-manager
+spec:
+  encryptedData:
+    zerossl-eab-hmac: AgBanfvggLB3l49zmKBCwTozQaMT5+KOrDalF/LCCdvvYxw1RAyw27ofCzfwdxBdn6TNFbJc6WVnEx9WP3ZtpQXJHROEfmPP4GFOifuTggSrsV1Y7nSPOSe5f5p+YTY5CrRJIRCVtSOOYHZebY4dGlJS6eHj8ehcR1D9SGcFj6twb7nebwF+tujhbRZ/PI5N3CyZkzXPIOhcmFejh3qY2J6CWDGggTjcHs2Q2aucV1Iw2/dgZyo85jdI4kT/v4mdDqK73qYkAl8riRovc74T+lOpz27vkhAFmRWZL9zlxCT4XJ2YWTW+bOdVTjhGmwjFZ1IzzdJkAt/nbBEMXaFjfaK5NKlbxqrY9Y2PfSdSDrvT3aGJljswYt/ejS5/vM8/gj39gqKwDar6JZsJnqlwbIIl0Y8dWgOT9amkTDcxZcUSM2ICfbLBU+2udLxJ0asXqdxwJIuI/FbsqdciaAc6dF1Mm/JDjZD4riKfOnt7giEwvEUZPeT8N0Gt148N8iLkELdBZ/vEBjAzLGGHufg4hWD2FBurkBvTbuNikUUWx4aTzBu0R0ZpcVUoo+dlt/OnQAZg6p6EFbEs2UZ66Y8p3gtmWLsvGO5VfV2JaLQ/fjqpjnxhYfrMatL3wW+55L54i6CXfvqtf5TKKyXJhvY7WULDhN3z8HgmN7MVP9CEcfLX3KQ9pDaY8WS+J4+spxh0Bq328zxMxI53FhbD5vAQB3Gt/FtwHf6xwE/DfbDbcUnFsvxwOoKwH9uMveOVtj+JsEapwdfE5UibJtro772ljiD3qrNUYayep8Pln5oaS1w1+p5wxxv8uQ==
+  template:
+    metadata:
+      name: zerossl-eab-hmac
+      namespace: cert-manager
