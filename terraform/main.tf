@@ -1,5 +1,6 @@
 locals {
   root_domain = "chaldea.dev"
+
   # cname_subdomains = [
   #   "pangolin",
   #   "pdf",
@@ -7,9 +8,22 @@ locals {
   #   "photos"
   # ]
 
+  internal_subdomains = [
+    "argocd",
+    "jellyfin",
+    "profilarr",
+    "prowlarr",
+    "radarr-anime",
+    "radarr-regular",
+    "sabnzbd",
+    "seerr",
+    "sonarr-anime",
+    "sonarr-regular",
+  ]
+
   internal_dns_records = [
-    {
-      name    = "*.internal.${local.root_domain}"
+    for subdomain in local.internal_subdomains : {
+      name    = "${subdomain}.internal.${local.root_domain}"
       type    = "A"
       content = var.tailscale_ip
     }
