@@ -51,7 +51,8 @@ jobs:
         continue-on-error: true
         run: |
           exitcode=0
-          terraform plan -detailed-exitcode -no-color | tee plan.txt || exitcode=${PIPESTATUS[0]}
+          terraform plan -detailed-exitcode -no-color > plan.txt 2>&1 || exitcode=$?
+          cat plan.txt
           echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
 
       - name: Comment plan on PR
