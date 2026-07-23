@@ -6,34 +6,7 @@ on:
       - main
 
 jobs:
-  check-skip:
-    runs-on: ubuntu-latest
-    outputs:
-      should_skip: ${{ steps.check.outputs.skip }}
-    steps:
-      - uses: actions/checkout@v7
-
-      - name: Check for skip-deploy label
-        id: check
-        run: |
-          PR_NUMBER=$(gh api repos/${{ github.repository }}/commits/${{ github.sha }}/pulls --jq '.[0].number')
-
-          if [ -n "$PR_NUMBER" ]; then
-            HAS_LABEL=$(gh pr view $PR_NUMBER --json labels --jq '.labels[].name | select(. == "skip-deploy")')
-            if [ -n "$HAS_LABEL" ]; then
-              echo "skip=true" >> $GITHUB_OUTPUT
-            else
-              echo "skip=false" >> $GITHUB_OUTPUT
-            fi
-          else
-            echo "skip=false" >> $GITHUB_OUTPUT
-          fi
-        env:
-          GH_TOKEN: ${{ github.token }}
-
   deploy:
-    needs: check-skip
-    if: needs.check-skip.outputs.should_skip != 'true'
     runs-on: ubuntu-latest
     environment:
       name: production
