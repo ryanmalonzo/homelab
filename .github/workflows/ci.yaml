@@ -50,8 +50,9 @@ jobs:
         working-directory: terraform
         continue-on-error: true
         run: |
-          terraform plan -detailed-exitcode -no-color | tee plan.txt
-          echo "exitcode=${PIPESTATUS[0]}" >> $GITHUB_OUTPUT
+          exitcode=0
+          terraform plan -detailed-exitcode -no-color | tee plan.txt || exitcode=${PIPESTATUS[0]}
+          echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
 
       - name: Comment plan on PR
         if: steps.plan.outputs.exitcode == '2'
@@ -62,3 +63,9 @@ jobs:
             --body "$(printf '## Terraform Plan\n```\n%s\n```\n' "$(cat terraform/plan.txt)")" \
             --edit-last \
             --create-if-none
+
+      - name: Fail on plan error
+        if: steps.plan.outputs.exitcode == '1'
+        run: |
+          echo "::error::terraform plan failed"
+          exit 1
