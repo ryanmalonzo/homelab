@@ -48,25 +48,15 @@ jobs:
         if: steps.changes.outputs.terraform == 'true'
         id: plan
         working-directory: terraform
-        continue-on-error: true
-        run: |
-          exitcode=0
-          terraform plan -detailed-exitcode -no-color > plan.txt 2>&1 || exitcode=$?
-          cat plan.txt
-          echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
+        run: terraform plan -no-color
 
       - name: Comment plan on PR
-        if: steps.plan.outputs.exitcode == '2'
+        if: steps.changes.outputs.terraform == 'true' && !contains(steps.plan.outputs.stdout, 'No changes.')
         env:
           GH_TOKEN: ${{ github.token }}
+          PLAN: ${{ steps.plan.outputs.stdout }}
         run: |
           gh pr comment ${{ github.event.pull_request.number }} \
-            --body "$(printf '## Terraform Plan\n```\n%s\n```\n' "$(cat terraform/plan.txt)")" \
+            --body "$(printf '## Terraform Plan\n```\n%s\n```\n' "$PLAN")" \
             --edit-last \
             --create-if-none
-
-      - name: Fail on plan error
-        if: steps.plan.outputs.exitcode == '1'
-        run: |
-          echo "::error::terraform plan failed"
-          exit 1
