@@ -6,6 +6,10 @@ terraform {
       source  = "cloudflare/cloudflare"
       version = "5.22.0"
     }
+    random = {
+      source  = "hashicorp/random"
+      version = "3.9.0"
+    }
   }
 
   backend "s3" {

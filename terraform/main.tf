@@ -1,12 +1,7 @@
+##### DNS
+
 locals {
   root_domain = "chaldea.dev"
-
-  # cname_subdomains = [
-  #   "pangolin",
-  #   "pdf",
-  #   "music",
-  #   "photos"
-  # ]
 
   internal_subdomains = [
     "argocd",
@@ -26,25 +21,26 @@ locals {
       name    = "${subdomain}.internal.${local.root_domain}"
       type    = "A"
       content = var.tailscale_ip
+      proxied = false
+    }
+  ]
+
+  public_services = {
+    # pdf = { service = "http://bentopdf.default.svc.cluster.local:80" }
+  }
+
+  public_dns_records = [
+    for sub, svc in local.public_services : {
+      name    = "${sub}.${local.root_domain}"
+      type    = "CNAME"
+      content = "${cloudflare_zero_trust_tunnel_cloudflared.chaldea.id}.cfargotunnel.com"
+      proxied = true
     }
   ]
 
   dns_records = concat(
-    # [
-    #   {
-    #     name    = local.root_domain
-    #     type    = "A"
-    #     content = var.pangolin_ip
-    #   }
-    # ],
-    # [
-    #   for sub in local.cname_subdomains : {
-    #     name    = "${sub}.${local.root_domain}"
-    #     type    = "CNAME"
-    #     content = local.root_domain
-    #   }
-    # ],
-    local.internal_dns_records
+    local.internal_dns_records,
+    local.public_dns_records,
   )
 }
 
@@ -56,6 +52,44 @@ resource "cloudflare_dns_record" "dns_records" {
   type    = each.value.type
   content = each.value.content
   ttl     = 1
-  proxied = false
+  proxied = each.value.proxied
 }
 
+##### Cloudflare Zero Trust
+
+resource "random_bytes" "tunnel_secret" {
+  length = 32
+}
+
+resource "cloudflare_zero_trust_tunnel_cloudflared" "chaldea" {
+  account_id    = var.cloudflare_account_id
+  name          = "chaldea"
+  config_src    = "cloudflare"
+  tunnel_secret = random_bytes.tunnel_secret.base64
+}
+
+resource "cloudflare_zero_trust_tunnel_cloudflared_config" "chaldea" {
+  account_id = var.cloudflare_account_id
+  tunnel_id  = cloudflare_zero_trust_tunnel_cloudflared.chaldea.id
+  config = {
+    ingress = concat(
+      [
+        for sub, svc in local.public_services : {
+          hostname = "${sub}.${local.root_domain}"
+          service  = svc.service
+        }
+      ],
+      [{ service = "http_status:404" }],
+    )
+  }
+}
+
+data "cloudflare_zero_trust_tunnel_cloudflared_token" "chaldea" {
+  account_id = var.cloudflare_account_id
+  tunnel_id  = cloudflare_zero_trust_tunnel_cloudflared.chaldea.id
+}
+
+output "cloudflared_token" {
+  value     = data.cloudflare_zero_trust_tunnel_cloudflared_token.chaldea.token
+  sensitive = true
+}
