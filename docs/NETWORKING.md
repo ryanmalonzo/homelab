@@ -81,3 +81,35 @@ kubectl rollout restart deployment argocd-server -n argocd
 ```
 
 TLS and routing are handled by `k8s/manifests/argocd/certificate.yaml` and `ingress-route.yaml`. A Traefik `IngressRoute` is used here specifically because `argocd-server` multiplexes the web UI (HTTP) and CLI (gRPC) on the same port, distinguished by header — something a plain `Ingress` can't route on. Since cert-manager's `Ingress`-watching automation (`ingress-shim`) doesn't watch `IngressRoute`, the `Certificate` is created explicitly instead of via annotation.
+
+## Expose services publicly via Cloudflare Tunnel
+
+Stateless, non-sensitive services are exposed publicly (no VPN) via a [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/), managed in Terraform. Path: `<app>.chaldea.dev` (proxied CNAME → `cfargotunnel.com`, so Cloudflare WAF applies) → the outbound-only in-cluster `cloudflared` connector → a `ClusterIP` Service. Media (Jellyfin, Navidrome, Immich) stays on Tailscale — proxied traffic transits Cloudflare's CDN, whose terms forbid serving self-hosted video/large media.
+
+### Prerequisites
+
+- API token: **Account → Cloudflare Tunnel → Edit** + **Zone → DNS → Edit**. The tunnel permission may be listed as **"Argo Tunnel (Legacy)"** (shown as "Cloudflare Tunnel Write" in the summary — that's the right one); **"Zero Trust Write"** is not enough and fails with `403 cfd_tunnel`.
+- Set `cloudflare_account_id` (e.g. `TF_VAR_cloudflare_account_id`).
+
+### First-time setup
+
+1. `terraform apply` — creates the tunnel (catch-all `404` until a service is added) and the `cloudflared_token` output.
+2. Seal the token into the `cloudflared` Secret (see [SECRETS.md](https://github.com/ryanmalonzo/homelab/blob/main/docs/SECRETS.md)):
+
+   ```bash
+   kubectl create secret generic cloudflared -n default \
+     --from-literal=cloudflared="$(terraform -chdir=terraform output -raw cloudflared_token)" \
+     --dry-run=client -o yaml | kubeseal --format yaml > k8s/manifests/cloudflared/secret.yaml
+   ```
+
+3. Commit it — Argo CD deploys `cloudflared` and the tunnel shows healthy.
+
+### Add a public service
+
+Deploy the app's `ClusterIP` Service, then add one entry to `local.public_services` in `terraform/main.tf` and apply — this wires both the ingress rule and the proxied DNS record:
+
+```hcl
+pdf = { service = "http://bentopdf.default.svc.cluster.local:80" }
+```
+
+Only stateless services belong here — media stays on Tailscale (CDN terms).
