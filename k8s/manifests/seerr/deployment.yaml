@@ -15,10 +15,10 @@ spec:
       initContainers:
         - name: fix-permissions
           image: busybox
-          command: ["sh", "-c", "chown -R 1000:1000 /config"]
+          command: ["sh", "-c", "chown -R 1000:1000 /app/config"]
           volumeMounts:
             - name: config
-              mountPath: /config
+              mountPath: /app/config
           securityContext:
             runAsUser: 0
             runAsGroup: 0
@@ -29,7 +29,7 @@ spec:
             - containerPort: 5055
           volumeMounts:
             - name: config
-              mountPath: /config
+              mountPath: /app/config
           env:
             - name: TZ
               value: "Europe/Paris"
