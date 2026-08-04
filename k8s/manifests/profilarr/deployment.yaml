@@ -31,6 +31,8 @@ spec:
             - name: config
               mountPath: /config
           env:
+            - name: ORIGIN
+              value: "https://profilarr.internal.chaldea.dev"
             - name: PUID
               value: "1000"
             - name: PGID
