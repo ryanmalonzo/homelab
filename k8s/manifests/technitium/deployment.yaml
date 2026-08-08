@@ -12,6 +12,9 @@ spec:
       labels:
         app: technitium
     spec:
+      securityContext:
+        runAsUser: 0
+        runAsGroup: 0
       containers:
         - name: technitium
           image: technitium/dns-server:15.4.0
