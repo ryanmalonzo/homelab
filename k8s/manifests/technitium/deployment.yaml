@@ -13,6 +13,7 @@ spec:
         app: technitium
     spec:
       hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
       containers:
         - name: technitium
           image: technitium/dns-server:15.4.0
