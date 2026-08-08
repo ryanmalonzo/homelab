@@ -20,7 +20,6 @@ spec:
           image: technitium/dns-server:15.4.0
           ports:
             - containerPort: 5380
-              hostPort: 5380
               protocol: TCP
             - containerPort: 53
               hostPort: 53
