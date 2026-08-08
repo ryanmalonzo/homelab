@@ -22,10 +22,8 @@ spec:
             - containerPort: 5380
               protocol: TCP
             - containerPort: 53
-              hostPort: 53
               protocol: TCP
             - containerPort: 53
-              hostPort: 53
               protocol: UDP
           volumeMounts:
             - name: config
