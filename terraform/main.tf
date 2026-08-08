@@ -5,6 +5,7 @@ locals {
 
   internal_subdomains = [
     "argocd",
+    "dns",
     "jellyfin",
     "profilarr",
     "prowlarr",
