@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: technitium
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: technitium
+  template:
+    metadata:
+      labels:
+        app: technitium
+    spec:
+      securityContext:
+        runAsUser: 0
+        runAsGroup: 0
+      containers:
+        - name: technitium
+          image: technitium/dns-server:15.4.0
+          ports:
+            - containerPort: 5380
+              protocol: TCP
+            - containerPort: 53
+              protocol: TCP
+            - containerPort: 53
+              protocol: UDP
+          volumeMounts:
+            - name: config
+              mountPath: /etc/dns
+            - name: logs
+              mountPath: /var/log/technitium/dns
+          env:
+            - name: DNS_SERVER_LOG_FOLDER_PATH
+              value: /var/log/technitium/dns
+            - name: TZ
+              value: Europe/Paris
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: technitium-config
+        - name: logs
+          persistentVolumeClaim:
+            claimName: technitium-logs
