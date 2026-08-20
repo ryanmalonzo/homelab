@@ -34,6 +34,8 @@ spec:
               mountPath: /music
               readOnly: true
           env:
+            - name: ND_DEFAULTTHEME
+              value: "Spotify-ish"
             - name: ND_LOGLEVEL
               value: "info"
             - name: TZ
