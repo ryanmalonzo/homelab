@@ -34,6 +34,12 @@ spec:
               mountPath: /music
               readOnly: true
           env:
+            - name: ND_BASEURL
+              value: "https://navidrome.internal.chaldea.dev"
+            - name: ND_ENABLEINSIGHTSCOLLECTOR
+              value: "false"
+            - name: ND_ENFORCENONROOTUSER
+              value: "true"
             - name: ND_DEFAULTTHEME
               value: "Spotify-ish"
             - name: ND_LOGLEVEL
