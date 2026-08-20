@@ -7,6 +7,7 @@ locals {
     "argocd",
     "dns",
     "jellyfin",
+    "navidrome",
     "profilarr",
     "prowlarr",
     "radarr-anime",
