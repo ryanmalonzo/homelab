@@ -8,6 +8,7 @@ locals {
     "dns",
     "jellyfin",
     "navidrome",
+    "papra",
     "profilarr",
     "prowlarr",
     "radarr-anime",
