@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: papra
+spec:
+  type: ClusterIP
+  selector:
+    app: papra
+  ports:
+    - port: 1221
+      targetPort: 1221

@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: papra
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: papra
+  template:
+    metadata:
+      labels:
+        app: papra
+    spec:
+      initContainers:
+        - name: fix-permissions
+          image: busybox
+          command: ["sh", "-c", "mkdir -p /app/app-data/db && chown -R 1000:1000 /app/app-data"]
+          volumeMounts:
+            - name: config
+              mountPath: /app/app-data
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+      containers:
+        - name: papra
+          image: ghcr.io/papra-hq/papra:26.6.1-rootless
+          ports:
+            - containerPort: 1221
+          volumeMounts:
+            - name: config
+              mountPath: /app/app-data
+            - name: documents
+              mountPath: /documents
+          env:
+            - name: APP_BASE_URL
+              value: "https://papra.internal.chaldea.dev"
+            - name: AUTH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: papra
+                  key: auth-secret
+            - name: DOCUMENT_STORAGE_FILESYSTEM_ROOT
+              value: "/documents"
+            - name: TZ
+              value: "Europe/Paris"
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: papra-config
+        - name: documents
+          persistentVolumeClaim:
+            claimName: papra-documents
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
