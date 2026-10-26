@@ -28,7 +28,7 @@ spec:
             runAsGroup: 0
       containers:
         - name: jellyfin
-          image: ghcr.io/jellyfin/jellyfin:12.0
+          image: ghcr.io/jellyfin/jellyfin:12.3
           ports:
             - containerPort: 8096
           volumeMounts:
