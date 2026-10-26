@@ -24,7 +24,7 @@ spec:
             runAsGroup: 0
       containers:
         - name: radarr-anime
-          image: ghcr.io/linuxserver/radarr:6.3.0
+          image: ghcr.io/linuxserver/radarr:6.4.4
           ports:
             - containerPort: 7878
           volumeMounts:
