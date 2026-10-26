@@ -24,7 +24,7 @@ spec:
             runAsGroup: 0
       containers:
         - name: profilarr
-          image: ghcr.io/dictionarry-hub/profilarr:2.0.9
+          image: ghcr.io/dictionarry-hub/profilarr:2.3.1
           ports:
             - containerPort: 6868
           volumeMounts:
