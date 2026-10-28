@@ -24,7 +24,7 @@ spec:
             runAsGroup: 0
       containers:
         - name: prowlarr
-          image: ghcr.io/linuxserver/prowlarr:2.6.5
+          image: ghcr.io/linuxserver/prowlarr:2.7.0
           ports:
             - containerPort: 9696
           volumeMounts:
